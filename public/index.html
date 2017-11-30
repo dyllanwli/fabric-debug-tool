@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>fabric</title>
+    <!-- <meta content="IE=8" http-equiv="X-UA-Compatible"/> -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="styles/index.css" />
+    <script src="js/init.js"></script>
+
+
+</head>
+
+<body>
+    <h3>Fabric tool demo</h3>
+    <p>
+        <button id="terminal">Click this button to access terminal</button>
+    </p>
+    <form action="http://localhost:4000/users" method="POST">
+    <input type="submit" value="test">
+    </form>
+</br>
+    <p>
+        <form action="http://localhost:4000/users" method="POST">
+            username:
+            <input type="text" name="username" value="Jim"> 
+            orgName:
+            <input type="text" name="orgName" value="org1">
+            </br>
+            <input type="submit" value="enroll Admin">
+        </form>
+    </p>
+    <p>
+        <form action="http://localhost:4000/channels" method="POST">
+            channelName:
+            <input type="text" name="channelName" value="mychannel"> 
+            channelConfigPath:
+            <input type="text" style="width: 200px;" name="channelConfigPath" value="../artifacts/channel/mychannel.tx">
+            </br>
+            <input type="submit" value="create Channel">
+        </form>
+    </p>
+    <p>
+        <p></p>
+        <form action="http://localhost:4000/channels/:channelName/peers" method="POST">
+            channelName:
+            <input type="text" name="channelName" value="mychannel"> 
+            peers:
+            <input type="text" style="width: 200px;" name="peers" value="['peer1','peer2']">
+            </br>
+            <input type="submit" value="join Channel">
+        </form>
+    </p>
+    </br>
+    <p>
+        <p>Install Chaincode function:</p>
+        <form action="http://localhost:4000/installChaincode" method="POST">
+            chaincodeName:
+            <input type="text" name="channelName" value="mycc">
+            </br>
+            chaincodePath:
+            <input type="text" style="width: 200px;" name="peers" value="github.com/example_cc">
+            </br>
+            chaincodeVersion:
+            <input type="text" style="width: 200px;" name="peers" value="v0">
+            <input type="submit" value="install Chaincode">
+        </form>
+    </p>
+    </br>
+    <!-- <form>
+                Select a function<br/>
+                <label><input id = "func1" name="function" type = "radio" value=""/>func1</label>
+                <br/>
+                <label><input id = "func2" name="function" type = "radio" value=""/>func2</label>
+            </form> -->
+
+    </p>
+    <p>
+        <p>Query Chaincode function:</p>
+        <form action="http://localhost:4000/queryChaincode" method="POST">
+            peers:
+            <input type="text" style="width: 200px;" name="peers" value="peer1">
+            </br>
+            chaincodeName:
+            <input type="text" name="chaincodeName" value="mycc">
+            </br>
+            channelName:
+            <input type="text" style="width: 200px;" name="channelName" value="mychannel">
+            </br>
+            fcn:
+            <input type="text" style="width: 200px;" name="fcn" value="query">
+            </br>
+            args:
+            <input type="text" style="width: 200px;" name="args" value="%5B%22a%22%5D">
+            <input type="submit" value="Invoke Transaction">
+        </form>
+    </p>
+    <p>
+        <p>Query blockNumber function:</p>
+        <form action="http://localhost:4000/queryblockNumber" method="POST">
+            peers:
+            <input type="text" style="width: 200px;" name="peers" value="peer1">
+            </br>
+            chaincodeName:
+            <input type="text" name="chaincodeName" value="mycc">
+            </br>
+            channelName:
+            <input type="text" style="width: 200px;" name="channelName" value="mychannel">
+            </br>
+            blockId:
+            <input type="text" style="width: 200px;" name="blockId" value="1">
+            </br>
+            args:
+            <input type="text" style="width: 200px;" name="args" value="%5B%22a%22%5D">
+            <input type="submit" value="Invoke Transaction">
+        </form>
+    </p>
+    <p>
+        <p>Invoke function:</p>
+        <form action="http://localhost:4000/invokeTransaction" method="POST">
+            peers:
+            <input type="text" style="width: 200px;" name="peers" value="['peer1','peer2']">
+            </br>
+            chaincodeName:
+            <input type="text" name="chaincodeName" value="mycc">
+            </br>
+            channelName:
+            <input type="text" style="width: 200px;" name="channelName" value="mychannel">
+            </br>
+            fcn:
+            <input type="text" style="width: 200px;" name="fcn" value="move">
+            </br>
+            args:
+            <input type="text" style="width: 200px;" name="args" value="['a','b','10']">
+            <input type="submit" value="Invoke Transaction">
+        </form>
+    </p>
+</body>
+<!-- <script src="js/enrollAdmin.js"></script> -->
+
+</html>
