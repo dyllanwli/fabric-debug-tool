@@ -3,7 +3,7 @@
 Requirements:
 
 + fabric-network: see ./artifacts
-+ Install 'jq' https://stedolan.github.io/jq/ to execute script
++ jq
 + npm install
 + config.json used to set port and admin info
 + bash run.sh TO START THE NETWORK
