@@ -10,7 +10,7 @@ Requirements:
 + cleanMaterial.sh use to clean the user info without restart the network.
 + api tests via curl is test2.sh
 
-test api incloud:
+test api func:
 
 1. enroll user
 2. create channel
