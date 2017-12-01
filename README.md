@@ -19,3 +19,8 @@ test api func:
 5. instantiate
 6. invoke
 7. query by differ functions.
+
+
+notice: 
++ can not create channel twice 
++ make sure the server's ROM is larger than 1GB
