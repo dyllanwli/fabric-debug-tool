@@ -16,7 +16,8 @@ var queryChaincode = function(peer, channelName, chaincodeName, args, fcn, usern
 	var client = helper.getClientForOrg(org);
 	var target = buildTarget(peer, org);
 	return helper.getRegisteredUsers(username, org).then((user) => {
-		tx_id = client.newTransactionID();
+		var tx_id = client.newTransactionID();
+        logger.info("We got new Transaction ID: "+tx_id);
 		// send query
 		var request = {
 			chaincodeId: chaincodeName,
@@ -146,11 +147,11 @@ var getChainInfo = function(peer, username, org) {
 			err.stack : err;
 	}).then((blockchainInfo) => {
 		if (blockchainInfo) {
-			// FIXME: Save this for testing 'getBlockByHash'  ?
+			// FIXME: Save this for testing 'getBlockByHash'  
 			logger.debug('===========================================');
 			logger.debug(blockchainInfo.currentBlockHash);
 			logger.debug('===========================================');
-			//logger.debug(blockchainInfo);
+			logger.debug(blockchainInfo);
 			return blockchainInfo;
 		} else {
 			logger.error('response_payloads is null');

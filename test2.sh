@@ -39,6 +39,8 @@ curl -s -X POST \
 echo
 echo
 sleep 5
+
+
 # join channel org1
 echo "POST request Join channel on Org1"
 echo

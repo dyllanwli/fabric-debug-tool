@@ -1,4 +1,5 @@
 'use strict';
+var fs = require("fs");
 var log4js = require('log4js');
 var logger = log4js.getLogger('SampleWebApp');
 var express = require('express');
@@ -33,17 +34,6 @@ var port = process.env.PORT || hfc.getConfigSetting('port');
 app.use(express.static('public'));
 var userData = {}
 
-// app.get('/channels', function (req, res) {
-// 	console.log("I get channel")
-// 	var response = {
-// 		"channelName":req.query.channelName,
-// 		"channelConfigPath":req.query.channelConfigPath
-// 	};
-// 	logger.info(response);
-// 	res.end(JSON.stringify(response));
-// 	userData.channelName = response.channelName;
-// 	userData.channelConfigPath = response.channelConfigPath;
-// });
 
 app.options('*', cors());
 app.use(cors());
@@ -65,6 +55,7 @@ app.use(bearerToken());
 // use bearer token
 app.use(function(req, res, next) {
 	// the code below will go to servers start
+    logger.info('jwt verify REQUEST Time:',Date.now());
 	if (req.originalUrl.indexOf('/users') >= 0) {
 		return next();
 	}
@@ -84,11 +75,13 @@ app.use(function(req, res, next) {
 			// for the downstream code to use
 			req.username = decoded.username;
 			req.orgname = decoded.orgName;
-			logger.debug(util.format('Decoded from JWT token: username - %s, orgname - %s', decoded.username, decoded.orgName));
+            logger.info("successed")
+			logger.info(util.format('Decoded from JWT token: username - %s, orgname - %s', decoded.username, decoded.orgName));
 			return next();
 		}
 	});
 });
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// START server /////////////////////////////////
@@ -105,23 +98,21 @@ server.timeout = 240000;
 
 
 var ter = http.createServer(function (req, res) {
-	res.writeHead(200, {"Content-Type": "text/plain"});
 	res.end();
 });
-//////// Web Terminal
+// Web Terminal 
+// if you don't need the web terminal, comment below.
 terminal(ter);
 logger.info("Web-terminal accessible at http://localhost:8088/terminal");
-// var page = function(){
-    
-//     var server = app.listen(8087, function() {
-//         logger.info('Listening on port %d', server.address().port);
-//     });
-// }
+
 
 /////////////////////////////above is main page////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////below is error debug///////////////////////////////
 
@@ -137,18 +128,10 @@ function getErrorMessage(field) {
 ///////////////////////// rest end point start here ///////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Register and enroll user
-// var gobletoken = jwt.sign({});
-// set gobletoken 
-// register is not use application/json, used x-www-form-urlencoded
-//
-//
-//
-
 app.post('/users', function(req, res) {
+    req.headers['content-type'] = "application/x-www-form-urlencoded";
 	var username = req.body.username;
 	var orgName = req.body.orgName;
-	// var username = "Jim";
-	// var orgName = "org1"
 	logger.debug('End point : /users');
 	logger.debug('User name : ' + username);
 	logger.debug('Org name  : ' + orgName);
@@ -165,6 +148,12 @@ app.post('/users', function(req, res) {
 		username: username,
 		orgName: orgName
 	}, app.get('secret'));
+    fs.writeFile("./token_"+username+"_"+orgName, token, function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        logger.info("The token was saved!");
+    }); 
 	helper.getRegisteredUsers(username, orgName, true).then(function(response) {
 		if (response && typeof response !== 'string') {
 			response.token = token;
@@ -178,13 +167,14 @@ app.post('/users', function(req, res) {
 	});
 });
 
-// 
-// 
-// 
-// use json
+// set request header
+app.use(function(req,res,next){
+    req.headers['content-type'] = "application/json";
+    return next();
+});
+
 // Create Channel
 app.post('/channels', function(req, res) {
-	logger.debug("This is req")
 
 	// get data
 	logger.info('====================CCREATE CHANNEL====================');
@@ -192,15 +182,8 @@ app.post('/channels', function(req, res) {
 	var channelName = req.body.channelName;
 	var channelConfigPath = req.body.channelConfigPath;
 
-	// debug 
-	// var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTIwNTc1MjIsInVzZXJuYW1lIjoiSmltIiwib3JnTmFtZSI6Im9yZzEiLCJpYXQiOjE1MTIwMjE1MjJ9.J5V5B_B21GuBiiR7wzfLN011CvZPLsvRocBru3nb28w";
-	// req.headers['authorization'] = token;
-	// req.headers['content-type'] = "application/json";
-	// debug 
-
-
 	logger.debug('Channel name : ' + channelName);
-	logger.debug('channelConfigPath : ' + channelConfigPath); //../artifacts/channel/mychannel.tx
+	logger.debug('channelConfigPath : ' + channelConfigPath); 
 	if (!channelName) {
 		res.json(getErrorMessage('\'channelName\''));
 		return;
@@ -210,42 +193,12 @@ app.post('/channels', function(req, res) {
 		return;
 	}
 
-	// debug code 
-	// var username = "Jim";
-	// var orgName = "org1";
-	// logger.debug(req.body.username,req.body.orgName);
-	// var token = jwt.sign({
-	// 	exp: Math.floor(Date.now() / 1000) + parseInt(hfc.getConfigSetting('jwt_expiretime')),
-	// 	username: username,
-	// 	orgName: orgName 
-	// }, app.get('secret'));
-	// helper.getRegisteredUsers(username, orgName, true).then(function(response) {
-	// 	if (response && typeof response !== 'string') {
-	// 		response.token = token;
-	// 		res.json(response);
-	// 		logger.debug("Register has got.")
-	// 	} else {
-	// 		res.json({
-	// 			success: false,
-	// 			message: response
-	// 		});
-	// 	}
-	// });
-	// debug code
-
-
-
-
-	// true code
 	channels.createChannel(channelName, channelConfigPath, req.username, req.orgname)
 	.then(function(message) {
 		res.send(message);
 	});
 });
-// 
-// 
-// 
-// 
+
 // Join Channel 
 app.post('/channels/:channelName/peers', function(req, res) {
 
@@ -262,16 +215,13 @@ app.post('/channels/:channelName/peers', function(req, res) {
 		res.json(getErrorMessage('\'peers\''));
 		return;
 	}
-
+    logger.info(channelName, peers, req.username, req.orgname);
 	join.joinChannel(channelName, peers, req.username, req.orgname)
 	.then(function(message) {
 		res.send(message);
 	});
 });
-// 
-// 
-// 
-// 
+ 
 // Install chaincode on target peers 
 app.post('/chaincodes', function(req, res) {
 
@@ -280,7 +230,7 @@ app.post('/chaincodes', function(req, res) {
 	var chaincodeName = req.body.chaincodeName;
 	var chaincodePath = req.body.chaincodePath;
 	var chaincodeVersion = req.body.chaincodeVersion;
-	logger.debug('peers : ' + peers); // target peers list
+	logger.debug('peers : ' + peers); 
 	logger.debug('chaincodeName : ' + chaincodeName);
 	logger.debug('chaincodePath  : ' + chaincodePath);
 	logger.debug('chaincodeVersion  : ' + chaincodeVersion);
@@ -386,7 +336,6 @@ app.post('/channels/:channelName/chaincodes/:chaincodeName', function(req, res) 
 });
 ///////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////below is query///////////////////////////////////////////////
 // Got 
 // Query to fetch channels
@@ -479,9 +428,7 @@ app.get('/channels/:channelName/transactions/:trxnId', function(req, res) {
 		});
 });
 
-// 
-// 
-// 
+
 // 
 // Query Get Block by Hash
 app.get('/channels/:channelName/blocks', function(req, res) {
@@ -499,10 +446,7 @@ app.get('/channels/:channelName/blocks', function(req, res) {
 			res.send(message);
 		});
 });
-
-// 
-// 
-// 
+ 
 // 
 //Query for Channel Information
 app.get('/channels/:channelName', function(req, res) {
@@ -516,17 +460,20 @@ app.get('/channels/:channelName', function(req, res) {
 			res.send(message);
 		});
 });
+
 // Query to fetch all Installed/instantiated chaincodes
 app.get('/chaincodes', function(req, res) {
 	var peer = req.query.peer;
 	var installType = req.query.type;
-	//TODO: add Constnats
+	// able to add constants
 	if (installType === 'installed') {
 		logger.debug(
 			'================ GET INSTALLED CHAINCODES ======================');
-	} else {
+	} else if (installType === "instantiated") {
 		logger.debug(
 			'================ GET INSTANTIATED CHAINCODES ======================');
+	} else{
+		logger.debug("Add Constant Type")
 	}
 
 	query.getInstalledChaincodes(peer, installType, req.username, req.orgname)

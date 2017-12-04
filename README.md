@@ -3,12 +3,15 @@
 Requirements:
 
 + fabric-network: see ./artifacts
-+ jq
-+ npm install
++ `apt install jq` or `brew install jq`
++ `npm install`
 + config.json used to set port and admin info
-+ bash run.sh TO START THE NETWORK
-+ cleanMaterial.sh use to clean the user info without restart the network.
-+ api tests via curl is test2.sh
++ `bash run.sh` TO START THE NETWORK
++ `./cleanMaterial.sh` use to clean the user info without restart the network.
++ `./stopNetwork.sh` use to pull down the docker network and cleanMaterial
++ api tests via curl is `bash ./test2.sh`
++ make sure port 4000 and 8088 is free
++ network config: see ./app/network-config.json
 
 test api func:
 
@@ -19,8 +22,3 @@ test api func:
 5. instantiate
 6. invoke
 7. query by differ functions.
-
-
-notice: 
-+ can not create channel twice 
-+ make sure the server's ROM is larger than 1GB

@@ -20,7 +20,7 @@ function dkrm(){
 	echo
 }
 
-function restartNetwork() {
+function stopNetwork() {
 	echo
 
         #teardown the network and clean the containers and intermediate images
@@ -33,32 +33,12 @@ function restartNetwork() {
 	#Cleanup the material
 	rm -rf /tmp/hfc-test-kvs_peerOrg* $HOME/.hfc-key-store/ /tmp/fabric-client-kvs_peerOrg*
 	rm -rf ./token*
-	#Start the network
-	docker-compose up -d
-	cd -
-	echo
-}
-
-function installNodeModules() {
-	echo
-	if [ -d node_modules ]; then
-		echo "============== node modules installed already ============="
-	else
-		echo "============== Installing node modules ============="
-		cnpm install
-		# npm rebuild
-	fi
-	echo
 }
 
 
-restartNetwork
 
-installNodeModules
-
+stopNetwork
 
 
-echo "============== Network Started. Try 'node app' to Start app. ============="
-# PORT=4000 node app
 
-# node app
+echo "============== Network Stopped. Try 'bash ./run.sh' to Start app. ============="

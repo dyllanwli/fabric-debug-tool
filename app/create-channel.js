@@ -1,4 +1,3 @@
-
 var util = require('util');
 var fs = require('fs');
 var path = require('path');
@@ -15,7 +14,7 @@ var createChannel = function(channelName, channelConfigPath, username, orgName) 
 	var envelope = fs.readFileSync(path.join(__dirname, channelConfigPath));
 	// extract the channel config bytes from the envelope to be signed
 	var channelConfig = client.extractChannelConfig(envelope);
-
+	logger.info("createChannel Got: "+channelName+channelConfigPath+username+orgName);
 	//Acting as a client in the given organization provided with "orgName" param
 	return helper.getOrgAdmin(orgName).then((admin) => {
 		logger.debug(util.format('Successfully acquired admin user for the organization "%s"', orgName));
