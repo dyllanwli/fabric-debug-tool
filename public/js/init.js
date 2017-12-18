@@ -1,5 +1,3 @@
-import { escape } from "querystring";
-
 window.onload = function(){    
     var p = document.createElement("p");
     p.innerHTML = "this is created dynamically"
@@ -141,7 +139,6 @@ window.onload = function(){
     var query4 = document.getElementById("query4");
     var query5 = document.getElementById("query5");
     var query6 = document.getElementById("query6");
-    var token = document.getElementById("token").value;
     var vquery_peer = document.getElementById("query_peer").value;
     var vquery_chaincodeName = document.getElementById("query_chaincodeName").value;
     var vquery_channelName = document.getElementById("query_channelName").value;
@@ -154,6 +151,7 @@ window.onload = function(){
     var vquery_type = document.getElementById("query_type").value;
     // click incident
     query1.onclick=function(){
+        var token = document.getElementById("token").value;
         vquery_args = "[\""+vquery_args+"\"]";
         vquery_args = escape(vquery_args);
         url = "/channels/"+vquery_channelName+"/chaincodes/"+vquery_chaincodeName+"?peer="+ vquery_peer+"&fcn="+vquery_fcn+"&args="+vquery_args;
@@ -165,6 +163,7 @@ window.onload = function(){
         xhr.send();
     };
     query2.onclick=function(){
+        var token = document.getElementById("token").value;
         url = "/channels/"+vquery_channelName+"/blocks/"+vquery_blockId+"?peer="+ vquery_peer;
         window.alert(url);
         xhr.open("GET",url, true);
@@ -173,6 +172,7 @@ window.onload = function(){
         xhr.send();
     };
     query3.onclick=function(){
+        var token = document.getElementById("token").value;
         url = "/channels/"+vquery_channelName+"transactions/"+vquery_trxnId+"?peer="+vquery_peer;
         window.alert(url);        
         xhr.open("GET",url, true);
@@ -181,6 +181,7 @@ window.onload = function(){
         xhr.send();
     };
     query4.onclick=function(){
+        var token = document.getElementById("token").value;
         url = "/channels/"+vquery_channelName+"?peer="+vquery_peer;
         window.alert(url);
         xhr.open("GET",url, true);
@@ -189,6 +190,7 @@ window.onload = function(){
         xhr.send();
     };
     query5.onclick=function(){
+        var token = document.getElementById("token").value;
         url = "/chaincodes?peer="+vquery_peer+"&type="+vquery_type;
         window.alert(url);
         xhr.open("GET",url, true);
@@ -197,6 +199,7 @@ window.onload = function(){
         xhr.send();
     };
     query6.onclick=function(){
+        var token = document.getElementById("token").value;
         url = "channels?peer="+vquery_peer;
         window.alert(url);
         xhr.open("GET",url, true);
