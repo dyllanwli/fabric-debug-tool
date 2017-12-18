@@ -8,6 +8,7 @@ type SimpleChaincode struct {
 
 func main() {
 	u := "%5B%22a%22%5D"
-	u, _ = url.QueryUnescape(u)
-	fmt.Println(u)
+	var a string
+	a, _ = url.QueryUnescape(u)
+	fmt.Println(a)
 }

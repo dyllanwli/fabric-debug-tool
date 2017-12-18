@@ -155,13 +155,14 @@ func (t *SimpleChaincode) query(stub shim.ChaincodeStubInterface, args []string)
 
 	var A string // Entities
 	var err error
+	var a string // unescaped A
 
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting name of the person to query")
 	}
 
 	A = args[0]
-	a, _ := url.QueryUnescape(A)
+	a, err := url.QueryUnescape(A)
 	// Get the state from the ledger
 	Avalbytes, err := stub.GetState(A)
 	if err != nil {
