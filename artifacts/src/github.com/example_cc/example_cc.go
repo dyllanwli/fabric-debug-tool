@@ -161,20 +161,20 @@ func (t *SimpleChaincode) query(stub shim.ChaincodeStubInterface, args []string)
 	}
 
 	A = args[0]
-
+	a, _ := url.QueryUnescape(A)
 	// Get the state from the ledger
 	Avalbytes, err := stub.GetState(A)
 	if err != nil {
-		jsonResp := "{\"Error\":\"Failed to get state for " + url.QueryUnescape(A) + "\"}"
+		jsonResp := "{\"Error\":\"Failed to get state for " + a + "\"}"
 		return shim.Error(jsonResp)
 	}
 
 	if Avalbytes == nil {
-		jsonResp := "{\"Error\":\"Nil amount for " + url.QueryUnescape(A) + "\"}"
+		jsonResp := "{\"Error\":\"Nil amount for " + a + "\"}"
 		return shim.Error(jsonResp)
 	}
 
-	jsonResp := "{\"Name\":\"" + url.QueryUnescape(A) + "\",\"Amount\":\"" + string(Avalbytes) + "\"}"
+	jsonResp := "{\"Name\":\"" + a + "\",\"Amount\":\"" + string(Avalbytes) + "\"}"
 	logger.Infof("Query Response:%s\n", jsonResp)
 	return shim.Success(Avalbytes)
 }
