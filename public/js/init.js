@@ -111,6 +111,7 @@ window.onload = function(){
     };
 
     // invoke chaincode 
+    // TODO: support json invoke
     var xhr = new XMLHttpRequest();
     var btn6 = document.getElementById("invokeTransaction");
     btn6.onclick =function(){
@@ -143,6 +144,7 @@ window.onload = function(){
     var vquery_chaincodeName = document.getElementById("query_chaincodeName").value;
     var vquery_channelName = document.getElementById("query_channelName").value;
     var vquery_fcn = document.getElementById("query_fcn").value;
+    // TODO: suupport json query
     var vquery_args = document.getElementById("query_args").value;
     var vquery_blockId = document.getElementById("query_blockId").value;
     var vquery_trxnId = document.getElementById("query_trxnId").value;

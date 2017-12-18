@@ -2,6 +2,7 @@
 
 #### Requirements:
 
++ app are based no hyperledger-node-sdk/test
 + fabric-network: see ./artifacts
 + `apt install jq` or `brew install jq`
 + `npm install` and needs to `npm rebuild` if run script at first time
