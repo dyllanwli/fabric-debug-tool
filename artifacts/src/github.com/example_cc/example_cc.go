@@ -71,6 +71,10 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 		// Deletes an entity from its state
 		return t.move(stub, args)
 	}
+	if function == "write" {
+		// write pari
+		return t.write(stub, args)
+	}
 
 	logger.Errorf("Unknown action, check the first argument, must be one of 'delete', 'query', or 'move'. But got: %v", args[0])
 	return shim.Error(fmt.Sprintf("Unknown action, check the first argument, must be one of 'delete', 'query', or 'move'. But got: %v", args[0]))
@@ -147,6 +151,24 @@ func (t *SimpleChaincode) delete(stub shim.ChaincodeStubInterface, args []string
 		return shim.Error("Failed to delete state")
 	}
 
+	return shim.Success(nil)
+}
+
+// write - invoke function to write value
+func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	var A, value string
+	var err error
+	logger.Infof("Invoke function writing.")
+
+	if len(args) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting key value pair")
+	}
+	A = args[0]
+	value = args[1]
+	err = stub.PutState(A, []byte(value))
+	if err != nil {
+		return shim.Error("Unable to PutState.")
+	}
 	return shim.Success(nil)
 }
 
