@@ -143,9 +143,9 @@ window.onload = function(){
         var parameter = new Object();
         getQueryParameter(parameter);
         var xhr = new XMLHttpRequest();
-        parameter.vquery_arg = "[\""+parameter.vquery_arg+"\"]";
-        parameter.vquery_arg = escape(parameter.vquery_arg);
-        url = "/channels/"+parameter.vquery_channelName+"/chaincodes/"+parameter.vquery_chaincodeName+"?peer="+ parameter.vquery_peer+"&fcn="+parameter.vquery_fcn+"&args="+parameter.vquery_arg;
+        parameter.vquery_args = "[\""+parameter.vquery_args+"\"]";
+        parameter.vquery_args = escape(parameter.vquery_args);
+        url = "/channels/"+parameter.vquery_channelName+"/chaincodes/"+parameter.vquery_chaincodeName+"?peer="+ parameter.vquery_peer+"&fcn="+parameter.vquery_fcn+"&args="+parameter.vquery_args;
         // window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -157,7 +157,7 @@ window.onload = function(){
         var parameter = new Object();
         getQueryParameter(parameter);
         var xhr = new XMLHttpRequest();
-        url = "/channels/"+parameter.vquery_channelName+"/blocks/"+vquery_blockId+"?peer="+ parameter.vquery_peer;
+        url = "/channels/"+parameter.vquery_channelName+"/blocks/"+parameter.vquery_blockId+"?peer="+ parameter.vquery_peer;
         window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
