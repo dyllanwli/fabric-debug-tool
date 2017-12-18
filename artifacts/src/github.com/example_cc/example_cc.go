@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/url"
 	"strconv"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -164,16 +165,16 @@ func (t *SimpleChaincode) query(stub shim.ChaincodeStubInterface, args []string)
 	// Get the state from the ledger
 	Avalbytes, err := stub.GetState(A)
 	if err != nil {
-		jsonResp := "{\"Error\":\"Failed to get state for " + A + "\"}"
+		jsonResp := "{\"Error\":\"Failed to get state for " + url.QueryUnescape(A) + "\"}"
 		return shim.Error(jsonResp)
 	}
 
 	if Avalbytes == nil {
-		jsonResp := "{\"Error\":\"Nil amount for " + A + "\"}"
+		jsonResp := "{\"Error\":\"Nil amount for " + url.QueryUnescape(A) + "\"}"
 		return shim.Error(jsonResp)
 	}
 
-	jsonResp := "{\"Name\":\"" + A + "\",\"Amount\":\"" + string(Avalbytes) + "\"}"
+	jsonResp := "{\"Name\":\"" + url.QueryUnescape(A) + "\",\"Amount\":\"" + string(Avalbytes) + "\"}"
 	logger.Infof("Query Response:%s\n", jsonResp)
 	return shim.Success(Avalbytes)
 }

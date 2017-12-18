@@ -152,9 +152,9 @@ window.onload = function(){
     // click incident
     query1.onclick=function(){
         var token = document.getElementById("token").value;
-        vquery_args = "[\""+vquery_args+"\"]";
-        vquery_args = escape(vquery_args);
-        url = "/channels/"+vquery_channelName+"/chaincodes/"+vquery_chaincodeName+"?peer="+ vquery_peer+"&fcn="+vquery_fcn+"&args="+vquery_args;
+        vquery_arg = "[\""+vquery_args+"\"]";
+        vquery_arg = escape(vquery_arg);
+        url = "/channels/"+vquery_channelName+"/chaincodes/"+vquery_chaincodeName+"?peer="+ vquery_peer+"&fcn="+vquery_fcn+"&args="+vquery_arg;
         // window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
