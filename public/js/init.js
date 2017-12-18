@@ -1,7 +1,4 @@
 window.onload = function(){    
-    var p = document.createElement("p");
-    p.innerHTML = "this is created dynamically"
-    document.body.appendChild(p);
     // this is terminal
     var btn1 = document.getElementById("terminal");
     btn1.onclick = function(){

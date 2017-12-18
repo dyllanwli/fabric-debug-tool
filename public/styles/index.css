@@ -11,13 +11,13 @@ body {
 }
 
 #div_token {
-    background-color: rgb(228, 228, 228);
+    background-color: rgb(200, 200, 200);
     float: left;
     height: 70px
 }
 
 #div_identified {
-    background-color: rgb(185, 185, 185);
+    background-color: rgb(200, 200, 220);
     float: left;
     padding: 10px;
     height: 50px;
@@ -25,41 +25,40 @@ body {
 }
 
 #div_createchannel{
-    background-color: rgb(255, 246, 234);
+    background-color: rgb(226, 226, 226);
     padding: 10px;
     float: left;
-    width: 100%
+    width: 760px
 }
 #div_join{
-    background-color: rgb(185, 185, 185);
+    background-color: rgb(232, 232, 232);
     padding:10px;
-    width: 100%;
+    width: 760px;
     float: left;
-    
 }
 #div_install{
-    background-color: rgb(219, 219, 219);
+    background-color: rgb(238, 238, 238);
     padding:10px;
     float: left;
     height:150px;
     width: 320px
 }
 #div_instantiate{
-    background-color: rgb(197, 197, 197);
+    background-color: rgb(244, 244, 244);
     padding:10px;
     float: left;
     height:150px;
     width: 420px;
 }
 #div_invoke{
-    background-color: rgb(197, 197, 197);
+    background-color: rgb(250, 250, 250);
     padding:10px;
     float: left;
     width: 320px;
     height: 370px
 }
 #div_query{
-    background-color: rgb(231, 231, 231);
+    background-color: rgb(255, 255, 255);
     padding:10px;
     float: left;
     width: 420px;
