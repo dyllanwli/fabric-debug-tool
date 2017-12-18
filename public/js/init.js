@@ -1,3 +1,5 @@
+import { escape } from "querystring";
+
 window.onload = function(){    
     var p = document.createElement("p");
     p.innerHTML = "this is created dynamically"
@@ -152,6 +154,8 @@ window.onload = function(){
     var vquery_type = document.getElementById("query_type").value;
     // click incident
     query1.onclick=function(){
+        vquery_args = "[\""+vquery_args+"\"]";
+        vquery_args = escape(vquery_args);
         url = "/channels/"+vquery_channelName+"/chaincodes/"+vquery_chaincodeName+"?peer="+ vquery_peer+"&fcn="+vquery_fcn+"&args="+vquery_args;
         // window.alert(url);
         xhr.open("GET",url, true);
