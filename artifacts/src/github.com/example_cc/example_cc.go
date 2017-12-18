@@ -162,7 +162,7 @@ func (t *SimpleChaincode) query(stub shim.ChaincodeStubInterface, args []string)
 	}
 
 	A = args[0]
-	a, err = url.QueryUnescape(A)
+	a, _ = url.QueryUnescape(A)
 	// Get the state from the ledger
 	Avalbytes, err := stub.GetState(A)
 	if err != nil {

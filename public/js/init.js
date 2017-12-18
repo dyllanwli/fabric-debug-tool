@@ -58,7 +58,7 @@ window.onload = function(){
         var jsonData = JSON.stringify({
             peers: vpeers
         });
-        window.alert(jsonData);
+        // window.alert(jsonData);
         xhr.open("POST", "/channels/"+vchannelName+"/peers", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
@@ -81,7 +81,7 @@ window.onload = function(){
             chaincodePath: vchaincodePath,
             chaincodeVersion: vchaincodeVersion
         });
-        window.alert(jsonData);
+        // window.alert(jsonData);
         xhr.open("POST", "/chaincodes", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
@@ -103,7 +103,7 @@ window.onload = function(){
             chaincodeName: vchaincodeName,
             chaincodeVersion: vchaincodeVersion
         });
-        window.alert(jsonData);
+        // window.alert(jsonData);
         xhr.open("POST", "/channels/"+vchannelName+"/chaincodes", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
@@ -124,7 +124,7 @@ window.onload = function(){
             args: vargs,
             fcn:vfcn
         });
-        window.alert(jsonData);
+        // window.alert(jsonData);
         xhr.open("POST", "/channels/"+vchannelName+"/chaincodes/"+vchaincodeName, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
@@ -132,79 +132,80 @@ window.onload = function(){
     }
 
     //query chaincode 
-    var xhr = new XMLHttpRequest();
     var query1 = document.getElementById("query1");
     var query2 = document.getElementById("query2");
     var query3 = document.getElementById("query3");
     var query4 = document.getElementById("query4");
     var query5 = document.getElementById("query5");
     var query6 = document.getElementById("query6");
-    var vquery_peer = document.getElementById("query_peer").value;
-    var vquery_chaincodeName = document.getElementById("query_chaincodeName").value;
-    var vquery_channelName = document.getElementById("query_channelName").value;
-    var vquery_fcn = document.getElementById("query_fcn").value;
-    // TODO: suupport json query
-    var vquery_args = document.getElementById("query_args").value;
-    var vquery_blockId = document.getElementById("query_blockId").value;
-    var vquery_trxnId = document.getElementById("query_trxnId").value;
-    var vquery_hash = document.getElementById("query_hash").value;
-    var vquery_type = document.getElementById("query_type").value;
     // click incident
     query1.onclick=function(){
-        var token = document.getElementById("token").value;
-        vquery_arg = "[\""+vquery_args+"\"]";
-        vquery_arg = escape(vquery_arg);
-        url = "/channels/"+vquery_channelName+"/chaincodes/"+vquery_chaincodeName+"?peer="+ vquery_peer+"&fcn="+vquery_fcn+"&args="+vquery_arg;
+        var parameter = new Object();
+        getQueryParameter(parameter);
+        var xhr = new XMLHttpRequest();
+        parameter.vquery_arg = "[\""+parameter.vquery_arg+"\"]";
+        parameter.vquery_arg = escape(parameter.vquery_arg);
+        url = "/channels/"+parameter.vquery_channelName+"/chaincodes/"+parameter.vquery_chaincodeName+"?peer="+ parameter.vquery_peer+"&fcn="+parameter.vquery_fcn+"&args="+parameter.vquery_arg;
         // window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('authorization', ' Bearer '+ token);
+        xhr.setRequestHeader('authorization', ' Bearer '+ parameter.token);
         xhr.responseType = "blob";
         xhr.send();
     };
     query2.onclick=function(){
-        var token = document.getElementById("token").value;
-        url = "/channels/"+vquery_channelName+"/blocks/"+vquery_blockId+"?peer="+ vquery_peer;
+        var parameter = new Object();
+        getQueryParameter(parameter);
+        var xhr = new XMLHttpRequest();
+        url = "/channels/"+parameter.vquery_channelName+"/blocks/"+vquery_blockId+"?peer="+ parameter.vquery_peer;
         window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('authorization', ' Bearer '+ token);
+        xhr.setRequestHeader('authorization', ' Bearer '+ parameter.token);
         xhr.send();
     };
     query3.onclick=function(){
-        var token = document.getElementById("token").value;
-        url = "/channels/"+vquery_channelName+"transactions/"+vquery_trxnId+"?peer="+vquery_peer;
-        window.alert(url);        
+        var parameter = new Object();
+        getQueryParameter(parameter);
+        var xhr = new XMLHttpRequest();
+        url = "/channels/"+parameter.vquery_channelName+"transactions/"+vquery_trxnId+"?peer="+parameter.vquery_peer;
+        // window.alert(url);        
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('authorization', ' Bearer '+ token);
+        xhr.setRequestHeader('authorization', ' Bearer '+ parameter.token);
         xhr.send();
     };
     query4.onclick=function(){
-        var token = document.getElementById("token").value;
-        url = "/channels/"+vquery_channelName+"?peer="+vquery_peer;
-        window.alert(url);
+        var parameter = new Object();
+        getQueryParameter(parameter);
+        var xhr = new XMLHttpRequest();
+        url = "/channels/"+parameter.vquery_channelName+"?peer="+parameter.vquery_peer;
+        // window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('authorization', ' Bearer '+ token);
+        xhr.setRequestHeader('authorization', ' Bearer '+ parameter.token);
         xhr.send();
     };
     query5.onclick=function(){
-        var token = document.getElementById("token").value;
-        url = "/chaincodes?peer="+vquery_peer+"&type="+vquery_type;
-        window.alert(url);
+        var parameter = new Object();
+        getQueryParameter(parameter);
+        var xhr = new XMLHttpRequest();
+        url = "/chaincodes?peer="+parameter.vquery_peer+"&type="+parameter.vquery_type;
+        // window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('authorization', ' Bearer '+ token);
+        xhr.setRequestHeader('authorization', ' Bearer '+ parameter.token);
         xhr.send();
     };
     query6.onclick=function(){
-        var token = document.getElementById("token").value;
-        url = "channels?peer="+vquery_peer;
-        window.alert(url);
+        var parameter = new Object();
+        getQueryParameter(parameter);
+        var xhr = new XMLHttpRequest();
+        url = "channels?peer="+parameter.vquery_peer;
+        // window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('authorization', ' Bearer '+ token);
+        xhr.setRequestHeader('authorization', ' Bearer '+ parameter.token);
         xhr.send();
     };
 }
