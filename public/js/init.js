@@ -118,13 +118,14 @@ window.onload = function(){
         var token = document.getElementById("token").value;
         var vchannelName = document.getElementById("invoke_channelName").value;
         var vchaincodeName = document.getElementById("invoke_chaincodeName").value;
+        // TODO
         var vargs = document.getElementById("invoke_args").value.split(",");
         var vfcn = document.getElementById("invoke_fcn").value;
         var jsonData = JSON.stringify({
             args: vargs,
             fcn:vfcn
         });
-        // window.alert(jsonData);
+        window.alert(jsonData);
         xhr.open("POST", "/channels/"+vchannelName+"/chaincodes/"+vchaincodeName, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
@@ -168,7 +169,7 @@ window.onload = function(){
         var parameter = new Object();
         getQueryParameter(parameter);
         var xhr = new XMLHttpRequest();
-        url = "/channels/"+parameter.vquery_channelName+"transactions/"+vquery_trxnId+"?peer="+parameter.vquery_peer;
+        url = "/channels/"+parameter.vquery_channelName+"/transactions/"+parameter.vquery_trxnId+"?peer="+parameter.vquery_peer;
         // window.alert(url);        
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');

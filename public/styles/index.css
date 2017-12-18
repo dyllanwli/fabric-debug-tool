@@ -1,4 +1,67 @@
-html,body{
+html,
+body {
     background: lightgray;
-    height:  100%
+    height: 100%
+}
+
+#invoke_args {
+    width: 300px;
+    height: 200px;
+    text-align: left
+}
+
+#div_token {
+    background-color: rgb(228, 228, 228);
+    float: left;
+    height: 70px
+}
+
+#div_identified {
+    background-color: rgb(185, 185, 185);
+    float: left;
+    padding: 10px;
+    height: 50px;
+    width: auto
+}
+
+#div_createchannel{
+    background-color: rgb(255, 246, 234);
+    padding: 10px;
+    float: left;
+    width: 100%
+}
+#div_join{
+    background-color: rgb(185, 185, 185);
+    padding:10px;
+    width: 100%;
+    float: left;
+    
+}
+#div_install{
+    background-color: rgb(219, 219, 219);
+    padding:10px;
+    float: left;
+    height:150px;
+    width: 320px
+}
+#div_instantiate{
+    background-color: rgb(197, 197, 197);
+    padding:10px;
+    float: left;
+    height:150px;
+    width: 420px;
+}
+#div_invoke{
+    background-color: rgb(197, 197, 197);
+    padding:10px;
+    float: left;
+    width: 320px;
+    height: 370px
+}
+#div_query{
+    background-color: rgb(231, 231, 231);
+    padding:10px;
+    float: left;
+    width: 420px;
+    height: 370px
 }
