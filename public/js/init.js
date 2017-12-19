@@ -13,7 +13,6 @@ window.onload = function(){
     }
     
     // load enrolled user
-    var number = 2
     function loadUser(){
         var element1 = document.createElement("input");
         element1.setAttribute('type','radio');
@@ -27,6 +26,7 @@ window.onload = function(){
         document.getElementById('div_identified').appendChild(element2);
     }
     loadUser();
+
     // token func
     var token;
     $(document).ready(function() {
@@ -51,6 +51,8 @@ window.onload = function(){
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
         xhr.send(jsonData);
+        var headers = xhr.getAllResponseHeaders();
+        alert(headers);
     };
     
     // join channels

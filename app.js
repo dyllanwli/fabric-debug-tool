@@ -39,6 +39,13 @@ app.use(bodyParser.urlencoded({
 	extended: false
 }));
 
+app.use(function(req,res,next){
+	fs.readdirSync('./token/').forEach(file =>{
+		logger.info(file);
+	});
+	next();
+});
+
 // set secret variable
 app.set('secret', 'thisismysecret');
 app.use(expressJWT({
@@ -76,6 +83,7 @@ app.use(function(req, res, next) {
 		}
 	});
 });
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -134,7 +142,7 @@ app.post('/users', function(req, res) {
 		orgName: orgName
 	}, app.get('secret'));
 	// write token file
-    fs.writeFile("./token/token_"+username+"_"+orgName, token, function(err) {
+    fs.writeFile("./token/"+username+"_"+orgName, token, function(err) {
         if(err) {
             return console.log(err);
         }
