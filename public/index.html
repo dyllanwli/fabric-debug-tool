@@ -6,58 +6,48 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link type="text/css" rel="stylesheet" href="styles/index.css" />
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
-    <script src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/getQueryParameter.js"></script>
-    <script src="js/init.js"></script>
+    <script type="text/javascript" src="js/init.js"></script>
 
 
 </head>
 
 <body>
-    <h2>debug tool</h2>
-    <h4>Notice: Use Browser developer tool/Network to check the function status. Or use terminal tool to connnect to the Terminal
-        log to verify whether function is going well. </h4>
-    <p>
-        <button id="terminal">Click this button to access terminal</button> If running app on web service, be sure change the access address to
-        'ip:8088/terminal' in js/init.js
-    </p>
-
-    </br>
     <div id="div_token">
-        <p>
-            <form action="http://39.106.141.206:4000/users" method="POST">
-                username:
-                <input type="text" name="username" value="Jim">
-                </br>
-                orgName:
-                <input type="text" name="orgName" value="org1">
-                <input type="submit" value="enroll Admin">
-            </form>
-        </p>
+        <form>
+            username:
+            <input type="text" id="username" value="Jim">
+            </br>
+            orgName:
+            <input type="text" id="orgName" value="org1">
+            <input type="button" id="enrollAdmin" value="enroll Admin">
+        </form>
     </div>
     <div id="div_identified">
-        Load identified token
-        <input type="file" name="loadToken" id="loadToken" accept="text/plain" />
-        </br>
-        <input id="token" style="width: 500px;" value="no token"></input>
+        Select enrolled user:
+        <input type="radio" name="token" value="no token1">
+        <label for="token">no user</label>
+        <input type="radio" name="token" value="no token2">
+        <label for="token">no user</label>
     </div>
-    </br>
     <div id="div_createchannel">
-        <p>Channel can only create once, otherwise it will rise BAD REQUEST error.</p>
         <form>
             channelName:
             <input id="channelName" type="text" name="channelName" value="mychannel">
+            <input id="createChannel" type="button" value="create Channel">
             </br>
             channelConfigPath:
             <input id="channelConfigPath" type="text" name="channelConfigPath" value="../artifacts/channel/mychannel.tx">
-            <input id="createChannel" type="button" value="create Channel">
         </form>
     </div>
 
     <div id="div_join">
         <form>
             channelName:
-            <input id="join_channelName" type="text" value="mychannel"> peers:
+            <input id="join_channelName" type="text" value="mychannel">
+            </br>
+            peers:
             <input type="text" id="join_peers" value="peer1,peer2">
             <input id="joinChannel" type="button" value="join Channel">
         </form>
@@ -66,7 +56,7 @@
     <div id="div_install">
         <p>1.Install Chaincode function:</p>
         <form name="installChaincode">
-            peers
+            peers:
             <input type="text" id="install_peers" value="peer1,peer2">
             </br>
             chaincodeName:

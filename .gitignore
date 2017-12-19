@@ -1,3 +1,4 @@
 node_modules
 token_*
 fabric-sdk-node
+.DS_Store

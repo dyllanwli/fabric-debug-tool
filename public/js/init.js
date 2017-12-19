@@ -1,38 +1,31 @@
-window.onload = function(){    
-    // this is terminal
-    var btn1 = document.getElementById("terminal");
+window.onload = function(){   
+    
+    // enroll admin
+    var btn1 = document.getElementById("enrollAdmin");
     btn1.onclick = function(){
-        window.open('http://localhost:8088/terminal');
-    };
+        var xhr = new XMLHttpRequest();
+        var vusername = document.getElementById("username").value;
+        var vorgName = document.getElementById("orgName").value;
+        var form = "username="+ vusername + "&orgName=" + vorgName;
+        xhr.open("POST", "/users", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send(form);
+    }
     
-    
-    // get the token
-    var getFileContent = function (fileInput, callback) {
-        if (fileInput.files && fileInput.files.length > 0 && fileInput.files[0].size > 0) {
-            var file = fileInput.files[0];
-            if (window.FileReader) {
-                var reader = new FileReader();
-                reader.onloadend = function (evt) {
-                    if (evt.target.readyState == FileReader.DONE) {
-                        callback(evt.target.result);
-                    }
-                };
-                reader.readAsText(file, 'utf-8');
+    // token func
+    var token;
+    $(document).ready(function() {
+        $('input[type=radio][name=token]').change(function() {
+            if (this.checked == true) {
+                token = this.value
             }
-        }
-    };
-    document.getElementById('loadToken').onchange = function () {
-        var content = document.getElementById('token');
-        getFileContent(this, function (str) {
-            content.value = str;
         });
-    };
-    
-    // this is channels
+    });
+
+    // create channels
     var xhr = new XMLHttpRequest();
     var btn2 = document.getElementById("createChannel");
     btn2.onclick = function(){
-        var token = document.getElementById("token").value;
         var vchannelName = document.getElementById("channelName").value;
         var vchannelConfigPath = document.getElementById("channelConfigPath").value;
         var jsonData = JSON.stringify({
@@ -49,7 +42,6 @@ window.onload = function(){
     var xhr = new XMLHttpRequest();
     var btn3 = document.getElementById("joinChannel");
     btn3.onclick = function(){
-        var token = document.getElementById("token").value;
         var vchannelName = document.getElementById("join_channelName").value;
         var vpeers = document.getElementById("join_peers").value.split(",");
         var jsonData = JSON.stringify({
@@ -67,7 +59,6 @@ window.onload = function(){
     var xhr = new XMLHttpRequest();
     var btn4 = document.getElementById("installChaincode");
     btn4.onclick = function(){
-        var token = document.getElementById("token").value;
         var vchaincodeName = document.getElementById("install_chaincodeName").value;
         var vpeers = document.getElementById("install_peers").value.split(",");
         var vchaincodeVersion = document.getElementById("install_chaincodeVersion").value;
@@ -89,7 +80,6 @@ window.onload = function(){
     var xhr = new XMLHttpRequest();
     var btn5 = document.getElementById("instantiateChaincode");
     btn5.onclick = function(){
-        var token = document.getElementById("token").value;
         var vargs = document.getElementById("instan_args").value.split(",");
         var vchannelName = document.getElementById("instan_channelName").value;
         var vchaincodeName = document.getElementById("instan_chaincodeName").value;
@@ -112,7 +102,6 @@ window.onload = function(){
     var xhr = new XMLHttpRequest();
     var btn6 = document.getElementById("invokeTransaction");
     btn6.onclick =function(){
-        var token = document.getElementById("token").value;
         var vchannelName = document.getElementById("invoke_channelName").value;
         var vchaincodeName = document.getElementById("invoke_chaincodeName").value;
         // TODO
@@ -147,7 +136,7 @@ window.onload = function(){
         // window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('authorization', ' Bearer '+ parameter.token);
+        xhr.setRequestHeader('authorization', ' Bearer '+ token);
         xhr.responseType = "blob";
         xhr.send();
     };
@@ -159,7 +148,7 @@ window.onload = function(){
         window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('authorization', ' Bearer '+ parameter.token);
+        xhr.setRequestHeader('authorization', ' Bearer '+ token);
         xhr.send();
     };
     query3.onclick=function(){
@@ -170,7 +159,7 @@ window.onload = function(){
         // window.alert(url);        
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('authorization', ' Bearer '+ parameter.token);
+        xhr.setRequestHeader('authorization', ' Bearer '+ token);
         xhr.send();
     };
     query4.onclick=function(){
@@ -181,7 +170,7 @@ window.onload = function(){
         // window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('authorization', ' Bearer '+ parameter.token);
+        xhr.setRequestHeader('authorization', ' Bearer '+ token);
         xhr.send();
     };
     query5.onclick=function(){
@@ -192,7 +181,7 @@ window.onload = function(){
         // window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('authorization', ' Bearer '+ parameter.token);
+        xhr.setRequestHeader('authorization', ' Bearer '+ token);
         xhr.send();
     };
     query6.onclick=function(){
@@ -203,7 +192,7 @@ window.onload = function(){
         // window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('authorization', ' Bearer '+ parameter.token);
+        xhr.setRequestHeader('authorization', ' Bearer '+ token);
         xhr.send();
     };
 }

@@ -13,54 +13,78 @@ body {
 #div_token {
     background-color: rgb(200, 200, 200);
     float: left;
-    height: 70px
+    padding: 10px;
+    height: 40px;
+    width: 320px;
 }
 
 #div_identified {
     background-color: rgb(200, 200, 220);
-    float: left;
+    float: inherit;
     padding: 10px;
-    height: 50px;
-    width: auto
+    height: 40px;
+    width: 100%
 }
+
+input[type="radio"] {
+    display:inline-block;
+    margin:0 -2px 0 -1px;
+    width:19px;
+    height:19px;
+}
+
+
+input[type="radio"] + label {
+    display:inline-block;
+    margin:-2px 10px 0 0;
+}
+
+input[type="radio"]:checked + label {
+    background-color: gainsboro
+}
+
 
 #div_createchannel{
     background-color: rgb(226, 226, 226);
     padding: 10px;
     float: left;
-    width: 760px
+    width: 320px;
 }
+#channelConfigPath{
+    width: 180px;
+}
+
 #div_join{
-    background-color: rgb(232, 232, 232);
+    background-color: rgb(228, 217, 217);
+    width: 100%;
+    float: inherit;
     padding:10px;
-    width: 760px;
-    float: left;
 }
 #div_install{
-    background-color: rgb(238, 238, 238);
+    background-color: rgb(255, 235, 221);
     padding:10px;
     float: left;
     height:150px;
     width: 320px
 }
 #div_instantiate{
-    background-color: rgb(244, 244, 244);
+    background-color: rgb(245, 214, 200);
     padding:10px;
-    float: left;
+    float: inherit;
     height:150px;
-    width: 420px;
+    width: 100%;
 }
 #div_invoke{
-    background-color: rgb(250, 250, 250);
+    background-color: rgb(240, 221, 206);
     padding:10px;
     float: left;
     width: 320px;
     height: 370px
 }
 #div_query{
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(218, 197, 173);
     padding:10px;
-    float: left;
-    width: 420px;
+    float: inherit;
+    width: 100%;
     height: 370px
 }
