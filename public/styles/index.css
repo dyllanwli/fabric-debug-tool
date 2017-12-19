@@ -1,7 +1,17 @@
 html,
 body {
     background: lightgray;
-    height: 100%
+    height: 100%;
+    font-family: Arial;
+}
+#result{
+    position: absolute;
+    right: 10px;
+}
+#resultArea{
+    float: right;
+    width: 400px;
+    height: 600px;
 }
 
 #invoke_args {
@@ -15,7 +25,7 @@ body {
     float: left;
     padding: 10px;
     height: 40px;
-    width: 320px;
+    width: 330px;
 }
 
 #div_identified {
@@ -48,16 +58,18 @@ input[type="radio"]:checked + label {
     background-color: rgb(226, 226, 226);
     padding: 10px;
     float: left;
-    width: 320px;
+    width: 330px;
+    height: 50px;
 }
 #channelConfigPath{
-    width: 180px;
+    width: 220px;
 }
 
 #div_join{
     background-color: rgb(228, 217, 217);
     width: 100%;
     float: inherit;
+    height: 50px;
     padding:10px;
 }
 #div_install{
@@ -65,7 +77,7 @@ input[type="radio"]:checked + label {
     padding:10px;
     float: left;
     height:150px;
-    width: 320px
+    width: 330px
 }
 #div_instantiate{
     background-color: rgb(245, 214, 200);
@@ -78,7 +90,7 @@ input[type="radio"]:checked + label {
     background-color: rgb(240, 221, 206);
     padding:10px;
     float: left;
-    width: 320px;
+    width: 330px;
     height: 370px
 }
 #div_query{

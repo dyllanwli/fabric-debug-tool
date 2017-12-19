@@ -17,8 +17,6 @@ var cors = require('cors');
 require('./config.js');
 var hfc = require('fabric-client');
 
-var terminal  = require("web-terminal");
-// var mainPage = require('./main-page.js');
 var helper = require('./app/helper.js');
 var channels = require('./app/create-channel.js');
 var join = require('./app/join-channel.js');
@@ -96,16 +94,6 @@ logger.info('************** http://' + host + ':' + port +'******************');
 server.timeout = 240000;
 
 
-
-var ter = http.createServer(function (req, res) {
-	res.end();
-});
-// Web Terminal 
-// if you don't need the web terminal, comment below.
-terminal(ter);
-logger.info("Web-terminal accessible at http://localhost:8088/terminal");
-
-
 /////////////////////////////above is main page////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -148,6 +136,7 @@ app.post('/users', function(req, res) {
 		username: username,
 		orgName: orgName
 	}, app.get('secret'));
+	// write token file
     fs.writeFile("./token_"+username+"_"+orgName, token, function(err) {
         if(err) {
             return console.log(err);
@@ -168,10 +157,10 @@ app.post('/users', function(req, res) {
 });
 
 // set request header
-app.use(function(req,res,next){
-    req.headers['content-type'] = "application/json";
-    return next();
-});
+// app.use(function(req,res,next){
+//     req.headers['content-type'] = "application/json";
+//     return next();
+// });
 
 // Create Channel
 app.post('/channels', function(req, res) {

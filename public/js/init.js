@@ -12,6 +12,21 @@ window.onload = function(){
         xhr.send(form);
     }
     
+    // load enrolled user
+    var number = 2
+    function loadUser(){
+        var element1 = document.createElement("input");
+        element1.setAttribute('type','radio');
+        element1.setAttribute('name','token');
+        element1.setAttribute('value','no token');
+        document.getElementById('div_identified').appendChild(element1);
+        
+        var element2 = document.createElement("label");
+        element2.setAttribute('for','token');
+        element2.appendChild(document.createTextNode('no token'));
+        document.getElementById('div_identified').appendChild(element2);
+    }
+    loadUser();
     // token func
     var token;
     $(document).ready(function() {

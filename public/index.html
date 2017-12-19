@@ -9,11 +9,14 @@
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/getQueryParameter.js"></script>
     <script type="text/javascript" src="js/init.js"></script>
-
-
 </head>
 
 <body>
+    <div id="result">
+        <label>Results:</label>
+        </br>
+        <textarea id="resultArea"></textarea>
+    </div>
     <div id="div_token">
         <form>
             username:
@@ -25,10 +28,8 @@
         </form>
     </div>
     <div id="div_identified">
-        Select enrolled user:
+        &nbsp;Select enrolled user:
         <input type="radio" name="token" value="no token1">
-        <label for="token">no user</label>
-        <input type="radio" name="token" value="no token2">
         <label for="token">no user</label>
     </div>
     <div id="div_createchannel">
@@ -44,10 +45,10 @@
 
     <div id="div_join">
         <form>
-            channelName:
+            &nbsp;channelName:
             <input id="join_channelName" type="text" value="mychannel">
             </br>
-            peers:
+            &nbsp;peers:
             <input type="text" id="join_peers" value="peer1,peer2">
             <input id="joinChannel" type="button" value="join Channel">
         </form>
@@ -73,18 +74,18 @@
     </div>
 
     <div id="div_instantiate">
-        <p>2.Instantiate Chaincode function( This will take few seconds):</p>
+        <p>&nbsp;2.Instantiate Chaincode function( This will take few seconds):</p>
         <form>
-            chaincodeName:
+            &nbsp;chaincodeName:
             <input type="text" id="instan_chaincodeName" value="mycc">
             </br>
-            chaincodeVersion:
+            &nbsp;chaincodeVersion:
             <input type="text" id="instan_chaincodeVersion" value="v0">
             </br>
-            channelName:
+            &nbsp;channelName:
             <input type="text" id="instan_channelName" value="mychannel">
             </br>
-            arg:
+            &nbsp;arg:
             <input type="text" id="instan_args" name="instan_args" value="a,100,b,200">
             </br>
             <input id="instantiateChaincode" type="button" value="instantiate Chaincode">
@@ -112,33 +113,33 @@
     </div>
 
     <div id="div_query">
-        <p>4.Query Chaincode:</p>
+        <p>&nbsp;4.Query Chaincode:</p>
         <form>
-            peer:
+            &nbsp;peer:
             <input type="text" id="query_peer" value="peer1">
             </br>
-            chaincodeName:
+            &nbsp;chaincodeName:
             <input type="text" id="query_chaincodeName" value="mycc">
             </br>
-            channelName:
+            &nbsp;channelName:
             <input type="text" id="query_channelName" value="mychannel">
             </br>
-            fcn:
+            &nbsp;fcn:
             <input type="text" id="query_fcn" value="query">
             </br>
-            args:
+            &nbsp;args:
             <input type="text" id="query_args" value="a">
             </br>
-            blockId:
+            &nbsp;blockId:
             <input type="text" id="query_blockId" value="1">
             </br>
-            Transaction ID:
+            &nbsp;Transaction ID:
             <input type="text" id="query_trxnId" value="null">
             </br>
-            hash:
+            &nbsp;hash:
             <input type="text" id="query_hash" value="null">
             </br>
-            installType:
+            &nbsp;installType:
             <input type="text" id="query_type" value="installed"> ( e.g. instantiated/ installed)</input>
             </br>
             <input id="query1" type="button" value="query by args"> needs: channelName, chaincodes, peer, args, fcn</input>
