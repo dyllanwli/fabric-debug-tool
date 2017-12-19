@@ -1,6 +1,15 @@
 window.onload = function(){   
-    
+    var host = "http://39.106.141.206:4000/";
+
     // enroll admin
+    function loadResult(xhr){
+        xhr.onload = (response) => {
+            response
+            var ele = document.getElementById("resultArea");
+            ele.appendChild(document.createTextNode(response))
+        }
+    }
+
     var btn1 = document.getElementById("enrollAdmin");
     btn1.onclick = function(){
         var xhr = new XMLHttpRequest();
@@ -9,6 +18,13 @@ window.onload = function(){
         var form = "username="+ vusername + "&orgName=" + vorgName;
         xhr.open("POST", "/users", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                var response = xhr.responseText;
+                var ele = document.getElementById("resultArea");
+                ele.appendChild(document.createTextNode(response));
+            }
+        }
         xhr.send(form);
     }
     
@@ -30,6 +46,7 @@ window.onload = function(){
     // token func
     var token;
     $(document).ready(function() {
+
         $('input[type=radio][name=token]').change(function() {
             if (this.checked == true) {
                 token = this.value
@@ -51,8 +68,6 @@ window.onload = function(){
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
         xhr.send(jsonData);
-        var headers = xhr.getAllResponseHeaders();
-        alert(headers);
     };
     
     // join channels

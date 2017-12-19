@@ -162,12 +162,6 @@ app.post('/users', function(req, res) {
 	});
 });
 
-// set request header
-// app.use(function(req,res,next){
-//     req.headers['content-type'] = "application/json";
-//     return next();
-// });
-
 // Create Channel
 app.post('/channels', function(req, res) {
 
