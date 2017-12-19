@@ -32,7 +32,8 @@ function restartNetwork() {
 	echo "============== restart Network and cleanup the material ============="
 	#Cleanup the material
 	rm -rf /tmp/hfc-test-kvs_peerOrg* $HOME/.hfc-key-store/ /tmp/fabric-client-kvs_peerOrg*
-	rm -rf ./token*
+	rm -rf ./token
+	mkdir token
 	#Start the network
 	docker-compose up -d
 	cd -
