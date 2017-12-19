@@ -36,7 +36,7 @@ window.onload = function(){
             }
         });
     });
-
+    
     // create channels
     var xhr = new XMLHttpRequest();
     var btn2 = document.getElementById("createChannel");

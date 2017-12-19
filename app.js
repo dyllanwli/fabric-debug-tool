@@ -30,9 +30,6 @@ var port = process.env.PORT || hfc.getConfigSetting('port');
 //////////////////////////////// SET configuration ////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 app.use(express.static('public'));
-var userData = {}
-
-
 app.options('*', cors());
 app.use(cors());
 //parsing of application/json type post data
@@ -137,12 +134,13 @@ app.post('/users', function(req, res) {
 		orgName: orgName
 	}, app.get('secret'));
 	// write token file
-    fs.writeFile("./token_"+username+"_"+orgName, token, function(err) {
+    fs.writeFile("./token/token_"+username+"_"+orgName, token, function(err) {
         if(err) {
             return console.log(err);
         }
         logger.info("The token was saved!");
-    }); 
+	}); 
+	
 	helper.getRegisteredUsers(username, orgName, true).then(function(response) {
 		if (response && typeof response !== 'string') {
 			response.token = token;
