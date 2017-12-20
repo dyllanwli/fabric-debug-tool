@@ -1,7 +1,7 @@
 window.onload = function(){   
     var host = "http://39.106.141.206:4000/";
 
-    // enroll admin
+    // result area
     function loadResult(xhr){
         xhr.onload = (response) => {
             response
@@ -10,6 +10,21 @@ window.onload = function(){
         }
     }
 
+    // load enrolled user
+    function loadUser(name,resToken){
+        var element1 = document.createElement("input");
+        element1.setAttribute('type','radio');
+        element1.setAttribute('name','token');
+        element1.setAttribute('value',resToken);
+        document.getElementById('div_identified').appendChild(element1);
+        
+        var element2 = document.createElement("label");
+        element2.setAttribute('for','token');
+        element2.appendChild(document.createTextNode(name));
+        document.getElementById('div_identified').appendChild(element2);
+    }
+
+    // enroll admin
     var btn1 = document.getElementById("enrollAdmin");
     btn1.onclick = function(){
         var xhr = new XMLHttpRequest();
@@ -18,38 +33,38 @@ window.onload = function(){
         var form = "username="+ vusername + "&orgName=" + vorgName;
         xhr.open("POST", "/users", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        // callback function
         xhr.onreadystatechange = function() {//Call a function when the state changes.
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
                 ele.appendChild(document.createTextNode(response));
+                tk = JSON.parse(response).token;
+                loadUser(vusername+'_'+vorgName,tk);
             }
         }
+        // call backend
         xhr.send(form);
     }
-    
-    // load enrolled user
-    function loadUser(){
-        var element1 = document.createElement("input");
-        element1.setAttribute('type','radio');
-        element1.setAttribute('name','token');
-        element1.setAttribute('value','no token');
-        document.getElementById('div_identified').appendChild(element1);
-        
-        var element2 = document.createElement("label");
-        element2.setAttribute('for','token');
-        element2.appendChild(document.createTextNode('no token'));
-        document.getElementById('div_identified').appendChild(element2);
-    }
-    loadUser();
+
+    // var token;
+    // $(document).ready(function() {
+    //     $('#div_identified :radio').change(function() {
+    //         if (this.checked == true) {
+    //             token = this.value;
+    //             alert(token);
+    //         }
+    //     });
+    // });
 
     // token func
     var token;
     $(document).ready(function() {
-
-        $('input[type=radio][name=token]').change(function() {
-            if (this.checked == true) {
-                token = this.value
+        $('#div_identified').delegate(
+            $('input:radio[name="token"]'),'change',function() {
+            if ($(this).children('input:radio[name="token"]').checked == true) {
+                token = this.value;
+                alert(token);
             }
         });
     });
@@ -67,6 +82,15 @@ window.onload = function(){
         xhr.open("POST", "/channels", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
+        // callback function
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                var response = xhr.responseText;
+                var ele = document.getElementById("resultArea");
+                ele.appendChild(document.createTextNode(response));
+            }
+        }
+        // call backend
         xhr.send(jsonData);
     };
     
@@ -83,6 +107,15 @@ window.onload = function(){
         xhr.open("POST", "/channels/"+vchannelName+"/peers", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
+        // callback function
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                var response = xhr.responseText;
+                var ele = document.getElementById("resultArea");
+                ele.appendChild(document.createTextNode(response));
+            }
+        }
+        // call backend
         xhr.send(jsonData);
     };
     
@@ -105,6 +138,15 @@ window.onload = function(){
         xhr.open("POST", "/chaincodes", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
+        // callback function
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                var response = xhr.responseText;
+                var ele = document.getElementById("resultArea");
+                ele.appendChild(document.createTextNode(response));
+            }
+        }
+        // call backend
         xhr.send(jsonData);
     };
 
@@ -126,6 +168,15 @@ window.onload = function(){
         xhr.open("POST", "/channels/"+vchannelName+"/chaincodes", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
+        // callback function
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                var response = xhr.responseText;
+                var ele = document.getElementById("resultArea");
+                ele.appendChild(document.createTextNode(response));
+            }
+        }
+        // call backend
         xhr.send(jsonData);
     };
 
@@ -147,6 +198,15 @@ window.onload = function(){
         xhr.open("POST", "/channels/"+vchannelName+"/chaincodes/"+vchaincodeName, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
+        // callback function
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                var response = xhr.responseText;
+                var ele = document.getElementById("resultArea");
+                ele.appendChild(document.createTextNode(response));
+            }
+        }
+        // call backend
         xhr.send(jsonData);
     }
 
@@ -169,7 +229,12 @@ window.onload = function(){
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
-        xhr.responseType = "blob";
+        // callback
+        xhr.onload = (res) =>{
+            var ele = document.getElementById("resultArea");
+            ele.appendChild(document.createTextNode(response));
+        }
+        // callbackend
         xhr.send();
     };
     query2.onclick=function(){
