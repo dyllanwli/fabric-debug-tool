@@ -180,7 +180,6 @@ window.onload = function(){
         // TODO
         var vargs = document.getElementById("invoke_args").value.replace(/\{|\}/gi,"");
         vargs = vargs.replace(/\:/gi,",").split(',');
-        alert(vargs);
         var vfcn = document.getElementById("invoke_fcn").value;
         var jsonData = JSON.stringify({
             args: vargs,
@@ -195,7 +194,7 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"\n"));
+                ele.appendChild(document.createTextNode("The transaction ID is: "+response+"\n"));
                 
             }
         }
