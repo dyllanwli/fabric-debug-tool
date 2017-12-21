@@ -5,18 +5,19 @@ window.onload = function(){
     function loadResult(xhr){
         xhr.onload = (response) => {
             var ele = document.getElementById("resultArea");
-            ele.appendChild(document.createTextNode(response))
+            ele.appendChild(document.createTextNode(response));
         }
     }
 
     // load enrolled user
     function loadUser(name,resToken){
+        // input
         var element1 = document.createElement("input");
         element1.setAttribute('type','radio');
         element1.setAttribute('name','token');
         element1.setAttribute('value',resToken);
         document.getElementById('div_identified').appendChild(element1);
-        
+        // label
         var element2 = document.createElement("label");
         element2.setAttribute('for','token');
         element2.appendChild(document.createTextNode(name));
@@ -294,6 +295,7 @@ window.onload = function(){
                 delete channel_header.extension
                 channel_header = JSON.stringify(channel_header);
                 transactioninfo = response.transactionEnvelope.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1];
+                transactioninfo = JSON.stringify(transactioninfo);
                 ele.appendChild(document.createTextNode("The channel_header: "+channel_header+"\n"+"The transaction info: "+transactioninfo+"\n\n"));
             }
         }

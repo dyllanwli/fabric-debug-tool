@@ -1,4 +1,3 @@
-'use strict';
 var fs = require("fs");
 var log4js = require('log4js');
 var logger = log4js.getLogger('SampleWebApp');
@@ -38,13 +37,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: false
 }));
-
-app.use(function(req,res,next){
-	fs.readdirSync('./token/').forEach(file =>{
-		logger.info(file);
-	});
-	next();
-});
 
 // set secret variable
 app.set('secret', 'thisismysecret');
@@ -142,12 +134,12 @@ app.post('/users', function(req, res) {
 		orgName: orgName
 	}, app.get('secret'));
 	// write token file
-    fs.writeFile("./token/"+username+"_"+orgName, token, function(err) {
-        if(err) {
-            return console.log(err);
-        }
-        logger.info("The token was saved!");
-	}); 
+    // fs.writeFile("./token/"+username+"_"+orgName, token, function(err) {
+    //     if(err) {
+    //         return console.log(err);
+    //     }
+    //     logger.info("The token was saved!");
+	// }); 
 	
 	helper.getRegisteredUsers(username, orgName, true).then(function(response) {
 		if (response && typeof response !== 'string') {
