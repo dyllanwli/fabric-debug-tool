@@ -4,6 +4,13 @@ body {
     height: 100%;
     font-family: Arial;
 }
+#clear{
+    position: absolute;
+    top: -20px;
+    right: 0px;
+    font-size: 14px;
+}
+
 #result{
     position: absolute;
     top: 50px;
@@ -11,6 +18,7 @@ body {
 }
 #resultArea{
     float: right;
+    font-size: 13px;
     width: 450px;
     height: 600px;
 }

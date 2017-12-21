@@ -12,3 +12,21 @@ function getQueryParameter(obj) {
     obj.vquery_hash = document.getElementById("query_hash").value;
     obj.vquery_type = document.getElementById("query_type").value;
 }
+
+function clear() {
+    clear_btn = document.getElementById("clear")
+    clear_btn.onclick = function () {
+        tx = document.getElementById("resultArea").value = ""
+        tempalert("Log cleared",500)
+    }
+}
+
+function tempalert(msg, duration) {
+    var el = document.createElement("div");
+    el.setAttribute("style", "position:absolute;top:5%;left:70%;background-color:white;text-align:center;");
+    el.innerHTML = msg;
+    setTimeout(function () {
+        el.parentNode.removeChild(el);
+    }, duration);
+    document.body.appendChild(el);
+}

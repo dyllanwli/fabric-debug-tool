@@ -1,6 +1,10 @@
 window.onload = function(){   
     var host = "http://39.106.141.206:4000/"
 
+    // clear log
+    clear()
+    
+
     // result area
     function loadResult(xhr){
         xhr.onload = (response) => {
@@ -200,7 +204,7 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText
                 var ele = document.getElementById("resultArea")
-                ele.appendChild(document.createTextNode("The transaction ID is: "+response+"\n\n"))
+                ele.appendChild(document.createTextNode("Invoke Successful. The transaction ID is:\n"+response+"\n\n"))
             }
         }
         // call backend
@@ -258,15 +262,21 @@ window.onload = function(){
                     return
                 }
                 num = response.header.number
-                channel_header = response.data.data[0].payload.header.channel_header
-                writeData = response.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1].rwset
-                delete channel_header.extension
                 delete num.unsigned
                 num = JSON.stringify(num)
-                channel_header = JSON.stringify(channel_header)
-                writeData = JSON.stringify(writeData)
-                write = "The Block.header: "+ num+"\nThe channel_header: "+channel_header+"\nData: "+writeData+"\n\n"
-                ele.appendChild(document.createTextNode(write))
+                writeData = response.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
+                namespace = JSON.stringify(writeData.namespace)
+                writes = JSON.stringify(writeData.rwset.writes)
+
+                channel_header = response.data.data[0].payload.header.channel_header
+                time = JSON.stringify(channel_header.timestamp)
+                type = JSON.stringify(channel_header.type)
+                tx_id = JSON.stringify(channel_header.tx_id)
+                channnel_id = JSON.stringify(channel_header.channnel_id)
+                version = JSON.stringify(channel_header.version)
+
+                w = "The Blockid query\nHeader: "+ num+"\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n\n"
+                ele.appendChild(document.createTextNode(w))
             }
         }
         xhr.send()
@@ -277,8 +287,7 @@ window.onload = function(){
         var parameter = new Object()
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
-        url = "/channels/"+parameter.vquery_channelName+"/transactions/"+parameter.vquery_trxnId+"?peer="+parameter.vquery_peer
-        // window.alert(url)        
+        url = "/channels/"+parameter.vquery_channelName+"/transactions/"+parameter.vquery_trxnId+"?peer="+parameter.vquery_peer   
         xhr.open("GET",url, true)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer '+ token)
@@ -293,12 +302,31 @@ window.onload = function(){
                     alert("Query failure: no response, please check parameter and block status.")
                     return
                 }
+                writeData = response.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
+                namespace = JSON.stringify(writeData.namespace)
+                writes = JSON.stringify(writeData.rwset.writes)
+
+                channel_header = response.data.data[0].payload.header.channel_header
+                time = JSON.stringify(channel_header.timestamp)
+                type = JSON.stringify(channel_header.type)
+                tx_id = JSON.stringify(channel_header.tx_id)
+                channnel_id = JSON.stringify(channel_header.channnel_id)
+
+                w = "The Blockid query\nHeader: "+ num+"\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\n\n"
+                ele.appendChild(document.createTextNode(w))
+                //
                 channel_header = response.transactionEnvelope.payload.header.channel_header
-                delete channel_header.extension
-                channel_header = JSON.stringify(channel_header)
-                transactioninfo = response.transactionEnvelope.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
-                transactioninfo = JSON.stringify(transactioninfo)
-                ele.appendChild(document.createTextNode("The channel_header: "+channel_header+"\n"+"The transaction info: "+transactioninfo+"\n\n"))
+                time = JSON.stringify(channel_header.timestamp)
+                type = JSON.stringify(channel_header.type)
+                tx_id = JSON.stringify(channel_header.tx_id)
+                channnel_id = JSON.stringify(channel_header.channnel_id)
+                version = JSON.stringify(channel_header.version)
+                
+                writeData = response.transactionEnvelope.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
+                namespace = JSON.stringify(writeData.namespace)
+                writes = JSON.stringify(writeData.rwset.writes)
+                w = "The TransactionID query\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n\n"
+                ele.appendChild(document.createTextNode(w))
             }
         }
         xhr.send()
@@ -315,7 +343,8 @@ window.onload = function(){
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer '+ token)
 
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
+        xhr.onreadystatechange = function() {
+            //Call a function when the state changes.
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText
                 var ele = document.getElementById("resultArea")

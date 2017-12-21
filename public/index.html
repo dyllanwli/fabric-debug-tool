@@ -7,13 +7,14 @@
     <link type="text/css" rel="stylesheet" href="styles/index.css" />
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
     <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/getQueryParameter.js"></script>
+    <script type="text/javascript" src="js/utility.js"></script>
     <script type="text/javascript" src="js/init.js"></script>
 </head>
 
 <body>
     <div id="result">
-        <textarea id="resultArea"></textarea>
+        <input type="button" id = "clear" value = "Clear Result">
+        <textarea readonly id="resultArea">"This is result\nsadfasd\n"</textarea>
     </div>
     <div id="div_token">
         <form>
@@ -128,7 +129,7 @@
             &nbsp;args:
             <input type="text" id="query_args" value="a">
             </br>
-            &nbsp;blockId:
+            &nbsp;block ID:
             <input type="text" id="query_blockId" value="1">
             </br>
             &nbsp;Transaction ID:
