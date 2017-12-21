@@ -186,7 +186,7 @@ window.onload = function(){
             args: vargs,
             fcn:vfcn
         });
-        window.alert(jsonData);
+        // window.alert(jsonData);
         xhr.open("POST", "/channels/"+vchannelName+"/chaincodes/"+vchaincodeName, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
