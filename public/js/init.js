@@ -4,7 +4,6 @@ window.onload = function(){
     // result area
     function loadResult(xhr){
         xhr.onload = (response) => {
-            response
             var ele = document.getElementById("resultArea");
             ele.appendChild(document.createTextNode(response))
         }
@@ -27,7 +26,6 @@ window.onload = function(){
     // enroll admin
     var btn1 = document.getElementById("enrollAdmin");
     btn1.onclick = function(){
-        loadUser(1213,123);
         var xhr = new XMLHttpRequest();
         var vusername = document.getElementById("username").value;
         var vorgName = document.getElementById("orgName").value;
@@ -39,7 +37,7 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createTextNode(response+"</br>"));
                 tk = JSON.parse(response).token;
                 loadUser(vusername+'_'+vorgName,tk);
             }
@@ -74,7 +72,7 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createTextNode(response+"</br>"));
             }
         }
         // call backend
@@ -99,7 +97,7 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createTextNode(response+"</br>"));
             }
         }
         // call backend
@@ -130,7 +128,7 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createTextNode(response+"</br>"));
             }
         }
         // call backend
@@ -160,7 +158,7 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createTextNode(response+"</br>"));
             }
         }
         // call backend
@@ -190,7 +188,7 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createTextNode(response+"</br>"));
             }
         }
         // call backend
@@ -216,12 +214,14 @@ window.onload = function(){
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
-        // callback
-        xhr.onload = (res) =>{
-            var ele = document.getElementById("resultArea");
-            ele.appendChild(document.createTextNode(response));
+        
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                var response = xhr.responseText;
+                var ele = document.getElementById("resultArea");
+                ele.appendChild(document.createTextNode(response+"</br>"));
+            }
         }
-        // callbackend
         xhr.send();
     };
     query2.onclick=function(){
