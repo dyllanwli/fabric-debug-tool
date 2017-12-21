@@ -42,10 +42,9 @@ window.onload = function(){
                 // regular the response
                 delete response.token;
                 delete response.secret;
+                response = JSON.stringify(response)
                 ele.appendChild(document.createTextNode(response+"\n\n"));
                 loadUser(vusername+'_'+vorgName,tk);
-            } else {
-                alert('enroll Error');
             }
         }
         // call backend
@@ -79,8 +78,6 @@ window.onload = function(){
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
                 ele.appendChild(document.createTextNode(response+"\n\n"));
-            } else{
-                alert("BAD REQUEST, please check if channel already exists");
             }
         }
         // call backend
@@ -107,8 +104,6 @@ window.onload = function(){
                 var ele = document.getElementById("resultArea");
                 ele.appendChild(document.createTextNode(response+"\n\n"));
                 
-            } else {
-                alert("Promise is rejected: Error: chaincode error (status: 500, message: Cannot create ledger from genesis block, check if ID already exists");
             }
         }
         // call backend
@@ -141,8 +136,6 @@ window.onload = function(){
                 var ele = document.getElementById("resultArea");
                 ele.appendChild(document.createTextNode(response+"\n\n"));
                 
-            } else {
-                alert("Failed to send install Proposal or receive valid response. Response null or status is not 200. exiting...")
             }
         }
         // call backend
@@ -173,9 +166,6 @@ window.onload = function(){
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
                 ele.appendChild(document.createTextNode(response+"\n\n"));
-                
-            } else {
-                alert("Failed to order the transaction. Error code: undefined");
             }
         }
         // call backend
@@ -237,7 +227,6 @@ window.onload = function(){
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
                 ele.appendChild(document.createTextNode(response+"\n\n"));
-                
             }
         }
         xhr.send();
@@ -261,6 +250,8 @@ window.onload = function(){
                 num = response.header.number;
                 channel_header = response.data.data[0].payload.header.channel_header;
                 delete channel_header.extension
+                num = JSON.stringify(num);
+                channel_header = JSON.stringify(num);
                 ele.appendChild(document.createTextNode("The Block.header.number: "+ num+"\n"+"The channel_header: "+channel_header+"\n\n"));
             }
         }
@@ -285,6 +276,7 @@ window.onload = function(){
                 response = JSON.parse(response);
                 channel_header = response.transactionEnvelope.payload.header.channel_header;
                 delete channel_header.extension
+                channel_header = JSON.stringify(channel_header);
                 ele.appendChild(document.createTextNode("The channel_header: "+channel_header+"\n\n"));
             }
         }
@@ -308,6 +300,7 @@ window.onload = function(){
                 var ele = document.getElementById("resultArea");
                 response = JSON.parse(response);
                 height = response.height
+                height = JSON.stringify(height);
                 ele.appendChild(document.createTextNode("The chaininfo.height: "+height+"\n"+"currentBlockHash and previousBlockHash are hidden\n\n"));
                 
             }
