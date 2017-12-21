@@ -53,7 +53,8 @@ window.onload = function(){
                 delete response.token
                 delete response.secret
                 response = JSON.stringify(response)
-                ele.appendChild(document.createTextNode(response+"\n\n"))
+                // ele.appendChild(document.createTextNode(response+"\n\n"))
+                ele.value += response+"\n\n"
                 loadUser(vusername+'_'+vorgName,tk)
             }
         }
@@ -87,7 +88,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText
                 var ele = document.getElementById("resultArea")
-                ele.appendChild(document.createTextNode(response+"\n\n"))
+                // ele.appendChild(document.createTextNode(response+"\n\n"))
+                ele.value += response+"\n\n"
             }
         }
         // call backend
@@ -112,7 +114,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText
                 var ele = document.getElementById("resultArea")
-                ele.appendChild(document.createTextNode(response+"\n\n"))
+                // ele.appendChild(document.createTextNode(response+"\n\n"))
+                ele.value += response+"\n\n"
                 
             }
         }
@@ -144,7 +147,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText
                 var ele = document.getElementById("resultArea")
-                ele.appendChild(document.createTextNode(response+"\n\n"))
+                // ele.appendChild(document.createTextNode(response+"\n\n"))
+                ele.value += response+"\n\n"
             }
         }
         // call backend
@@ -174,7 +178,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText
                 var ele = document.getElementById("resultArea")
-                ele.appendChild(document.createTextNode(response+"\n\n"))
+                // ele.appendChild(document.createTextNode(response+"\n\n"))
+                ele.value += response+"\n\n"
             }
         }
         // call backend
@@ -204,7 +209,7 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText
                 var ele = document.getElementById("resultArea")
-                ele.appendChild(document.createTextNode("Invoke Successful. The transaction ID is:\n"+response+"\n\n"))
+                ele.value += "Invoke Successful. The transaction ID is:\n"+response+"\n\n"
             }
         }
         // call backend
@@ -235,7 +240,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText
                 var ele = document.getElementById("resultArea")
-                ele.appendChild(document.createTextNode(response+"\n\n"))
+                // ele.appendChild(document.createTextNode(response+"\n\n"))
+                ele.value += response+"\n\n"
             }
         }
         xhr.send()
@@ -276,7 +282,8 @@ window.onload = function(){
                 version = JSON.stringify(channel_header.version)
 
                 w = "The Blockid query\nHeader: "+ num+"\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n\n"
-                ele.appendChild(document.createTextNode(w))
+                // ele.appendChild(document.createTextNode(w))
+                ele.value += w+"\n\n"
             }
         }
         xhr.send()
@@ -326,7 +333,8 @@ window.onload = function(){
                 namespace = JSON.stringify(writeData.namespace)
                 writes = JSON.stringify(writeData.rwset.writes)
                 w = "The TransactionID query\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n\n"
-                ele.appendChild(document.createTextNode(w))
+                // ele.appendChild(document.createTextNode(w))
+                ele.value += w+"\n\n"
             }
         }
         xhr.send()
@@ -355,7 +363,7 @@ window.onload = function(){
                 } 
                 height = response.height
                 height = JSON.stringify(height)
-                ele.appendChild(document.createTextNode("The chaininfo.height: "+height+"\n"+"currentBlockHash and previousBlockHash are hidden\n\n"))
+                ele.value += "The chaininfo.height: "+height+"\n"+"currentBlockHash and previousBlockHash are hidden\n\n"
                 
             }
         }
@@ -376,7 +384,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText
                 var ele = document.getElementById("resultArea")
-                ele.appendChild(document.createTextNode(response+"\n\n"))
+                // ele.appendChild(document.createTextNode(response+"\n\n"))
+                ele.value += response+"\n\n"
             }
         }
         xhr.send()
@@ -396,7 +405,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText
                 var ele = document.getElementById("resultArea")
-                ele.appendChild(document.createTextNode(response+"\n\n"))
+                // ele.appendChild(document.createTextNode(response+"\n\n"))
+                ele.value += response + "\n\n"
             }
         }
         xhr.send()
