@@ -37,7 +37,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"</br>"));
+                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createElement("br"));
                 tk = JSON.parse(response).token;
                 loadUser(vusername+'_'+vorgName,tk);
             }
@@ -72,7 +73,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"</br>"));
+                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createElement("br"));
             }
         }
         // call backend
@@ -97,7 +99,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"</br>"));
+                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createElement("br"));
             }
         }
         // call backend
@@ -128,7 +131,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"</br>"));
+                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createElement("br"));
             }
         }
         // call backend
@@ -158,7 +162,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"</br>"));
+                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createElement("br"));
             }
         }
         // call backend
@@ -173,7 +178,9 @@ window.onload = function(){
         var vchannelName = document.getElementById("invoke_channelName").value;
         var vchaincodeName = document.getElementById("invoke_chaincodeName").value;
         // TODO
-        var vargs = document.getElementById("invoke_args").value.split(",");
+        var vargs = document.getElementById("invoke_args").value.replace(/\{|\}/gi,"");
+        vargs = vargs.replace(/\:/gi,",").split(',');
+        alert(vargs);
         var vfcn = document.getElementById("invoke_fcn").value;
         var jsonData = JSON.stringify({
             args: vargs,
@@ -188,7 +195,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"</br>"));
+                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createElement("br"));
             }
         }
         // call backend
@@ -214,12 +222,13 @@ window.onload = function(){
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
-        
+
         xhr.onreadystatechange = function() {//Call a function when the state changes.
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"</br>"));
+                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createElement("br"));
             }
         }
         xhr.send();
@@ -233,6 +242,15 @@ window.onload = function(){
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
+
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                var response = xhr.responseText;
+                var ele = document.getElementById("resultArea");
+                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createElement("br"));
+            }
+        }
         xhr.send();
     };
     query3.onclick=function(){
@@ -244,6 +262,15 @@ window.onload = function(){
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
+
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                var response = xhr.responseText;
+                var ele = document.getElementById("resultArea");
+                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createElement("br"));
+            }
+        }
         xhr.send();
     };
     query4.onclick=function(){
@@ -255,6 +282,15 @@ window.onload = function(){
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
+
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                var response = xhr.responseText;
+                var ele = document.getElementById("resultArea");
+                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createElement("br"));
+            }
+        }
         xhr.send();
     };
     query5.onclick=function(){
@@ -266,6 +302,15 @@ window.onload = function(){
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
+
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                var response = xhr.responseText;
+                var ele = document.getElementById("resultArea");
+                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createElement("br"));
+            }
+        }
         xhr.send();
     };
     query6.onclick=function(){
@@ -277,6 +322,15 @@ window.onload = function(){
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
+
+        xhr.onreadystatechange = function() {//Call a function when the state changes.
+            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                var response = xhr.responseText;
+                var ele = document.getElementById("resultArea");
+                ele.appendChild(document.createTextNode(response));
+                ele.appendChild(document.createElement("br"));
+            }
+        }
         xhr.send();
     };
 }

@@ -93,7 +93,7 @@
     </div>
 
     <div id="div_invoke">
-        <p>3.Invoke function (move, delete, query):</p>
+        <p>3.Invoke function (move, delete, create):</p>
         <form>
             chaincodeName:
             <input type="text" id="invoke_chaincodeName" value="mycc">
@@ -102,9 +102,9 @@
             <input type="text" id="invoke_channelName" value="mychannel">
             </br>
             fcn:
-            <input type="text" id="invoke_fcn" value="move">
+            <input type="text" id="invoke_fcn" value="create">
             </br>
-            args:
+            args (eg. {a:100,b:200,c:130}):
             </br>
             <textarea id="invoke_args" value="a,b,10">a,b,10</textarea>
             </br>
@@ -123,9 +123,9 @@
             </br>
             &nbsp;channelName:
             <input type="text" id="query_channelName" value="mychannel">
-            </br>
+            <!-- </br>
             &nbsp;fcn:
-            <input type="text" id="query_fcn" value="query">
+            <input type="text" id="query_fcn" value="query"> -->
             </br>
             &nbsp;args:
             <input type="text" id="query_args" value="a">
@@ -142,7 +142,7 @@
             &nbsp;installType:
             <input type="text" id="query_type" value="installed"> ( e.g. instantiated/ installed)</input>
             </br>
-            <input id="query1" type="button" value="query by args"> needs: channelName, chaincodes, peer, args, fcn</input>
+            <input id="query1" type="button" value="query by args"> needs: channelName, chaincodes, peer, args, (fcn default)</input>
             </br>
             <input id="query2" type="button" value="query by blockId"> needs: channelName, blockId, peer</input>
             </br>

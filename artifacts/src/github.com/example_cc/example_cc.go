@@ -71,9 +71,9 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 		// Deletes an entity from its state
 		return t.move(stub, args)
 	}
-	if function == "write" {
-		// write pari
-		return t.write(stub, args)
+	if function == "create" {
+		// create pari
+		return t.create(stub, args)
 	}
 
 	logger.Errorf("Unknown action, check the first argument, must be one of 'delete', 'query', 'write', or 'move'. But got: %v", args[0])
@@ -154,18 +154,29 @@ func (t *SimpleChaincode) delete(stub shim.ChaincodeStubInterface, args []string
 	return shim.Success(nil)
 }
 
-// write - invoke function to write value
-func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+// create - invoke function to write value
+func (t *SimpleChaincode) create(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var A, value string
 	var err error
-	logger.Infof("Invoke function writing.")
+	logger.Infof("Invoke function create.")
 
-	if len(args) != 2 {
+	if len(args) < 2 {
 		return shim.Error("Incorrect number of arguments. Expecting key value pair")
 	}
-	A = args[0]
-	value = args[1]
-	err = stub.PutState(A, []byte(value))
+	for key, val := range args {
+		if key%2 == 0 {
+			A = val
+		} else {
+			value = val
+			err = stub.PutState(A, []byte(value))
+			if err != nil {
+				return shim.Error("Unable to PutState.")
+			}
+		}
+	}
+	// A = args[0]
+	// value = args[1]
+	// err = stub.PutState(A, []byte(value))
 	if err != nil {
 		return shim.Error("Unable to PutState.")
 	}
