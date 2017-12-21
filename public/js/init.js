@@ -37,8 +37,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
-                ele.appendChild(document.createElement("br"));
+                ele.appendChild(document.createTextNode(response+"\n"));
+                
                 tk = JSON.parse(response).token;
                 loadUser(vusername+'_'+vorgName,tk);
             }
@@ -73,8 +73,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
-                ele.appendChild(document.createElement("br"));
+                ele.appendChild(document.createTextNode(response+"\n"));
+                
             }
         }
         // call backend
@@ -99,8 +99,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
-                ele.appendChild(document.createElement("br"));
+                ele.appendChild(document.createTextNode(response+"\n"));
+                
             }
         }
         // call backend
@@ -131,8 +131,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
-                ele.appendChild(document.createElement("br"));
+                ele.appendChild(document.createTextNode(response+"\n"));
+                
             }
         }
         // call backend
@@ -162,8 +162,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
-                ele.appendChild(document.createElement("br"));
+                ele.appendChild(document.createTextNode(response+"\n"));
+                
             }
         }
         // call backend
@@ -195,8 +195,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
-                ele.appendChild(document.createElement("br"));
+                ele.appendChild(document.createTextNode(response+"\n"));
+                
             }
         }
         // call backend
@@ -227,8 +227,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
-                ele.appendChild(document.createElement("br"));
+                ele.appendChild(document.createTextNode(response+"\n"));
+                
             }
         }
         xhr.send();
@@ -247,8 +247,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
-                ele.appendChild(document.createElement("br"));
+                ele.appendChild(document.createTextNode(response+"\n"));
+                
             }
         }
         xhr.send();
@@ -267,8 +267,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
-                ele.appendChild(document.createElement("br"));
+                ele.appendChild(document.createTextNode(response+"\n"));
+                
             }
         }
         xhr.send();
@@ -287,8 +287,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
-                ele.appendChild(document.createElement("br"));
+                ele.appendChild(document.createTextNode(response+"\n"));
+                
             }
         }
         xhr.send();
@@ -307,8 +307,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
-                ele.appendChild(document.createElement("br"));
+                ele.appendChild(document.createTextNode(response+"\n"));
+                
             }
         }
         xhr.send();
@@ -327,8 +327,8 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response));
-                ele.appendChild(document.createElement("br"));
+                ele.appendChild(document.createTextNode(response+"\n"));
+                
             }
         }
         xhr.send();
