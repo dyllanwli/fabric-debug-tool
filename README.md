@@ -10,13 +10,14 @@
 
 + app are based no hyperledger-node-sdk/test
 + fabric-network: see ./artifacts
-+ `apt install jq` or `brew install jq`
-+ `npm install` and needs to `npm rebuild` if run script at first time
-+ config.json used to set port and admin info
++ `apt install jq` or `brew install jq` (`testAppbyCurl.sh` needs)
++ needs to `npm rebuild` if run script at first time or catch node package error on `run.sh`
++ config.json used to set port and admin info and keyValueStore( default on "/tmp/fabric-client-kvs")
++ 
 + `bash run.sh` TO START THE NETWORK
 + `./cleanMaterial.sh` use to clean the user info without restart the network.
 + `./stopNetwork.sh` use to pull down the docker network and cleanMaterial
-+ api tests via curl is `bash ./test2.sh`
++ api tests via curl is `bash ./testAppbyCurl.sh`
 + network config: see ./app/network-config.json
 
 #### Test api func:
