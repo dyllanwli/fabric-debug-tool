@@ -27,6 +27,7 @@ window.onload = function(){
     // enroll admin
     var btn1 = document.getElementById("enrollAdmin");
     btn1.onclick = function(){
+        loadUser(1213,123);
         var xhr = new XMLHttpRequest();
         var vusername = document.getElementById("username").value;
         var vorgName = document.getElementById("orgName").value;
@@ -46,26 +47,12 @@ window.onload = function(){
         // call backend
         xhr.send(form);
     }
-
-    // var token;
-    // $(document).ready(function() {
-    //     $('#div_identified :radio').change(function() {
-    //         if (this.checked == true) {
-    //             token = this.value;
-    //             alert(token);
-    //         }
-    //     });
-    // });
-
+    
     // token func
     var token;
     $(document).ready(function() {
-        $('#div_identified').delegate(
-            $('input:radio[name="token"]'),'change',function() {
-            if ($(this).children('input:radio[name="token"]').checked == true) {
-                token = this.value;
-                alert(token);
-            }
+        $(document).on('change',"input[name='token']",function(){
+            token = $(this).val();
         });
     });
     
