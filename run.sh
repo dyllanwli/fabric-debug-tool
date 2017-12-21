@@ -62,4 +62,4 @@ installNodeModules
 echo "============== Network Started. Try 'node app' to Start app. ============="
 # PORT=4000 node app
 
-# node app
+node app

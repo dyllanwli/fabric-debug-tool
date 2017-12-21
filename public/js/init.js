@@ -37,10 +37,15 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"\n"));
-                
-                tk = JSON.parse(response).token;
+                response = JSON.parse(response);
+                tk = response.token;
+                // regular the response
+                delete response.token;
+                delete response.secret;
+                ele.appendChild(document.createTextNode(response+"\n\n"));
                 loadUser(vusername+'_'+vorgName,tk);
+            } else {
+                alert('enroll Error');
             }
         }
         // call backend
@@ -73,8 +78,9 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"\n"));
-                
+                ele.appendChild(document.createTextNode(response+"\n\n"));
+            } else{
+                alert("BAD REQUEST, please check if channel already exists");
             }
         }
         // call backend
@@ -99,8 +105,10 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"\n"));
+                ele.appendChild(document.createTextNode(response+"\n\n"));
                 
+            } else {
+                alert("Promise is rejected: Error: chaincode error (status: 500, message: Cannot create ledger from genesis block, check if ID already exists");
             }
         }
         // call backend
@@ -131,8 +139,10 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"\n"));
+                ele.appendChild(document.createTextNode(response+"\n\n"));
                 
+            } else {
+                alert("Failed to send install Proposal or receive valid response. Response null or status is not 200. exiting...")
             }
         }
         // call backend
@@ -162,8 +172,10 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"\n"));
+                ele.appendChild(document.createTextNode(response+"\n\n"));
                 
+            } else {
+                alert("Failed to order the transaction. Error code: undefined");
             }
         }
         // call backend
@@ -177,7 +189,6 @@ window.onload = function(){
     btn6.onclick =function(){
         var vchannelName = document.getElementById("invoke_channelName").value;
         var vchaincodeName = document.getElementById("invoke_chaincodeName").value;
-        // TODO
         var vargs = document.getElementById("invoke_args").value.replace(/\{|\}/gi,"");
         vargs = vargs.replace(/\:/gi,",").split(',');
         var vfcn = document.getElementById("invoke_fcn").value;
@@ -194,15 +205,14 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode("The transaction ID is: "+response+"\n"));
-                
+                ele.appendChild(document.createTextNode("The transaction ID is: "+response+"\n\n"));
             }
         }
         // call backend
         xhr.send(jsonData);
     }
 
-    //query chaincode 
+    //query by args 
     var query1 = document.getElementById("query1");
     var query2 = document.getElementById("query2");
     var query3 = document.getElementById("query3");
@@ -226,18 +236,19 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"\n"));
+                ele.appendChild(document.createTextNode(response+"\n\n"));
                 
             }
         }
         xhr.send();
     };
+    // query by blockId
     query2.onclick=function(){
         var parameter = new Object();
         getQueryParameter(parameter);
         var xhr = new XMLHttpRequest();
         url = "/channels/"+parameter.vquery_channelName+"/blocks/"+parameter.vquery_blockId+"?peer="+ parameter.vquery_peer;
-        window.alert(url);
+        // window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
@@ -246,12 +257,17 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"\n"));
-                
+                response = JSON.parse(response);
+                num = response.header.number;
+                channel_header = response.data.data[0].payload.header.channel_header;
+                delete channel_header.extension
+                ele.appendChild(document.createTextNode("The Block.header.number: "+ num+"\n"+"The channel_header: "+channel_header+"\n\n"));
             }
         }
         xhr.send();
     };
+
+    // qeury by transaction id
     query3.onclick=function(){
         var parameter = new Object();
         getQueryParameter(parameter);
@@ -261,17 +277,21 @@ window.onload = function(){
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
-
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
+        xhr.onreadystatechange = function() {
+            //Call a function when the state changes.
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"\n"));
-                
+                response = JSON.parse(response);
+                channel_header = response.transactionEnvelope.payload.header.channel_header;
+                delete channel_header.extension
+                ele.appendChild(document.createTextNode("The channel_header: "+channel_header+"\n\n"));
             }
         }
         xhr.send();
     };
+    
+    // query chaininfo
     query4.onclick=function(){
         var parameter = new Object();
         getQueryParameter(parameter);
@@ -286,18 +306,21 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"\n"));
+                response = JSON.parse(response);
+                height = response.height
+                ele.appendChild(document.createTextNode("The chaininfo.height: "+height+"\n"+"currentBlockHash and previousBlockHash are hidden\n\n"));
                 
             }
         }
         xhr.send();
     };
+
+    // query installType
     query5.onclick=function(){
         var parameter = new Object();
         getQueryParameter(parameter);
         var xhr = new XMLHttpRequest();
         url = "/chaincodes?peer="+parameter.vquery_peer+"&type="+parameter.vquery_type;
-        // window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
@@ -306,18 +329,19 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"\n"));
-                
+                ele.appendChild(document.createTextNode(response+"\n\n"));
             }
         }
+
         xhr.send();
     };
+
+    // query Channel
     query6.onclick=function(){
         var parameter = new Object();
         getQueryParameter(parameter);
         var xhr = new XMLHttpRequest();
         url = "channels?peer="+parameter.vquery_peer;
-        // window.alert(url);
         xhr.open("GET",url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('authorization', ' Bearer '+ token);
@@ -326,8 +350,7 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                ele.appendChild(document.createTextNode(response+"\n"));
-                
+                ele.appendChild(document.createTextNode(response+"\n\n"));
             }
         }
         xhr.send();
