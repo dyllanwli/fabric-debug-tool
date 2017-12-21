@@ -256,13 +256,14 @@ window.onload = function(){
                     alert("Query failure: no response, please check parameter and block status.");
                     return
                 }
-                
                 num = response.header.number;
                 channel_header = response.data.data[0].payload.header.channel_header;
+                writeData = response.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1].rwset
                 delete channel_header.extension
                 num = JSON.stringify(num);
-                channel_header = JSON.stringify(num);
-                ele.appendChild(document.createTextNode("The Block.header.number: "+ num+"\n"+"The channel_header: "+channel_header+"\n\n"));
+                channel_header = JSON.stringify(channel_header);
+                writeData = JSON.stringify(writeData);
+                ele.appendChild(document.createTextNode("The Block.header.number: "+ num+"\nThe channel_header: "+channel_header+"\nData: "+writeData+"\n\n"));
             }
         }
         xhr.send();
@@ -292,7 +293,8 @@ window.onload = function(){
                 channel_header = response.transactionEnvelope.payload.header.channel_header;
                 delete channel_header.extension
                 channel_header = JSON.stringify(channel_header);
-                ele.appendChild(document.createTextNode("The channel_header: "+channel_header+"\n\n"));
+                transactioninfo = response.transactionEnvelope.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1];
+                ele.appendChild(document.createTextNode("The channel_header: "+channel_header+"\n"+"The transaction info: "+transactioninfo+"\n\n"));
             }
         }
         xhr.send();
