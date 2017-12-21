@@ -37,7 +37,12 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                response = JSON.parse(response);
+                try{
+                    response = JSON.parse(response);
+                } catch(e){
+                    alert("enroll failure: no response");
+                    return
+                }
                 tk = response.token;
                 // regular the response
                 delete response.token;
@@ -135,7 +140,6 @@ window.onload = function(){
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
                 ele.appendChild(document.createTextNode(response+"\n\n"));
-                
             }
         }
         // call backend
@@ -246,7 +250,13 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                response = JSON.parse(response);
+                try {
+                    response = JSON.parse(response);
+                } catch(e){
+                    alert("Query failure: no response, please check parameter and block status.");
+                    return
+                }
+                
                 num = response.header.number;
                 channel_header = response.data.data[0].payload.header.channel_header;
                 delete channel_header.extension
@@ -273,7 +283,12 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                response = JSON.parse(response);
+                try{
+                    response = JSON.parse(response);
+                } catch(e){
+                    alert("Query failure: no response, please check parameter and block status.");
+                    return
+                }
                 channel_header = response.transactionEnvelope.payload.header.channel_header;
                 delete channel_header.extension
                 channel_header = JSON.stringify(channel_header);
@@ -298,7 +313,11 @@ window.onload = function(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var response = xhr.responseText;
                 var ele = document.getElementById("resultArea");
-                response = JSON.parse(response);
+                try{
+                    response = JSON.parse(response);
+                }catch(e){
+                    alert("Query failure: no response, please check parameter");
+                } 
                 height = response.height
                 height = JSON.stringify(height);
                 ele.appendChild(document.createTextNode("The chaininfo.height: "+height+"\n"+"currentBlockHash and previousBlockHash are hidden\n\n"));
@@ -325,7 +344,6 @@ window.onload = function(){
                 ele.appendChild(document.createTextNode(response+"\n\n"));
             }
         }
-
         xhr.send();
     };
 
