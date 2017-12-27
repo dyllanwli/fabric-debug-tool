@@ -117,7 +117,12 @@ window.onload = function(){
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
                     // ele.appendChild(document.createTextNode(response+"\n\n"))
+                    if(response == "{}"){
+                        alert("Check if channel are existing")
+                        return
+                    }
                     ele.value += response+"\n\n"
+                    //loadchannel
                     loadChannel(vchannelName)
                 } else if (xhr.status == 401){
                     alert("Response: 401, check if you have selected the user.")
@@ -152,9 +157,8 @@ window.onload = function(){
                     ele.value += response+"\n\n"
                 } else if (xhr.status == 401){
                     alert("Response: 401, check if you have selected the user.")
-                }
+                } 
             }
-            
         }
         // call backend
         xhr.send(jsonData)
@@ -255,8 +259,8 @@ window.onload = function(){
                 if(xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
-                    if (response.includes("Failed" == true)){
-                        ele.value += "Invoke Failed:"
+                    if (response.includes("Failed") == true){
+                        ele.value += "Invoke Failed:\n" + response + "\n\n"
                     } else{
                         ele.value += "Invoke Successful. The transaction ID is:\n"+response+"\n\n"
                     }
