@@ -20,12 +20,26 @@ window.onload = function(){
         element1.setAttribute('type','radio')
         element1.setAttribute('name','token')
         element1.setAttribute('value',resToken)
-        document.getElementById('div_identified').appendChild(element1)
+        document.getElementById('div_select_token').appendChild(element1)
         // label
         var element2 = document.createElement("label")
         element2.setAttribute('for','token')
         element2.appendChild(document.createTextNode(name))
-        document.getElementById('div_identified').appendChild(element2)
+        document.getElementById('div_select_token').appendChild(element2)
+    }
+
+    // load channel
+    function loadChannel(name){
+        var element1 = document.createElement("input")
+        element1.setAttribute('type','radio')
+        element1.setAttribute('name','channel')
+        element1.setAttribute('value',name)
+        document.getElementById('div_channels').appendChild(element1)
+        // label
+        var element2 = document.createElement("label")
+        element2.setAttribute('for','channel')
+        element2.appendChild(document.createTextNode(name))
+        document.getElementById('div_channels').appendChild(element2)
     }
 
     // enroll admin
@@ -39,7 +53,7 @@ window.onload = function(){
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
         // callback function
         xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+            if(xhr.status == 200) {
                 var response = xhr.responseText
                 var ele = document.getElementById("resultArea")
                 try{
@@ -69,12 +83,23 @@ window.onload = function(){
             token = $(this).val()
         })
     })
+
+    // channel func
+    $(document).ready(function() {
+        $(document).on('change',"input[name='channel']",function(){
+            channelName = $(this).val()
+        })
+    })
     
     // create channels
     var xhr = new XMLHttpRequest()
     var btn2 = document.getElementById("createChannel")
     btn2.onclick = function(){
         var vchannelName = document.getElementById("channelName").value
+        if (vchannelName == channelName){
+            alert("Channel exits, no need to create channel")
+            return
+        }
         var vchannelConfigPath = document.getElementById("channelConfigPath").value
         var jsonData = JSON.stringify({
             channelName: vchannelName,
@@ -85,13 +110,16 @@ window.onload = function(){
         xhr.setRequestHeader('authorization', ' Bearer '+ token)
         // callback function
         xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                var response = xhr.responseText
-                var ele = document.getElementById("resultArea")
-                // ele.appendChild(document.createTextNode(response+"\n\n"))
-                ele.value += response+"\n\n"
-            } else if (xhr.status == 401){
-                alert("Response: 401, check if you have selected the user.")
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if( xhr.status == 200) {
+                    var response = xhr.responseText
+                    var ele = document.getElementById("resultArea")
+                    // ele.appendChild(document.createTextNode(response+"\n\n"))
+                    ele.value += response+"\n\n"
+                    loadChannel(vchannelName)
+                } else if (xhr.status == 401){
+                    alert("Response: 401, check if you have selected the user.")
+                }
             }
         }
         // call backend
@@ -102,7 +130,7 @@ window.onload = function(){
     var xhr = new XMLHttpRequest()
     var btn3 = document.getElementById("joinChannel")
     btn3.onclick = function(){
-        var vchannelName = document.getElementById("join_channelName").value
+        var vchaincodeName = channelName
         var vpeers = document.getElementById("join_peers").value.split(",")
         var jsonData = JSON.stringify({
             peers: vpeers
@@ -112,15 +140,19 @@ window.onload = function(){
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer '+ token)
         // callback function
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                var response = xhr.responseText
-                var ele = document.getElementById("resultArea")
-                // ele.appendChild(document.createTextNode(response+"\n\n"))
-                ele.value += response+"\n\n"
-            } else if (xhr.status == 401){
-                alert("Response: 401, check if you have selected the user.")
+        xhr.onreadystatechange = function() {
+            //Call a function when the state changes.
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200) {
+                    var response = xhr.responseText
+                    var ele = document.getElementById("resultArea")
+                    // ele.appendChild(document.createTextNode(response+"\n\n"))
+                    ele.value += response+"\n\n"
+                } else if (xhr.status == 401){
+                    alert("Response: 401, check if you have selected the user.")
+                }
             }
+            
         }
         // call backend
         xhr.send(jsonData)
@@ -147,13 +179,15 @@ window.onload = function(){
         xhr.setRequestHeader('authorization', ' Bearer '+ token)
         // callback function
         xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                var response = xhr.responseText
-                var ele = document.getElementById("resultArea")
-                // ele.appendChild(document.createTextNode(response+"\n\n"))
-                ele.value += response+"\n\n"
-            } else if (xhr.status == 401){
-                alert("Response: 401, check if you have selected the user.")
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200) {
+                    var response = xhr.responseText
+                    var ele = document.getElementById("resultArea")
+                    // ele.appendChild(document.createTextNode(response+"\n\n"))
+                    ele.value += response+"\n\n"
+                } else if (xhr.status == 401){
+                    alert("Response: 401, check if you have selected the user.")
+                }
             }
         }
         // call backend
@@ -165,7 +199,7 @@ window.onload = function(){
     var btn5 = document.getElementById("instantiateChaincode")
     btn5.onclick = function(){
         var vargs = document.getElementById("instan_args").value.split(",")
-        var vchannelName = document.getElementById("instan_channelName").value
+        var vchannelName = channelName
         var vchaincodeName = document.getElementById("instan_chaincodeName").value
         var vchaincodeVersion = document.getElementById("instan_chaincodeVersion").value
         // var vfcn = document.getElementById("instan").values
@@ -180,13 +214,15 @@ window.onload = function(){
         xhr.setRequestHeader('authorization', ' Bearer '+ token)
         // callback function
         xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                var response = xhr.responseText
-                var ele = document.getElementById("resultArea")
-                // ele.appendChild(document.createTextNode(response+"\n\n"))
-                ele.value += response+"\n\n"
-            } else if (xhr.status == 401){
-                alert("Response: 401, check if you have selected the user.")
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200) {
+                    var response = xhr.responseText
+                    var ele = document.getElementById("resultArea")
+                    // ele.appendChild(document.createTextNode(response+"\n\n"))
+                    ele.value += response+"\n\n"
+                } else if (xhr.status == 401){
+                    alert("Response: 401, check if you have selected the user.")
+                }
             }
         }
         // call backend
@@ -198,7 +234,7 @@ window.onload = function(){
     var xhr = new XMLHttpRequest()
     var btn6 = document.getElementById("invokeTransaction")
     btn6.onclick =function(){
-        var vchannelName = document.getElementById("invoke_channelName").value
+        var vchannelName = channelName
         var vchaincodeName = document.getElementById("invoke_chaincodeName").value
         var vargs = document.getElementById("invoke_args").value.replace(/\{|\}/gi,"")
         vargs = vargs.replace(/\:/gi,",").split(',')
@@ -213,13 +249,16 @@ window.onload = function(){
         xhr.setRequestHeader('authorization', ' Bearer '+ token)
         // callback function
         xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                var response = xhr.responseText
-                var ele = document.getElementById("resultArea")
-                ele.value += "Invoke Successful. The transaction ID is:\n"+response+"\n\n"
-            } else if (xhr.status == 401){
-                alert("Response: 401, check if you have selected the user.")
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200) {
+                    var response = xhr.responseText
+                    var ele = document.getElementById("resultArea")
+                    ele.value += "Invoke Successful. The transaction ID is:\n"+response+"\n\n"
+                } else if (xhr.status == 401){
+                    alert("Response: 401, check if you have selected the user.")
+                }
             }
+            
         }
         // call backend
         xhr.send(jsonData)
@@ -246,14 +285,17 @@ window.onload = function(){
         xhr.setRequestHeader('authorization', ' Bearer '+ token)
 
         xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                var response = xhr.responseText
-                var ele = document.getElementById("resultArea")
-                // ele.appendChild(document.createTextNode(response+"\n\n"))
-                ele.value += response+"\n\n"
-            } else if (xhr.status == 401){
-                alert("Response: 401, check if you have selected the user.")
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200) {
+                    var response = xhr.responseText
+                    var ele = document.getElementById("resultArea")
+                    // ele.appendChild(document.createTextNode(response+"\n\n"))
+                    ele.value += response+"\n\n"
+                } else if (xhr.status == 401){
+                    alert("Response: 401, check if you have selected the user.")
+                }
             }
+            
         }
         xhr.send()
     }
@@ -269,35 +311,38 @@ window.onload = function(){
         xhr.setRequestHeader('authorization', ' Bearer '+ token)
 
         xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                var response = xhr.responseText
-                var ele = document.getElementById("resultArea")
-                try {
-                    response = JSON.parse(response)
-                } catch(e){
-                    alert("Query failure: no response, please check parameter and block status.")
-                    return
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200) {
+                    var response = xhr.responseText
+                    var ele = document.getElementById("resultArea")
+                    try {
+                        response = JSON.parse(response)
+                    } catch(e){
+                        alert("Query failure: no response, please check parameter and block status.")
+                        return
+                    }
+                    num = response.header.number
+                    delete num.unsigned
+                    num = JSON.stringify(num)
+                    writeData = response.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
+                    namespace = JSON.stringify(writeData.namespace)
+                    writes = JSON.stringify(writeData.rwset.writes)
+    
+                    channel_header = response.data.data[0].payload.header.channel_header
+                    time = JSON.stringify(channel_header.timestamp)
+                    type = JSON.stringify(channel_header.type)
+                    tx_id = JSON.stringify(channel_header.tx_id)
+                    channnel_id = JSON.stringify(channel_header.channnel_id)
+                    version = JSON.stringify(channel_header.version)
+    
+                    w = "The Blockid query\nHeader: "+ num+"\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n\n"
+                    // ele.appendChild(document.createTextNode(w))
+                    ele.value += w+"\n\n"
+                } else if (xhr.status == 401){
+                    alert("Response: 401, check if you have selected the user.")
                 }
-                num = response.header.number
-                delete num.unsigned
-                num = JSON.stringify(num)
-                writeData = response.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
-                namespace = JSON.stringify(writeData.namespace)
-                writes = JSON.stringify(writeData.rwset.writes)
-
-                channel_header = response.data.data[0].payload.header.channel_header
-                time = JSON.stringify(channel_header.timestamp)
-                type = JSON.stringify(channel_header.type)
-                tx_id = JSON.stringify(channel_header.tx_id)
-                channnel_id = JSON.stringify(channel_header.channnel_id)
-                version = JSON.stringify(channel_header.version)
-
-                w = "The Blockid query\nHeader: "+ num+"\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n\n"
-                // ele.appendChild(document.createTextNode(w))
-                ele.value += w+"\n\n"
-            } else if (xhr.status == 401){
-                alert("Response: 401, check if you have selected the user.")
             }
+            
         }
         xhr.send()
     }
@@ -313,44 +358,47 @@ window.onload = function(){
         xhr.setRequestHeader('authorization', ' Bearer '+ token)
         xhr.onreadystatechange = function() {
             //Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                var response = xhr.responseText
-                var ele = document.getElementById("resultArea")
-                try{
-                    response = JSON.parse(response)
-                } catch(e){
-                    alert("Query failure: no response, please check parameter and block status.")
-                    return
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200) {
+                    var response = xhr.responseText
+                    var ele = document.getElementById("resultArea")
+                    try{
+                        response = JSON.parse(response)
+                    } catch(e){
+                        alert("Query failure: no response, please check parameter and block status.")
+                        return
+                    }
+                    writeData = response.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
+                    namespace = JSON.stringify(writeData.namespace)
+                    writes = JSON.stringify(writeData.rwset.writes)
+    
+                    channel_header = response.data.data[0].payload.header.channel_header
+                    time = JSON.stringify(channel_header.timestamp)
+                    type = JSON.stringify(channel_header.type)
+                    tx_id = JSON.stringify(channel_header.tx_id)
+                    channnel_id = JSON.stringify(channel_header.channnel_id)
+    
+                    w = "The Blockid query\nHeader: "+ num+"\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\n\n"
+                    ele.appendChild(document.createTextNode(w))
+                    //
+                    channel_header = response.transactionEnvelope.payload.header.channel_header
+                    time = JSON.stringify(channel_header.timestamp)
+                    type = JSON.stringify(channel_header.type)
+                    tx_id = JSON.stringify(channel_header.tx_id)
+                    channnel_id = JSON.stringify(channel_header.channnel_id)
+                    version = JSON.stringify(channel_header.version)
+                    
+                    writeData = response.transactionEnvelope.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
+                    namespace = JSON.stringify(writeData.namespace)
+                    writes = JSON.stringify(writeData.rwset.writes)
+                    w = "The TransactionID query\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n\n"
+                    // ele.appendChild(document.createTextNode(w))
+                    ele.value += w+"\n\n"
+                } else if (xhr.status == 401){
+                    alert("Response: 401, check if you have selected the user.")
                 }
-                writeData = response.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
-                namespace = JSON.stringify(writeData.namespace)
-                writes = JSON.stringify(writeData.rwset.writes)
-
-                channel_header = response.data.data[0].payload.header.channel_header
-                time = JSON.stringify(channel_header.timestamp)
-                type = JSON.stringify(channel_header.type)
-                tx_id = JSON.stringify(channel_header.tx_id)
-                channnel_id = JSON.stringify(channel_header.channnel_id)
-
-                w = "The Blockid query\nHeader: "+ num+"\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\n\n"
-                ele.appendChild(document.createTextNode(w))
-                //
-                channel_header = response.transactionEnvelope.payload.header.channel_header
-                time = JSON.stringify(channel_header.timestamp)
-                type = JSON.stringify(channel_header.type)
-                tx_id = JSON.stringify(channel_header.tx_id)
-                channnel_id = JSON.stringify(channel_header.channnel_id)
-                version = JSON.stringify(channel_header.version)
-                
-                writeData = response.transactionEnvelope.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
-                namespace = JSON.stringify(writeData.namespace)
-                writes = JSON.stringify(writeData.rwset.writes)
-                w = "The TransactionID query\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n\n"
-                // ele.appendChild(document.createTextNode(w))
-                ele.value += w+"\n\n"
-            } else if (xhr.status == 401){
-                alert("Response: 401, check if you have selected the user.")
             }
+            
         }
         xhr.send()
     }
@@ -368,21 +416,24 @@ window.onload = function(){
 
         xhr.onreadystatechange = function() {
             //Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                var response = xhr.responseText
-                var ele = document.getElementById("resultArea")
-                try{
-                    response = JSON.parse(response)
-                }catch(e){
-                    alert("Query failure: no response, please check parameter")
-                } 
-                height = response.height
-                height = JSON.stringify(height)
-                ele.value += "The chaininfo.height: "+height+"\n"+"currentBlockHash and previousBlockHash are hidden\n\n"
-                
-            } else if (xhr.status == 401){
-                alert("Response: 401, check if you have selected the user.")
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200) {
+                    var response = xhr.responseText
+                    var ele = document.getElementById("resultArea")
+                    try{
+                        response = JSON.parse(response)
+                    }catch(e){
+                        alert("Query failure: no response, please check parameter")
+                    } 
+                    height = response.height
+                    height = JSON.stringify(height)
+                    ele.value += "The chaininfo.height: "+height+"\n"+"currentBlockHash and previousBlockHash are hidden\n\n"
+                    
+                } else if (xhr.status == 401){
+                    alert("Response: 401, check if you have selected the user.")
+                }
             }
+            
         }
         xhr.send()
     }
@@ -398,12 +449,15 @@ window.onload = function(){
         xhr.setRequestHeader('authorization', ' Bearer '+ token)
 
         xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                var response = xhr.responseText
-                var ele = document.getElementById("resultArea")
-                // ele.appendChild(document.createTextNode(response+"\n\n"))
-                ele.value += response+"\n\n"
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200) {
+                    var response = xhr.responseText
+                    var ele = document.getElementById("resultArea")
+                    // ele.appendChild(document.createTextNode(response+"\n\n"))
+                    ele.value += response+"\n\n"
+                }
             }
+            
         }
         xhr.send()
     }
@@ -419,14 +473,17 @@ window.onload = function(){
         xhr.setRequestHeader('authorization', ' Bearer '+ token)
 
         xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-                var response = xhr.responseText
-                var ele = document.getElementById("resultArea")
-                // ele.appendChild(document.createTextNode(response+"\n\n"))
-                ele.value += response + "\n\n"
-            } else if (xhr.status == 401){
-                alert("Response: 401, check if you have selected the user.")
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200) {
+                    var response = xhr.responseText
+                    var ele = document.getElementById("resultArea")
+                    // ele.appendChild(document.createTextNode(response+"\n\n"))
+                    ele.value += response + "\n\n"
+                } else if (xhr.status == 401){
+                    alert("Response: 401, check if you have selected the user.")
+                }
             }
+            
         }
         xhr.send()
     }

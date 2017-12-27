@@ -1,8 +1,7 @@
 ## README
 
 ### TODO：
-+ 12.21 set clear Log textare
-+ 12.21 create Channel error rise
+
 + block information adaptation
 
 

@@ -158,7 +158,7 @@ app.post('/users', function(req, res) {
 app.post('/channels', function(req, res) {
 
 	// get data
-	logger.info('====================CCREATE CHANNEL====================');
+	logger.info('====================CREATE CHANNEL====================');
 	logger.debug('End point : /channels');
 	var channelName = req.body.channelName;
 	var channelConfigPath = req.body.channelConfigPath;
@@ -177,6 +177,8 @@ app.post('/channels', function(req, res) {
 	channels.createChannel(channelName, channelConfigPath, req.username, req.orgname)
 	.then(function(message) {
 		res.send(message);
+	},(err) =>{
+		res.send(err)
 	});
 });
 

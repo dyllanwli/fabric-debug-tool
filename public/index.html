@@ -13,7 +13,7 @@
 
 <body>
     <div id="result">
-        <input type="button" id = "clear" value = "Clear Result">
+        <input type="button" id="clear" value="Clear Result">
         <textarea readonly id="resultArea"></textarea>
     </div>
     <div id="div_token">
@@ -27,10 +27,16 @@
         </form>
     </div>
     <div id="div_identified">
-        &nbsp;Select enrolled user:
-        <input type="radio" name="token" value="no token1">
-        <label for="token">no user</label>
+        <div id="div_select_token">
+            &nbsp;Select enrolled user:
+            <input type="radio" name="token" value="no token1">
+            <label for="token">no user</label>
+        </div>
+        <div id="div_channels">
+            &nbsp;Select existing channel:
+        </div>
     </div>
+
     <div id="div_createchannel">
         <form>
             channelName:
@@ -44,9 +50,9 @@
 
     <div id="div_join">
         <form>
-            &nbsp;channelName:
+            <!-- &nbsp;channelName:
             <input id="join_channelName" type="text" value="mychannel">
-            </br>
+            </br> -->
             &nbsp;peers:
             <input type="text" id="join_peers" value="peer1,peer2">
             <input id="joinChannel" type="button" value="join Channel">
@@ -81,9 +87,9 @@
             &nbsp;chaincodeVersion:
             <input type="text" id="instan_chaincodeVersion" value="v0">
             </br>
-            &nbsp;channelName:
+            <!-- &nbsp;channelName:
             <input type="text" id="instan_channelName" value="mychannel">
-            </br>
+            </br> -->
             &nbsp;arg:
             <input type="text" id="instan_args" name="instan_args" value="a,100,b,200">
             </br>
@@ -97,9 +103,9 @@
             chaincodeName:
             <input type="text" id="invoke_chaincodeName" value="mycc">
             </br>
-            channelName:
+            <!-- channelName:
             <input type="text" id="invoke_channelName" value="mychannel">
-            </br>
+            </br> -->
             fcn:
             <input type="text" id="invoke_fcn" value="create">
             </br>
