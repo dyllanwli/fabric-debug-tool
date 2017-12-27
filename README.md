@@ -19,6 +19,8 @@
 + `./stopNetwork.sh` use to pull down the docker network and cleanMaterial
 + api tests via curl is `bash ./testAppbyCurl.sh`
 + network config: see ./app/network-config.json
++ use `docker exec -it cli bash` to enter the peer0 org1
+
 
 #### Test api func:
 

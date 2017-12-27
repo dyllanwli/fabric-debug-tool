@@ -1,4 +1,5 @@
 version: '2'
+  
 services:
   peer-base:
     image: hyperledger/fabric-peer
