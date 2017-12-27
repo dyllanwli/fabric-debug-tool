@@ -133,8 +133,8 @@ var instantiateChaincode = function(channelName, chaincodeName, chaincodeVersion
 			logger.info('Successfully sent transaction to the orderer.');
 			return 'Chaincode Instantiation is SUCCESS';
 		} else {
-			logger.error('Failed to order the transaction. Error code: ' + response.status);
-			return 'Failed to order the transaction. Error code: ' + response.status;
+			logger.error('Failed to order the transaction. Error code: ' + response);
+			return 'Failed to order the transaction. Error code: ' + response;
 		}
 	}, (err) => {
 		logger.error('Failed to send instantiate due to error: ' + err.stack ? err

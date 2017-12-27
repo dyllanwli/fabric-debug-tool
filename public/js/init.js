@@ -132,7 +132,7 @@ window.onload = function(){
     var xhr = new XMLHttpRequest()
     var btn3 = document.getElementById("joinChannel")
     btn3.onclick = function(){
-        var vchaincodeName = channelName
+        var vchannelName = channelName
         var vpeers = document.getElementById("join_peers").value.split(",")
         var jsonData = JSON.stringify({
             peers: vpeers
@@ -236,7 +236,7 @@ window.onload = function(){
     var xhr = new XMLHttpRequest()
     var btn6 = document.getElementById("invokeTransaction")
     btn6.onclick =function(){
-        var vchannelName = channelName
+        var vchannelName = document.getElementById("invoke_channelName").value
         var vchaincodeName = document.getElementById("invoke_chaincodeName").value
         var vargs = document.getElementById("invoke_args").value.replace(/\{|\}/gi,"")
         vargs = vargs.replace(/\:/gi,",").split(',')
@@ -255,7 +255,11 @@ window.onload = function(){
                 if(xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
-                    ele.value += "Invoke Successful. The transaction ID is:\n"+response+"\n\n"
+                    if (response.includes("Failed" == true)){
+                        ele.value += "Invoke Failed:"
+                    } else{
+                        ele.value += "Invoke Successful. The transaction ID is:\n"+response+"\n\n"
+                    }
                 } else if (xhr.status == 401){
                     alert("Response: 401, check if you have selected the user.")
                 }
