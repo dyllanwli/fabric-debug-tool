@@ -53,23 +53,25 @@ window.onload = function(){
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
         // callback function
         xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.status == 200) {
-                var response = xhr.responseText
-                var ele = document.getElementById("resultArea")
-                try{
-                    response = JSON.parse(response)
-                } catch(e){
-                    alert("enroll failure: no response")
-                    return
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                if(xhr.status == 200) {
+                    var response = xhr.responseText
+                    var ele = document.getElementById("resultArea")
+                    try{
+                        response = JSON.parse(response)
+                    } catch(e){
+                        alert("enroll failure: no response")
+                        return
+                    }
+                    tk = response.token
+                    // regular the response
+                    delete response.token
+                    delete response.secret
+                    response = JSON.stringify(response)
+                    // ele.appendChild(document.createTextNode(response+"\n\n"))
+                    ele.value += response+"\n\n"
+                    loadUser(vusername+'_'+vorgName,tk)
                 }
-                tk = response.token
-                // regular the response
-                delete response.token
-                delete response.secret
-                response = JSON.stringify(response)
-                // ele.appendChild(document.createTextNode(response+"\n\n"))
-                ele.value += response+"\n\n"
-                loadUser(vusername+'_'+vorgName,tk)
             }
         }
         // call backend
