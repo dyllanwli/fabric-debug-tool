@@ -37,7 +37,7 @@ var instantiateChaincode = function(channelName, chaincodeName, chaincodeVersion
 
 		if (functionName)
 			request.fcn = functionName;
-		logger.debug("This is ",JSON.stringify(request));
+		logger.debug("Chaincode request: ",JSON.stringify(request));
 
 		return channel.sendInstantiateProposal(request);
 	}, (err) => {

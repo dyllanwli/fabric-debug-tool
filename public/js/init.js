@@ -90,6 +90,8 @@ window.onload = function(){
                 var ele = document.getElementById("resultArea")
                 // ele.appendChild(document.createTextNode(response+"\n\n"))
                 ele.value += response+"\n\n"
+            } else if (xhr.status == 401){
+                alert("Response: 401, check if you have selected the user.")
             }
         }
         // call backend
@@ -116,7 +118,8 @@ window.onload = function(){
                 var ele = document.getElementById("resultArea")
                 // ele.appendChild(document.createTextNode(response+"\n\n"))
                 ele.value += response+"\n\n"
-                
+            } else if (xhr.status == 401){
+                alert("Response: 401, check if you have selected the user.")
             }
         }
         // call backend
@@ -149,6 +152,8 @@ window.onload = function(){
                 var ele = document.getElementById("resultArea")
                 // ele.appendChild(document.createTextNode(response+"\n\n"))
                 ele.value += response+"\n\n"
+            } else if (xhr.status == 401){
+                alert("Response: 401, check if you have selected the user.")
             }
         }
         // call backend
@@ -180,6 +185,8 @@ window.onload = function(){
                 var ele = document.getElementById("resultArea")
                 // ele.appendChild(document.createTextNode(response+"\n\n"))
                 ele.value += response+"\n\n"
+            } else if (xhr.status == 401){
+                alert("Response: 401, check if you have selected the user.")
             }
         }
         // call backend
@@ -210,6 +217,8 @@ window.onload = function(){
                 var response = xhr.responseText
                 var ele = document.getElementById("resultArea")
                 ele.value += "Invoke Successful. The transaction ID is:\n"+response+"\n\n"
+            } else if (xhr.status == 401){
+                alert("Response: 401, check if you have selected the user.")
             }
         }
         // call backend
@@ -242,6 +251,8 @@ window.onload = function(){
                 var ele = document.getElementById("resultArea")
                 // ele.appendChild(document.createTextNode(response+"\n\n"))
                 ele.value += response+"\n\n"
+            } else if (xhr.status == 401){
+                alert("Response: 401, check if you have selected the user.")
             }
         }
         xhr.send()
@@ -284,6 +295,8 @@ window.onload = function(){
                 w = "The Blockid query\nHeader: "+ num+"\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n\n"
                 // ele.appendChild(document.createTextNode(w))
                 ele.value += w+"\n\n"
+            } else if (xhr.status == 401){
+                alert("Response: 401, check if you have selected the user.")
             }
         }
         xhr.send()
@@ -335,6 +348,8 @@ window.onload = function(){
                 w = "The TransactionID query\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n\n"
                 // ele.appendChild(document.createTextNode(w))
                 ele.value += w+"\n\n"
+            } else if (xhr.status == 401){
+                alert("Response: 401, check if you have selected the user.")
             }
         }
         xhr.send()
@@ -365,6 +380,8 @@ window.onload = function(){
                 height = JSON.stringify(height)
                 ele.value += "The chaininfo.height: "+height+"\n"+"currentBlockHash and previousBlockHash are hidden\n\n"
                 
+            } else if (xhr.status == 401){
+                alert("Response: 401, check if you have selected the user.")
             }
         }
         xhr.send()
@@ -407,6 +424,8 @@ window.onload = function(){
                 var ele = document.getElementById("resultArea")
                 // ele.appendChild(document.createTextNode(response+"\n\n"))
                 ele.value += response + "\n\n"
+            } else if (xhr.status == 401){
+                alert("Response: 401, check if you have selected the user.")
             }
         }
         xhr.send()
