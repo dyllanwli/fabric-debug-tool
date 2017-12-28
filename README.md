@@ -3,8 +3,8 @@ Hyperledger debug tool; fabric node sdk; e2e-test
 
 ### TODO：
 
-+ all peer join
 + install particular chaincode
++ enable mysql database, see branch "enable_database"
 
 
 #### Requirements:
