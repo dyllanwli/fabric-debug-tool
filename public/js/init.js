@@ -4,7 +4,6 @@ window.onload = function () {
     // clear log
     clear()
 
-
     // result area
     function loadResult(xhr) {
         xhr.onload = (response) => {
@@ -68,6 +67,10 @@ window.onload = function () {
     var xhr = new XMLHttpRequest()
     var btn2 = document.getElementById("createChannel")
     btn2.onclick = function () {
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         var vchannelName = document.getElementById("channelName").value
         if (vchannelName == channelName) {
             alert("Channel exits, no need to create channel")
@@ -100,10 +103,6 @@ window.onload = function () {
             }
         }
         // call backend
-        if(token == null){
-            alert("token is undefined")
-            return
-        }
         xhr.send(jsonData)
     }
 
@@ -111,6 +110,10 @@ window.onload = function () {
     var xhr = new XMLHttpRequest()
     var btn3 = document.getElementById("joinChannel")
     btn3.onclick = function () {
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         var vchannelName = channelName
         var vpeers = document.getElementById("join_peers").value.split(",")
         var temp = document.getElementsByName("peers")
@@ -145,10 +148,6 @@ window.onload = function () {
                     alert("Response: 401, check if you have selected the user.")
                 }
             }
-        }
-        if(token == null){
-            alert("token is undefined")
-            return
         }
         // call backend
         xhr.send(jsonData)
