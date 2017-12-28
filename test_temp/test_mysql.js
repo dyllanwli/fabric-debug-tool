@@ -7,17 +7,23 @@ var connection = mysql.createConnection({
     database: 'test'
 })
 
+err = connection.connect();
+
 // check connection
-connection.connect(function (err) {
+var check = function(err) {
     if (err) throw err;
     console.log("Connected!");
-});
+}
 
-// clean table
-connection.connect(function (err) {
-    if (err) throw err;
+
+// clean table 
+var clean = function(err) {
+    if (err) {
+        console.log("CLEAN ERROR: ", err.message)
+        return
+    }
     var sql = "DROP TABLE users";
-    con.query(sql, function (err, result) {
+    connection.query(sql, function (err, result) {
         if (err) {
             console.log('[DROP ERROR] - ', err.message)
             console.log('[WARNNING] - Check if the table exiting.')
@@ -25,24 +31,22 @@ connection.connect(function (err) {
         };
         console.log("Table deleted");
     });
-})
+}
 
 // create table
-connection.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected!");
+var create = function(err) {
     var sql = "CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), organization VARCHAR(255),token VARCHAR(255))";
-    con.query(sql, function (err, result) {
+    connection.query(sql, function (err, result) {
         if (err) {
             console.log('[DROP ERROR] - ', err.message)
             return
         };
         console.log("Table created");
     });
-});
+}
 
 // sql
-var addsql = 'INSERT INTO users(Id, name,organization,token) VALUES(0,?,?,?)'
+var addsql = 'INSERT INTO users (Id, name,organization,token) VALUES(0,?,?,?)'
 var addparameter = ['diya', 'org1', '1234123']
 connection.query(addsql, addparameter, function (err, result) {
     if (err) {
@@ -56,7 +60,7 @@ connection.query(addsql, addparameter, function (err, result) {
     console.log('-----------------------------------------------------------------\n\n');
 });
 
-var query = 'SELECT * FROM user'
+var query = 'SELECT * FROM users'
 connection.query(query, function (err, result) {
     if (err) {
         console.log('[SELECT ERROR] - ', err.message);
@@ -66,5 +70,9 @@ connection.query(query, function (err, result) {
     console.log(result)
     console.log('----------------------------------------------')
 })
+
+check(err);
+clean(err);
+create(err);
 
 connection.end();
