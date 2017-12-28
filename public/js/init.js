@@ -100,6 +100,10 @@ window.onload = function () {
             }
         }
         // call backend
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         xhr.send(jsonData)
     }
 
@@ -142,6 +146,10 @@ window.onload = function () {
                 }
             }
         }
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         // call backend
         xhr.send(jsonData)
     }
@@ -177,6 +185,10 @@ window.onload = function () {
                     alert("Response: 401, check if you have selected the user.")
                 }
             }
+        }
+        if(token == null){
+            alert("token is undefined")
+            return
         }
         // call backend
         xhr.send(jsonData)
@@ -214,6 +226,10 @@ window.onload = function () {
             }
         }
         // call backend
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         xhr.send(jsonData)
     }
 
@@ -253,6 +269,10 @@ window.onload = function () {
 
         }
         // call backend
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         xhr.send(jsonData)
     }
 
@@ -289,6 +309,10 @@ window.onload = function () {
             }
 
         }
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         xhr.send()
     }
     // query by blockId
@@ -323,7 +347,7 @@ window.onload = function () {
                     channnel_id = JSON.stringify(channel_header.channel_id)
                     version = JSON.stringify(channel_header.version)
 
-                    w = "The Blockid query:\n======\nTime: " + time + "\nTransaction ID: " + tx_id + "\nChannel ID: " + channnel_id + "\nVersion: " + version + "\nNamespace: " + namespace + "\nWrites: " + writes + "\n=====\n"
+                    w = "The Blockid query:\n======\nTime: " + time + "\nTransaction ID: " + tx_id + "\nChannel ID: " + channnel_id + "\nVersion: " + version + "\nChaincode: " + namespace + "\nWrites: " + writes + "\n=====\n"
                     // ele.appendChild(document.createTextNode(w))
                     ele.value += w + "\n\n"
                 } else if (xhr.status == 401) {
@@ -331,6 +355,10 @@ window.onload = function () {
                 }
             }
 
+        }
+        if(token == null){
+            alert("token is undefined")
+            return
         }
         xhr.send()
     }
@@ -365,7 +393,7 @@ window.onload = function () {
                     writeData = response.transactionEnvelope.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
                     namespace = JSON.stringify(writeData.namespace)
                     write = JSON.stringify(writeData.rwset.writes)
-                    w = "The TransactionID query:\n=====\nTime: " + time + "\nTransaction ID: " + tx_id + "\nChannel ID: " + channnel_id + "\nVersion: " + version + "\nNamespace: " + namespace + "\nWrites: " + write + "\n=====\n"
+                    w = "The TransactionID query:\n=====\nTime: " + time + "\nTransaction ID: " + tx_id + "\nChannel ID: " + channnel_id + "\nVersion: " + version + "\nChaincode: " + namespace + "\nWrites: " + write + "\n=====\n"
                     // ele.appendChild(document.createTextNode(w))
                     ele.value += w + "\n\n"
                 } else if (xhr.status == 401) {
@@ -373,6 +401,10 @@ window.onload = function () {
                 }
             }
 
+        }
+        if(token == null){
+            alert("token is undefined")
+            return
         }
         xhr.send()
     }
@@ -409,6 +441,10 @@ window.onload = function () {
             }
 
         }
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         xhr.send()
     }
 
@@ -432,6 +468,10 @@ window.onload = function () {
                 }
             }
 
+        }
+        if(token == null){
+            alert("token is undefined")
+            return
         }
         xhr.send()
     }
@@ -458,6 +498,10 @@ window.onload = function () {
                 }
             }
 
+        }
+        if(token == null){
+            alert("token is undefined")
+            return
         }
         xhr.send()
     }
