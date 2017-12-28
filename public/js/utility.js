@@ -13,6 +13,7 @@ function getQueryParameter(obj) {
     obj.vquery_type = document.getElementById("query_type").value;
 }
 
+// clear result area
 function clear() {
     clear_btn = document.getElementById("clear")
     clear_btn.onclick = function () {
@@ -20,7 +21,6 @@ function clear() {
         tempalert("Log cleared",500)
     }
 }
-
 function tempalert(msg, duration) {
     var el = document.createElement("div");
     el.setAttribute("style", "position:absolute;top:5%;left:70%;background-color:white;text-align:center;");
@@ -29,4 +29,45 @@ function tempalert(msg, duration) {
         el.parentNode.removeChild(el);
     }, duration);
     document.body.appendChild(el);
+}
+
+
+// load enrolled user
+function loadUser(name,resToken){
+    // input
+    var element1 = document.createElement("input")
+    element1.setAttribute('type','radio')
+    element1.setAttribute('name','token')
+    element1.setAttribute('value',resToken)
+    document.getElementById('div_select_token').appendChild(element1)
+    // label
+    var element2 = document.createElement("label")
+    element2.setAttribute('for','token')
+    element2.appendChild(document.createTextNode(name))
+    document.getElementById('div_select_token').appendChild(element2)
+}
+
+// load channel
+function loadChannel(name){
+    var element1 = document.createElement("input")
+    element1.setAttribute('type','radio')
+    element1.setAttribute('name','channel')
+    element1.setAttribute('value',name)
+    document.getElementById('div_channels').appendChild(element1)
+    // label
+    var element2 = document.createElement("label")
+    element2.setAttribute('for','channel')
+    element2.appendChild(document.createTextNode(name))
+    document.getElementById('div_channels').appendChild(element2)
+}
+
+function loadPeers(name){
+    for(i = 0;i<name.length;i++){
+        // label
+        var element2 = document.createElement("label")
+        element2.setAttribute('name','peers')
+        element2.setAttribute('id',name[i])
+        element2.appendChild(document.createTextNode(name[i]+", "))
+        document.getElementById('div_join_form').appendChild(element2)
+    }
 }

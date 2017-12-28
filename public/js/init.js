@@ -1,65 +1,36 @@
-window.onload = function(){   
+window.onload = function () {
     var host = "http://39.106.141.206:4000/"
 
     // clear log
     clear()
-    
+
 
     // result area
-    function loadResult(xhr){
+    function loadResult(xhr) {
         xhr.onload = (response) => {
             var ele = document.getElementById("resultArea")
             ele.appendChild(document.createTextNode(response))
         }
     }
 
-    // load enrolled user
-    function loadUser(name,resToken){
-        // input
-        var element1 = document.createElement("input")
-        element1.setAttribute('type','radio')
-        element1.setAttribute('name','token')
-        element1.setAttribute('value',resToken)
-        document.getElementById('div_select_token').appendChild(element1)
-        // label
-        var element2 = document.createElement("label")
-        element2.setAttribute('for','token')
-        element2.appendChild(document.createTextNode(name))
-        document.getElementById('div_select_token').appendChild(element2)
-    }
-
-    // load channel
-    function loadChannel(name){
-        var element1 = document.createElement("input")
-        element1.setAttribute('type','radio')
-        element1.setAttribute('name','channel')
-        element1.setAttribute('value',name)
-        document.getElementById('div_channels').appendChild(element1)
-        // label
-        var element2 = document.createElement("label")
-        element2.setAttribute('for','channel')
-        element2.appendChild(document.createTextNode(name))
-        document.getElementById('div_channels').appendChild(element2)
-    }
-
     // enroll admin
     var btn1 = document.getElementById("enrollAdmin")
-    btn1.onclick = function(){
+    btn1.onclick = function () {
         var xhr = new XMLHttpRequest()
         var vusername = document.getElementById("username").value
         var vorgName = document.getElementById("orgName").value
-        var form = "username="+ vusername + "&orgName=" + vorgName
+        var form = "username=" + vusername + "&orgName=" + vorgName
         xhr.open("POST", "/users", true)
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
         // callback function
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE){
-                if(xhr.status == 200) {
+        xhr.onreadystatechange = function () { //Call a function when the state changes.
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
-                    try{
+                    try {
                         response = JSON.parse(response)
-                    } catch(e){
+                    } catch (e) {
                         alert("enroll failure: no response")
                         return
                     }
@@ -69,39 +40,40 @@ window.onload = function(){
                     delete response.secret
                     response = JSON.stringify(response)
                     // ele.appendChild(document.createTextNode(response+"\n\n"))
-                    ele.value += response+"\n\n"
-                    loadUser(vusername+'_'+vorgName,tk)
+                    ele.value += response + "\n\n"
+                    loadUser(vusername + '_' + vorgName, tk)
                 }
             }
         }
         // call backend
         xhr.send(form)
     }
-    
+
     // token func
     var token
-    $(document).ready(function() {
-        $(document).on('change',"input[name='token']",function(){
+    $(document).ready(function () {
+        $(document).on('change', "input[name='token']", function () {
             token = $(this).val()
         })
     })
 
     // channel func
-    $(document).ready(function() {
-        $(document).on('change',"input[name='channel']",function(){
+    $(document).ready(function () {
+        $(document).on('change', "input[name='channel']", function () {
             channelName = $(this).val()
         })
     })
-    
+
     // create channels
     var xhr = new XMLHttpRequest()
     var btn2 = document.getElementById("createChannel")
-    btn2.onclick = function(){
+    btn2.onclick = function () {
         var vchannelName = document.getElementById("channelName").value
-        if (vchannelName == channelName){
+        if (vchannelName == channelName) {
             alert("Channel exits, no need to create channel")
             return
         }
+        loadChannel(vchannelName)
         var vchannelConfigPath = document.getElementById("channelConfigPath").value
         var jsonData = JSON.stringify({
             channelName: vchannelName,
@@ -109,22 +81,20 @@ window.onload = function(){
         })
         xhr.open("POST", "/channels", true)
         xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.setRequestHeader('authorization', ' Bearer '+ token)
+        xhr.setRequestHeader('authorization', ' Bearer ' + token)
         // callback function
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE){
-                if( xhr.status == 200) {
+        xhr.onreadystatechange = function () { //Call a function when the state changes.
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
                     // ele.appendChild(document.createTextNode(response+"\n\n"))
-                    if(response == "{}"){
+                    if (response == "{}") {
                         alert("Check if channel are existing")
                         return
                     }
-                    ele.value += response+"\n\n"
-                    //loadchannel
-                    loadChannel(vchannelName)
-                } else if (xhr.status == 401){
+                    ele.value += response + "\n\n"
+                } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
                 }
             }
@@ -132,43 +102,55 @@ window.onload = function(){
         // call backend
         xhr.send(jsonData)
     }
-    
+
     // join channels
     var xhr = new XMLHttpRequest()
     var btn3 = document.getElementById("joinChannel")
-    btn3.onclick = function(){
+    btn3.onclick = function () {
         var vchannelName = channelName
         var vpeers = document.getElementById("join_peers").value.split(",")
+        var temp = document.getElementsByName("peers")
+        if (temp.length == 0) {
+            
+        } else {
+            for (i = 0; i < temp.length; i++) {
+                if (vpeers.includes(temp[i].id)) {
+                    alert(temp[i].id + " has joinned.")
+                    return
+                }
+            }
+        }
+        loadPeers(vpeers)
         var jsonData = JSON.stringify({
             peers: vpeers
         })
         // window.alert(jsonData)
-        xhr.open("POST", "/channels/"+vchannelName+"/peers", true)
+        xhr.open("POST", "/channels/" + vchannelName + "/peers", true)
         xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.setRequestHeader('authorization', ' Bearer '+ token)
+        xhr.setRequestHeader('authorization', ' Bearer ' + token)
         // callback function
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             //Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE){
-                if(xhr.status == 200) {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
                     // ele.appendChild(document.createTextNode(response+"\n\n"))
-                    ele.value += response+"\n\n"
-                } else if (xhr.status == 401){
+                    ele.value += response + "\n\n"
+                } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
-                } 
+                }
             }
         }
         // call backend
         xhr.send(jsonData)
     }
-    
+
 
     // install chaincode
     var xhr = new XMLHttpRequest()
     var btn4 = document.getElementById("installChaincode")
-    btn4.onclick = function(){
+    btn4.onclick = function () {
         var vchaincodeName = document.getElementById("install_chaincodeName").value
         var vpeers = document.getElementById("install_peers").value.split(",")
         var vchaincodeVersion = document.getElementById("install_chaincodeVersion").value
@@ -182,16 +164,16 @@ window.onload = function(){
         // window.alert(jsonData)
         xhr.open("POST", "/chaincodes", true)
         xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.setRequestHeader('authorization', ' Bearer '+ token)
+        xhr.setRequestHeader('authorization', ' Bearer ' + token)
         // callback function
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE){
-                if(xhr.status == 200) {
+        xhr.onreadystatechange = function () { //Call a function when the state changes.
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
                     // ele.appendChild(document.createTextNode(response+"\n\n"))
-                    ele.value += response+"\n\n"
-                } else if (xhr.status == 401){
+                    ele.value += response + "\n\n"
+                } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
                 }
             }
@@ -203,7 +185,7 @@ window.onload = function(){
     // instantiate 
     var xhr = new XMLHttpRequest()
     var btn5 = document.getElementById("instantiateChaincode")
-    btn5.onclick = function(){
+    btn5.onclick = function () {
         var vargs = document.getElementById("instan_args").value.split(",")
         var vchannelName = channelName
         var vchaincodeName = document.getElementById("instan_chaincodeName").value
@@ -215,18 +197,18 @@ window.onload = function(){
             chaincodeVersion: vchaincodeVersion
         })
         // window.alert(jsonData)
-        xhr.open("POST", "/channels/"+vchannelName+"/chaincodes", true)
+        xhr.open("POST", "/channels/" + vchannelName + "/chaincodes", true)
         xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.setRequestHeader('authorization', ' Bearer '+ token)
+        xhr.setRequestHeader('authorization', ' Bearer ' + token)
         // callback function
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE){
-                if(xhr.status == 200) {
+        xhr.onreadystatechange = function () { //Call a function when the state changes.
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
                     // ele.appendChild(document.createTextNode(response+"\n\n"))
-                    ele.value += response+"\n\n"
-                } else if (xhr.status == 401){
+                    ele.value += response + "\n\n"
+                } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
                 }
             }
@@ -239,36 +221,36 @@ window.onload = function(){
     // TODO: support json invoke
     var xhr = new XMLHttpRequest()
     var btn6 = document.getElementById("invokeTransaction")
-    btn6.onclick =function(){
+    btn6.onclick = function () {
         var vchannelName = document.getElementById("invoke_channelName").value
         var vchaincodeName = document.getElementById("invoke_chaincodeName").value
-        var vargs = document.getElementById("invoke_args").value.replace(/\{|\}/gi,"")
-        vargs = vargs.replace(/\:/gi,",").split(',')
+        var vargs = document.getElementById("invoke_args").value.replace(/\{|\}/gi, "")
+        vargs = vargs.replace(/\:/gi, ",").split(',')
         var vfcn = document.getElementById("invoke_fcn").value
         var jsonData = JSON.stringify({
             args: vargs,
-            fcn:vfcn
+            fcn: vfcn
         })
         // window.alert(jsonData)
-        xhr.open("POST", "/channels/"+vchannelName+"/chaincodes/"+vchaincodeName, true)
+        xhr.open("POST", "/channels/" + vchannelName + "/chaincodes/" + vchaincodeName, true)
         xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.setRequestHeader('authorization', ' Bearer '+ token)
+        xhr.setRequestHeader('authorization', ' Bearer ' + token)
         // callback function
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE){
-                if(xhr.status == 200) {
+        xhr.onreadystatechange = function () { //Call a function when the state changes.
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
-                    if (response.includes("Failed") == true){
+                    if (response.includes("Failed") == true) {
                         ele.value += "Invoke Failed:\n" + response + "\n\n"
-                    } else{
-                        ele.value += "Invoke Successful. The transaction ID is:\n"+response+"\n\n"
+                    } else {
+                        ele.value += "Invoke Successful. The transaction ID is:\n" + response + "\n\n"
                     }
-                } else if (xhr.status == 401){
+                } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
                 }
             }
-            
+
         }
         // call backend
         xhr.send(jsonData)
@@ -282,95 +264,95 @@ window.onload = function(){
     var query5 = document.getElementById("query5")
     var query6 = document.getElementById("query6")
     // click incident
-    query1.onclick=function(){
+    query1.onclick = function () {
         var parameter = new Object()
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
-        parameter.vquery_args = "[\""+parameter.vquery_args+"\"]"
+        parameter.vquery_args = "[\"" + parameter.vquery_args + "\"]"
         parameter.vquery_args = escape(parameter.vquery_args)
-        url = "/channels/"+parameter.vquery_channelName+"/chaincodes/"+parameter.vquery_chaincodeName+"?peer="+ parameter.vquery_peer+"&fcn="+parameter.vquery_fcn+"&args="+parameter.vquery_args
+        url = "/channels/" + parameter.vquery_channelName + "/chaincodes/" + parameter.vquery_chaincodeName + "?peer=" + parameter.vquery_peer + "&fcn=" + parameter.vquery_fcn + "&args=" + parameter.vquery_args
         // window.alert(url)
-        xhr.open("GET",url, true)
+        xhr.open("GET", url, true)
         xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.setRequestHeader('authorization', ' Bearer '+ token)
+        xhr.setRequestHeader('authorization', ' Bearer ' + token)
 
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE){
-                if(xhr.status == 200) {
+        xhr.onreadystatechange = function () { //Call a function when the state changes.
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
                     // ele.appendChild(document.createTextNode(response+"\n\n"))
-                    ele.value += response+"\n\n"
-                } else if (xhr.status == 401){
+                    ele.value += response + "\n\n"
+                } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
                 }
             }
-            
+
         }
         xhr.send()
     }
     // query by blockId
-    query2.onclick=function(){
+    query2.onclick = function () {
         var parameter = new Object()
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
-        url = "/channels/"+parameter.vquery_channelName+"/blocks/"+parameter.vquery_blockId+"?peer="+ parameter.vquery_peer
+        url = "/channels/" + parameter.vquery_channelName + "/blocks/" + parameter.vquery_blockId + "?peer=" + parameter.vquery_peer
         // window.alert(url)
-        xhr.open("GET",url, true)
+        xhr.open("GET", url, true)
         xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.setRequestHeader('authorization', ' Bearer '+ token)
+        xhr.setRequestHeader('authorization', ' Bearer ' + token)
 
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE){
-                if(xhr.status == 200) {
+        xhr.onreadystatechange = function () { //Call a function when the state changes.
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
                     try {
                         response = JSON.parse(response)
-                    } catch(e){
+                    } catch (e) {
                         alert("Query failure: no response, please check parameter and block status.")
                         return
                     }
                     writeData = response.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
                     namespace = JSON.stringify(writeData.namespace)
                     writes = JSON.stringify(writeData.rwset.writes)
-    
+
                     channel_header = response.data.data[0].payload.header.channel_header
                     time = JSON.stringify(channel_header.timestamp)
                     tx_id = JSON.stringify(channel_header.tx_id)
                     channnel_id = JSON.stringify(channel_header.channel_id)
                     version = JSON.stringify(channel_header.version)
-    
-                    w = "The Blockid query:\n======\nTime: "+time+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n=====\n"
+
+                    w = "The Blockid query:\n======\nTime: " + time + "\nTransaction ID: " + tx_id + "\nChannel ID: " + channnel_id + "\nVersion: " + version + "\nNamespace: " + namespace + "\nWrites: " + writes + "\n=====\n"
                     // ele.appendChild(document.createTextNode(w))
-                    ele.value += w+"\n\n"
-                } else if (xhr.status == 401){
+                    ele.value += w + "\n\n"
+                } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
                 }
             }
-            
+
         }
         xhr.send()
     }
 
     // qeury by transaction id
-    query3.onclick=function(){
+    query3.onclick = function () {
         var parameter = new Object()
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
-        url = "/channels/"+parameter.vquery_channelName+"/transactions/"+parameter.vquery_trxnId+"?peer="+parameter.vquery_peer   
-        xhr.open("GET",url, true)
+        url = "/channels/" + parameter.vquery_channelName + "/transactions/" + parameter.vquery_trxnId + "?peer=" + parameter.vquery_peer
+        xhr.open("GET", url, true)
         xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.setRequestHeader('authorization', ' Bearer '+ token)
-        xhr.onreadystatechange = function() {
+        xhr.setRequestHeader('authorization', ' Bearer ' + token)
+        xhr.onreadystatechange = function () {
             //Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE){
-                if(xhr.status == 200) {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
-                    try{
+                    try {
                         response = JSON.parse(response)
-                    } catch(e){
+                    } catch (e) {
                         alert("Query failure: no response, please check parameter and block status.")
                         return
                     }
@@ -379,103 +361,103 @@ window.onload = function(){
                     tx_id = JSON.stringify(channel_header.tx_id)
                     channnel_id = JSON.stringify(channel_header.channel_id)
                     version = JSON.stringify(channel_header.version)
-                    
+
                     writeData = response.transactionEnvelope.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
                     namespace = JSON.stringify(writeData.namespace)
                     write = JSON.stringify(writeData.rwset.writes)
-                    w = "The TransactionID query:\n=====\nTime: "+time+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+write+"\n=====\n"
+                    w = "The TransactionID query:\n=====\nTime: " + time + "\nTransaction ID: " + tx_id + "\nChannel ID: " + channnel_id + "\nVersion: " + version + "\nNamespace: " + namespace + "\nWrites: " + write + "\n=====\n"
                     // ele.appendChild(document.createTextNode(w))
-                    ele.value += w+"\n\n"
-                } else if (xhr.status == 401){
+                    ele.value += w + "\n\n"
+                } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
                 }
             }
-            
+
         }
         xhr.send()
     }
-    
+
     // query chaininfo
-    query4.onclick=function(){
+    query4.onclick = function () {
         var parameter = new Object()
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
-        url = "/channels/"+parameter.vquery_channelName+"?peer="+parameter.vquery_peer
+        url = "/channels/" + parameter.vquery_channelName + "?peer=" + parameter.vquery_peer
         // window.alert(url)
-        xhr.open("GET",url, true)
+        xhr.open("GET", url, true)
         xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.setRequestHeader('authorization', ' Bearer '+ token)
+        xhr.setRequestHeader('authorization', ' Bearer ' + token)
 
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             //Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE){
-                if(xhr.status == 200) {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
-                    try{
+                    try {
                         response = JSON.parse(response)
-                    }catch(e){
+                    } catch (e) {
                         alert("Query failure: no response, please check parameter")
-                    } 
+                    }
                     height = response.height
                     height = JSON.stringify(height)
-                    ele.value += "The chaininfo.height: "+height+"\n"+"currentBlockHash and previousBlockHash are hidden\n\n"
-                    
-                } else if (xhr.status == 401){
+                    ele.value += "The chaininfo.height: " + height + "\n" + "currentBlockHash and previousBlockHash are hidden\n\n"
+
+                } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
                 }
             }
-            
+
         }
         xhr.send()
     }
 
     // query installType
-    query5.onclick=function(){
+    query5.onclick = function () {
         var parameter = new Object()
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
-        url = "/chaincodes?peer="+parameter.vquery_peer+"&type="+parameter.vquery_type
-        xhr.open("GET",url, true)
+        url = "/chaincodes?peer=" + parameter.vquery_peer + "&type=" + parameter.vquery_type
+        xhr.open("GET", url, true)
         xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.setRequestHeader('authorization', ' Bearer '+ token)
+        xhr.setRequestHeader('authorization', ' Bearer ' + token)
 
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE){
-                if(xhr.status == 200) {
+        xhr.onreadystatechange = function () { //Call a function when the state changes.
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
                     // ele.appendChild(document.createTextNode(response+"\n\n"))
-                    ele.value += response+"\n\n"
+                    ele.value += response + "\n\n"
                 }
             }
-            
+
         }
         xhr.send()
     }
 
     // query Channel
-    query6.onclick=function(){
+    query6.onclick = function () {
         var parameter = new Object()
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
-        url = "channels?peer="+parameter.vquery_peer
-        xhr.open("GET",url, true)
+        url = "channels?peer=" + parameter.vquery_peer
+        xhr.open("GET", url, true)
         xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.setRequestHeader('authorization', ' Bearer '+ token)
+        xhr.setRequestHeader('authorization', ' Bearer ' + token)
 
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE){
-                if(xhr.status == 200) {
+        xhr.onreadystatechange = function () { //Call a function when the state changes.
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
                     // ele.appendChild(document.createTextNode(response+"\n\n"))
                     ele.value += response + "\n\n"
-                } else if (xhr.status == 401){
+                } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
                 }
             }
-            
+
         }
         xhr.send()
     }
