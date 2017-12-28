@@ -152,12 +152,63 @@ window.onload = function () {
         // call backend
         xhr.send(jsonData)
     }
+    // join all peers
+    var xhr = new XMLHttpRequest()
+    var btn3_all = document.getElementById("join_all")
+    btn3_all.onclick = function(){
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
+        var vchaincodeName = channelName
+        var vpeers = "peer1,peer2".split(",")
+        var temp = document.getElementsByName("peers")
+        if (temp.length == 0) {
+
+        } else {
+            for (i = 0; i < temp.length; i++) {
+                if (vpeers.includes(temp[i].id)) {
+                    alert(temp[i].id + " has joinned.")
+                    return
+                }
+            }
+        }
+        loadPeers(vpeers)
+        var jsonData = JSON.stringify({
+            peers: vpeers
+        })
+        // window.alert(jsonData)
+        xhr.open("POST", "/channels/" + vchannelName + "/peers", true)
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.setRequestHeader('authorization', ' Bearer ' + token)
+        // callback function
+        xhr.onreadystatechange = function () {
+            //Call a function when the state changes.
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
+                    var response = xhr.responseText
+                    var ele = document.getElementById("resultArea")
+                    // ele.appendChild(document.createTextNode(response+"\n\n"))
+                    ele.value += response + "\n\n"
+                } else if (xhr.status == 401) {
+                    alert("Response: 401, check if you have selected the user.")
+                }
+            }
+        }
+        // call backend
+        xhr.send(jsonData)
+    }
+
 
 
     // install chaincode
     var xhr = new XMLHttpRequest()
     var btn4 = document.getElementById("installChaincode")
     btn4.onclick = function () {
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         var vchaincodeName = document.getElementById("install_chaincodeName").value
         var vpeers = document.getElementById("install_peers").value.split(",")
         var vchaincodeVersion = document.getElementById("install_chaincodeVersion").value
@@ -178,25 +229,26 @@ window.onload = function () {
                 if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
-                    // ele.appendChild(document.createTextNode(response+"\n\n"))
                     ele.value += response + "\n\n"
+                    loadChaincode(vpeers,vchaincodeName,vchaincodePath,vchaincodeVersion)
                 } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
                 }
             }
         }
-        if(token == null){
-            alert("token is undefined")
-            return
-        }
         // call backend
         xhr.send(jsonData)
     }
+
 
     // instantiate 
     var xhr = new XMLHttpRequest()
     var btn5 = document.getElementById("instantiateChaincode")
     btn5.onclick = function () {
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         var vargs = document.getElementById("instan_args").value.split(",")
         var vchannelName = channelName
         var vchaincodeName = document.getElementById("instan_chaincodeName").value
@@ -212,12 +264,12 @@ window.onload = function () {
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer ' + token)
         // callback function
-        xhr.onreadystatechange = function () { //Call a function when the state changes.
+        xhr.onreadystatechange = function () { 
+            //Call a function when the state changes.
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
-                    // ele.appendChild(document.createTextNode(response+"\n\n"))
                     ele.value += response + "\n\n"
                 } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
@@ -225,10 +277,6 @@ window.onload = function () {
             }
         }
         // call backend
-        if(token == null){
-            alert("token is undefined")
-            return
-        }
         xhr.send(jsonData)
     }
 
@@ -237,6 +285,10 @@ window.onload = function () {
     var xhr = new XMLHttpRequest()
     var btn6 = document.getElementById("invokeTransaction")
     btn6.onclick = function () {
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         var vchannelName = document.getElementById("invoke_channelName").value
         var vchaincodeName = document.getElementById("invoke_chaincodeName").value
         var vargs = document.getElementById("invoke_args").value.replace(/\{|\}/gi, "")
@@ -251,7 +303,8 @@ window.onload = function () {
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer ' + token)
         // callback function
-        xhr.onreadystatechange = function () { //Call a function when the state changes.
+        xhr.onreadystatechange = function () { 
+            //Call a function when the state changes.
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 if (xhr.status == 200) {
                     var response = xhr.responseText
@@ -268,10 +321,6 @@ window.onload = function () {
 
         }
         // call backend
-        if(token == null){
-            alert("token is undefined")
-            return
-        }
         xhr.send(jsonData)
     }
 
@@ -284,6 +333,10 @@ window.onload = function () {
     var query6 = document.getElementById("query6")
     // click incident
     query1.onclick = function () {
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         var parameter = new Object()
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
@@ -295,12 +348,12 @@ window.onload = function () {
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer ' + token)
 
-        xhr.onreadystatechange = function () { //Call a function when the state changes.
+        xhr.onreadystatechange = function () { 
+            //Call a function when the state changes.
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 if (xhr.status == 200) {
                     var response = xhr.responseText
                     var ele = document.getElementById("resultArea")
-                    // ele.appendChild(document.createTextNode(response+"\n\n"))
                     ele.value += response + "\n\n"
                 } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
@@ -308,14 +361,14 @@ window.onload = function () {
             }
 
         }
-        if(token == null){
-            alert("token is undefined")
-            return
-        }
         xhr.send()
     }
     // query by blockId
     query2.onclick = function () {
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         var parameter = new Object()
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
@@ -325,7 +378,8 @@ window.onload = function () {
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer ' + token)
 
-        xhr.onreadystatechange = function () { //Call a function when the state changes.
+        xhr.onreadystatechange = function () { 
+            //Call a function when the state changes.
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 if (xhr.status == 200) {
                     var response = xhr.responseText
@@ -347,7 +401,6 @@ window.onload = function () {
                     version = JSON.stringify(channel_header.version)
 
                     w = "The Blockid query:\n======\nTime: " + time + "\nTransaction ID: " + tx_id + "\nChannel ID: " + channnel_id + "\nVersion: " + version + "\nChaincode: " + namespace + "\nWrites: " + writes + "\n=====\n"
-                    // ele.appendChild(document.createTextNode(w))
                     ele.value += w + "\n\n"
                 } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
@@ -355,15 +408,15 @@ window.onload = function () {
             }
 
         }
-        if(token == null){
-            alert("token is undefined")
-            return
-        }
         xhr.send()
     }
 
     // qeury by transaction id
     query3.onclick = function () {
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         var parameter = new Object()
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
@@ -393,23 +446,21 @@ window.onload = function () {
                     namespace = JSON.stringify(writeData.namespace)
                     write = JSON.stringify(writeData.rwset.writes)
                     w = "The TransactionID query:\n=====\nTime: " + time + "\nTransaction ID: " + tx_id + "\nChannel ID: " + channnel_id + "\nVersion: " + version + "\nChaincode: " + namespace + "\nWrites: " + write + "\n=====\n"
-                    // ele.appendChild(document.createTextNode(w))
                     ele.value += w + "\n\n"
                 } else if (xhr.status == 401) {
                     alert("Response: 401, check if you have selected the user.")
                 }
             }
-
-        }
-        if(token == null){
-            alert("token is undefined")
-            return
         }
         xhr.send()
     }
 
     // query chaininfo
     query4.onclick = function () {
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         var parameter = new Object()
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
@@ -440,15 +491,15 @@ window.onload = function () {
             }
 
         }
-        if(token == null){
-            alert("token is undefined")
-            return
-        }
         xhr.send()
     }
 
     // query installType
     query5.onclick = function () {
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         var parameter = new Object()
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
@@ -468,15 +519,15 @@ window.onload = function () {
             }
 
         }
-        if(token == null){
-            alert("token is undefined")
-            return
-        }
         xhr.send()
     }
 
     // query Channel
     query6.onclick = function () {
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
         var parameter = new Object()
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
@@ -497,10 +548,6 @@ window.onload = function () {
                 }
             }
 
-        }
-        if(token == null){
-            alert("token is undefined")
-            return
         }
         xhr.send()
     }

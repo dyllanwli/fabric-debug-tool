@@ -67,7 +67,17 @@ function loadPeers(name){
         var element2 = document.createElement("label")
         element2.setAttribute('name','peers')
         element2.setAttribute('id',name[i])
-        element2.appendChild(document.createTextNode(name[i]+", "))
+        element2.appendChild(document.createTextNode(name[i]+"  "))
         document.getElementById('div_join_form').appendChild(element2)
     }
+}
+
+function loadChaincode(peers,chaincodeName,chaincodePath,chaincodeVersion){
+    var element1 = document.createElement("label")
+    id = peers + "_" +chaincodeName+"_"+chaincodePath+"_"+chaincodeVersion
+    element1.setAttribute("name","Joined_chaincodes")
+    element1.setAttribute('id',id)
+    element1.appendChild(document.createTextNode(id))
+    var br = document.createElement("br")
+    document.getElementById('div_joined_chaincode').appendChild(element1).appendChild(br)
 }

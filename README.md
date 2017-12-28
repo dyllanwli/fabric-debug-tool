@@ -1,8 +1,10 @@
 ## README
+Hyperledger debug tool; fabric node sdk
 
 ### TODO：
 
-+ block information adaptation
++ all peer join
++ install particular chaincode
 
 
 #### Requirements:
