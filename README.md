@@ -1,5 +1,5 @@
 ## README
-Hyperledger debug tool; fabric node sdk
+Hyperledger debug tool; fabric node sdk; e2e-test
 
 ### TODO：
 
@@ -9,7 +9,7 @@ Hyperledger debug tool; fabric node sdk
 
 #### Requirements:
 
-+ app are based no hyperledger-node-sdk/test
++ app are based on hyperledger-node-sdk/test
 + fabric-network: see ./artifacts
 + `apt install jq` or `brew install jq` (`testAppbyCurl.sh` needs)
 + needs to `npm rebuild` if run script at first time or catch node package error on `run.sh`
