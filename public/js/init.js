@@ -331,21 +331,17 @@ window.onload = function(){
                         alert("Query failure: no response, please check parameter and block status.")
                         return
                     }
-                    num = response.header.number
-                    delete num.unsigned
-                    num = JSON.stringify(num)
                     writeData = response.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
                     namespace = JSON.stringify(writeData.namespace)
                     writes = JSON.stringify(writeData.rwset.writes)
     
                     channel_header = response.data.data[0].payload.header.channel_header
                     time = JSON.stringify(channel_header.timestamp)
-                    type = JSON.stringify(channel_header.type)
                     tx_id = JSON.stringify(channel_header.tx_id)
-                    channnel_id = JSON.stringify(channel_header.channnel_id)
+                    channnel_id = JSON.stringify(channel_header.channel_id)
                     version = JSON.stringify(channel_header.version)
     
-                    w = "The Blockid query\nHeader: "+ num+"\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n\n"
+                    w = "The Blockid query:\n======\nTime: "+time+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n=====\n"
                     // ele.appendChild(document.createTextNode(w))
                     ele.value += w+"\n\n"
                 } else if (xhr.status == 401){
@@ -378,30 +374,16 @@ window.onload = function(){
                         alert("Query failure: no response, please check parameter and block status.")
                         return
                     }
-                    writeData = response.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
-                    namespace = JSON.stringify(writeData.namespace)
-                    writes = JSON.stringify(writeData.rwset.writes)
-    
-                    channel_header = response.data.data[0].payload.header.channel_header
-                    time = JSON.stringify(channel_header.timestamp)
-                    type = JSON.stringify(channel_header.type)
-                    tx_id = JSON.stringify(channel_header.tx_id)
-                    channnel_id = JSON.stringify(channel_header.channnel_id)
-    
-                    w = "The Blockid query\nHeader: "+ num+"\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\n\n"
-                    ele.appendChild(document.createTextNode(w))
-                    //
                     channel_header = response.transactionEnvelope.payload.header.channel_header
                     time = JSON.stringify(channel_header.timestamp)
-                    type = JSON.stringify(channel_header.type)
                     tx_id = JSON.stringify(channel_header.tx_id)
-                    channnel_id = JSON.stringify(channel_header.channnel_id)
+                    channnel_id = JSON.stringify(channel_header.channel_id)
                     version = JSON.stringify(channel_header.version)
                     
                     writeData = response.transactionEnvelope.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1]
                     namespace = JSON.stringify(writeData.namespace)
-                    writes = JSON.stringify(writeData.rwset.writes)
-                    w = "The TransactionID query\nTime: "+time+"\nType: "+type+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+writes+"\n\n"
+                    write = JSON.stringify(writeData.rwset.writes)
+                    w = "The TransactionID query:\n=====\nTime: "+time+"\nTransaction ID: "+tx_id+"\nChannel ID: "+channnel_id+"\nVersion: "+version+"\nNamespace: "+namespace+"\nWrites: "+write+"\n=====\n"
                     // ele.appendChild(document.createTextNode(w))
                     ele.value += w+"\n\n"
                 } else if (xhr.status == 401){
