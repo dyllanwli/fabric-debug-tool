@@ -176,7 +176,6 @@ app.post('/channels', function(req, res) {
 
 // Join Channel 
 app.post('/channels/:channelName/peers', function(req, res) {
-
 	logger.info('==================== JOIN CHANNEL====================');
 	var channelName = req.params.channelName;
 	var peers = req.body.peers;

@@ -86,7 +86,8 @@ window.onload = function () {
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer ' + token)
         // callback function
-        xhr.onreadystatechange = function () { //Call a function when the state changes.
+        xhr.onreadystatechange = function () { 
+            //Call a function when the state changes.
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 if (xhr.status == 200) {
                     var response = xhr.responseText
@@ -131,7 +132,6 @@ window.onload = function () {
         var jsonData = JSON.stringify({
             peers: vpeers
         })
-        // window.alert(jsonData)
         xhr.open("POST", "/channels/" + vchannelName + "/peers", true)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer ' + token)
@@ -160,7 +160,7 @@ window.onload = function () {
             alert("token is undefined")
             return
         }
-        var vchaincodeName = channelName
+        var vchannelName = channelName
         var vpeers = "peer1,peer2".split(",")
         var temp = document.getElementsByName("peers")
         if (temp.length == 0) {
@@ -177,7 +177,6 @@ window.onload = function () {
         var jsonData = JSON.stringify({
             peers: vpeers
         })
-        // window.alert(jsonData)
         xhr.open("POST", "/channels/" + vchannelName + "/peers", true)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer ' + token)
@@ -219,7 +218,6 @@ window.onload = function () {
             chaincodePath: vchaincodePath,
             chaincodeVersion: vchaincodeVersion
         })
-        // window.alert(jsonData)
         xhr.open("POST", "/chaincodes", true)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer ' + token)
@@ -228,6 +226,9 @@ window.onload = function () {
             if (xhr.readyState == XMLHttpRequest.DONE) {
                 if (xhr.status == 200) {
                     var response = xhr.responseText
+                    if (response.includes("Failed") == true) {
+                        return
+                    }
                     var ele = document.getElementById("resultArea")
                     ele.value += response + "\n\n"
                     loadChaincode(vpeers,vchaincodeName,vchaincodePath,vchaincodeVersion)
@@ -259,7 +260,6 @@ window.onload = function () {
             chaincodeName: vchaincodeName,
             chaincodeVersion: vchaincodeVersion
         })
-        // window.alert(jsonData)
         xhr.open("POST", "/channels/" + vchannelName + "/chaincodes", true)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer ' + token)
@@ -298,7 +298,6 @@ window.onload = function () {
             args: vargs,
             fcn: vfcn
         })
-        // window.alert(jsonData)
         xhr.open("POST", "/channels/" + vchannelName + "/chaincodes/" + vchaincodeName, true)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer ' + token)
@@ -343,7 +342,6 @@ window.onload = function () {
         parameter.vquery_args = "[\"" + parameter.vquery_args + "\"]"
         parameter.vquery_args = escape(parameter.vquery_args)
         url = "/channels/" + parameter.vquery_channelName + "/chaincodes/" + parameter.vquery_chaincodeName + "?peer=" + parameter.vquery_peer + "&fcn=" + parameter.vquery_fcn + "&args=" + parameter.vquery_args
-        // window.alert(url)
         xhr.open("GET", url, true)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer ' + token)
@@ -373,7 +371,6 @@ window.onload = function () {
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
         url = "/channels/" + parameter.vquery_channelName + "/blocks/" + parameter.vquery_blockId + "?peer=" + parameter.vquery_peer
-        // window.alert(url)
         xhr.open("GET", url, true)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer ' + token)
@@ -465,7 +462,6 @@ window.onload = function () {
         getQueryParameter(parameter)
         var xhr = new XMLHttpRequest()
         url = "/channels/" + parameter.vquery_channelName + "?peer=" + parameter.vquery_peer
-        // window.alert(url)
         xhr.open("GET", url, true)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.setRequestHeader('authorization', ' Bearer ' + token)

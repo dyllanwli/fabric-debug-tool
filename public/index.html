@@ -100,6 +100,13 @@
             &nbsp;arg:
             <input type="text" id="instan_args" name="instan_args" value="a,100,b,200">
             </br>
+            &nbsp;select a chaincode to install and instantiate:
+            <select>
+                <option>peer1,peer2</option>
+                <option>peer1</option>
+            </select>
+            <input id="install_instantiate" type="button" value="install and instantiate">
+            </br>
             <input id="instantiateChaincode" type="button" value="instantiate Chaincode">
         </form>
     </div>
@@ -135,9 +142,6 @@
             </br>
             &nbsp;channelName:
             <input type="text" id="query_channelName" value="mychannel">
-            <!-- </br>
-            &nbsp;fcn:
-            <input type="text" id="query_fcn" value="query"> -->
             </br>
             &nbsp;args:
             <input type="text" id="query_args" value="a">
