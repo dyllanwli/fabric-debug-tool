@@ -1,0 +1,37 @@
+<div id="front">
+	<div class="bodydiv1">
+		<div style="float:left;color: black;width: 800px">
+			商品名称<input type="text" placeholder="请输入..." id="itemname" class="input1">
+			商家&nbsp&nbsp<input type="text" placeholder="请输入..." id="business" class="input1">
+		</div>
+		<div style="display: inline-block;position: relative;left: 10px">
+			<button class="btn btnb" id="getitem2">查询商品</button>
+		</div>
+	</div>
+	<div style="position: relative;top:40px;width:80%;left:5%">
+        <div class="bootstrap-table"><div class="fixed-table-toolbar"></div><div class="fixed-table-container" style="padding-bottom: 0px;"><div class="fixed-table-header" style="display: none;"><table></table></div><div class="fixed-table-body"><div class="fixed-table-loading" style="top: 38px;">正在努力地加载数据中，请稍候……</div><table data-toggle="table" class="table-striped table table-hover" style="width:100%;table-layout:fixed;">
+        	<colgroup>
+				<col style="width:20%">
+				<col style="width:15%">
+				<col style="width:30%">
+				<col style="width:20%">
+				<col style="width:15%">
+			</colgroup>
+			<thead style="background-color:#F8F9F9;border-bottom: solid 2px #dddddd">
+		    	<tr>
+		    		<th style="" data-field="0" tabindex="0"><div class="th-inner ">商品名称</div><div class="fht-cell"></div></th>
+		    		<th style="" data-field="1" tabindex="1"><div class="th-inner ">商品价格</div><div class="fht-cell"></div></th>
+		    		<th style="" data-field="2" tabindex="2"><div class="th-inner ">商品属性</div><div class="fht-cell"></div></th>
+		    		<th style="" data-field="3" tabindex="3"><div class="th-inner ">商家</div><div class="fht-cell"></div></th>
+		    		<th style="" data-field="4" tabindex="4"><div class="th-inner ">操作</div><div class="fht-cell"></div></th></tr>
+		    </thead>
+		    <tbody id="itemlist">
+		       
+		    </tbody>
+		</table></div><div class="fixed-table-footer" style="display: none;"><table><tbody><tr></tr></tbody></table></div><div class="fixed-table-pagination" style="display: none;"></div></div></div><div class="clearfix"></div>
+      </div>
+      <div style="height:20px;width=100px;position:relative;top:50px"></div>
+      <ul class="pagination"  id="page"></ul>
+  </div>
+  <script type="text/javascript" src="/js/producttransaction.js"></script>
+

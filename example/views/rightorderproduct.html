@@ -1,0 +1,67 @@
+<div id="front">
+	<div class="bodydiv1">
+		<div style="float:left;color: black;width: 800px">
+			商品名称<input type="text" placeholder="请输入..." id="itemname" class="input1">
+		</div>
+		<div style="display: inline-block;position: relative;left: 10px">
+			<button class="btn btnb" id="getitem1">查询商品</button>
+		</div>
+	</div>
+	<div style="position: relative;top:30px;left: 5%;margin: 20px 0">
+		<button class="btn btnb" id="upitem">
+			商品上链
+		</button>
+		<button class="btn btnb" id="downitem">商品下链</button>
+	</div>
+	<div style="position: relative;top:20px;width:80%;left:5%">
+        <div class="bootstrap-table"><div class="fixed-table-toolbar"></div><div class="fixed-table-container" style="padding-bottom: 0px;"><div class="fixed-table-header" style="display: none;"><table></table></div><div class="fixed-table-body"><div class="fixed-table-loading" style="top: 38px;">正在努力地加载数据中，请稍候……</div><table data-toggle="table" class="table-striped table table-hover" style="width:100%;table-layout:fixed;">
+        	<colgroup>
+        		<col style="width:10%">
+				<col style="width:20%">
+				<col style="width:35%">
+				<col style="width:20%">
+				<col style="width:15%">
+			</colgroup>
+			<thead style="background-color:#F8F9F9;border-bottom: solid 2px #dddddd">
+		    	<tr><th style="" data-field="0" tabindex="0"><div class="th-inner "><input type="checkbox" id="seltotal"></div><div class="fht-cell"></div></th>
+		    		<th style="" data-field="1" tabindex="0"><div class="th-inner ">商品名称</div><div class="fht-cell"></div></th>
+		    		<th style="" data-field="2" tabindex="0"><div class="th-inner ">商品属性</div><div class="fht-cell"></div></th>
+		    		<th style="" data-field="3" tabindex="0"><div class="th-inner ">商品价格</div><div class="fht-cell"></div></th>
+		    		<th style="" data-field="4" tabindex="0"><div class="th-inner ">操作</div><div class="fht-cell"></div></th></tr>
+		    </thead>
+		    <tbody id="itemlist">
+		       
+		    </tbody>
+		</table></div><div class="fixed-table-footer" style="display: none;"><table><tbody><tr></tr></tbody></table></div><div class="fixed-table-pagination" style="display: none;"></div></div></div><div class="clearfix"></div>
+      </div>
+      <ul class="pagination"  id="page"></ul>
+  </div>
+      <div id="upitemdiv" style="display: none;">
+      	<div style="border-bottom: solid 1px #dddddd;margin: 30px;padding: 10px;font-size: 16px">
+      		商品上链
+      	</div>
+      	<div style="margin: 30px;">
+      		<div style="margin: 30px;">商品名称<input type="text" id="itemname2" placeholder="请输入..." ></div>
+      		<div style="margin: 30px;">商品属性<input type="text" name="" id="itemproperty2" placeholder="请输入..."></div>
+      		<div style="margin: 30px;">商品价格<input type="text" name="" id="itemprice2" placeholder="请输入整数" onkeypress="clearNoNum(this)" oninput="clearNoNum(this)" onpropertychange="clearNoNum(this)" sonblur="clearNoNum(this)"></div>
+      		<input type="button" class="btn btnb" id="upitem2" value="上链">
+      		<input type="button" class="btn btn2" id="cancelup" value="取消">
+      	</div>
+
+      </div>
+      <div id="downtips" style="display: none;position: absolute;top:0;left: 0;width: 100%;height: 100%;z-index: 10;background-color: #cccccc;filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;">
+      	
+      </div>
+      <div id="downtips2" style="width: 600px;height: 220px;position: absolute;left: 30%;top: 30%;text-align: center;background-color: white;z-index: 20;display: none;">
+      		<div>
+      			商品下链
+      		</div>
+      		<div style="border-top: solid 1px #dddddd;border-bottom: solid 1px #dddddd;height: 160px;line-height: 160px;">
+      			确定下链所选商品？
+      		</div>
+      		<div>
+      			<input type="button" class="btn btnb" id="downitem2" value="确定">
+      			<input type="button" class="btn btn2" id="canceldown" value="取消">
+      		</div>
+      	</div>
+      <script type="text/javascript" src="/js/orderproduct.js"></script>
