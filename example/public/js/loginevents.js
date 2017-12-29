@@ -2,11 +2,11 @@ function sub(){
 	var name=$("#username").val();
 	var pwd=$("#password").val();
 	if(name==""){
-		$("#nameerr").text("请输入账号");
+		$("#nameerr").text("please enter the name");
 		return false;
 	}
 	if(pwd==""){
-		$("#pwderr").text("请输入密码");
+		$("#pwderr").text("please enter the password");
 		return false;
 	}
 	$("#nameerr").text("");

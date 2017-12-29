@@ -1,10 +1,3 @@
-#!/bin/bash
-#
-# Copyright IBM Corp. All Rights Reserved.
-#
-# SPDX-License-Identifier: Apache-2.0
-#
-
 function dkcl(){
         CONTAINER_IDS=$(docker ps -aq)
 	echo
@@ -51,7 +44,7 @@ function installNodeModules() {
 		echo "============== node modules installed already ============="
 	else
 		echo "============== Installing node modules ============="
-		npm install
+		cnpm install
 	fi
 	echo
 }

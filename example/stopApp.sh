@@ -34,3 +34,4 @@ function stopNetwork() {
 }
 
 stopNetwork
+echo "============== Network Stopped. Try 'bash ./runApp.sh' to Start network. ============="
