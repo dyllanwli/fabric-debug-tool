@@ -9,7 +9,6 @@ function getQueryParameter(obj) {
     obj.vquery_args = document.getElementById("query_args").value;
     obj.vquery_blockId = document.getElementById("query_blockId").value;
     obj.vquery_trxnId = document.getElementById("query_trxnId").value;
-    obj.vquery_hash = document.getElementById("query_hash").value;
     obj.vquery_type = document.getElementById("query_type").value;
 }
 
