@@ -13,7 +13,7 @@ var jwt = require('jsonwebtoken');
 var bearerToken = require('express-bearer-token');
 var cors = require('cors');
 
-require('./config.js');
+var config = require('./config.js');
 var hfc = require('fabric-client');
 
 var helper = require('./app/helper.js');
@@ -195,10 +195,10 @@ app.post('/channels/:channelName/peers', function(req, res) {
 		res.send(message);
 	});
 });
- 
+// 
 // Install chaincode on target peers 
 app.post('/chaincodes', function(req, res) {
-
+	
 	logger.debug('==================== INSTALL CHAINCODE ==================');
 	var peers = req.body.peers;
 	var chaincodeName = req.body.chaincodeName;
@@ -230,8 +230,6 @@ app.post('/chaincodes', function(req, res) {
 		res.send(message);
 	});
 });
-// 
-// 
 // 
 // 
 // Instantiate chaincode on target peers
@@ -269,8 +267,6 @@ app.post('/channels/:channelName/chaincodes', function(req, res) {
 		res.send(message);
 	});
 });
-// 
-// 
 // 
 // 
 // Invoke transaction on chaincode on target peers

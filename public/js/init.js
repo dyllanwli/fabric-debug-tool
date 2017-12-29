@@ -241,7 +241,6 @@ window.onload = function () {
         xhr.send(jsonData)
     }
 
-
     // instantiate 
     var xhr = new XMLHttpRequest()
     var btn5 = document.getElementById("instantiateChaincode")
@@ -254,7 +253,6 @@ window.onload = function () {
         var vchannelName = channelName
         var vchaincodeName = document.getElementById("instan_chaincodeName").value
         var vchaincodeVersion = document.getElementById("instan_chaincodeVersion").value
-        // var vfcn = document.getElementById("instan").values
         var jsonData = JSON.stringify({
             args: vargs,
             chaincodeName: vchaincodeName,
@@ -280,8 +278,19 @@ window.onload = function () {
         xhr.send(jsonData)
     }
 
+    // install and instantiate
+    var xhr = new XMLHttpRequest()
+    var btn5_install_instantiate = document.getElementById("install_instantiate")
+    btn5_install_instantiate.onclick = function(){
+        if(token == null){
+            alert("token is undefined")
+            return
+        }
+        btn4.onclick()
+        btn5.onclick()
+    }
+
     // invoke chaincode 
-    // TODO: support json invoke
     var xhr = new XMLHttpRequest()
     var btn6 = document.getElementById("invokeTransaction")
     btn6.onclick = function () {
