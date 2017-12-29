@@ -40,7 +40,7 @@ var pool = mysql.createPool({
   user     : 'root',              
   password : '1234',       
   port: '3306',                   
-  database: 'fabricexplorer'
+  database: 'debugtool'
 }); 
 
 require('./config.js');
