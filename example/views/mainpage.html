@@ -2,7 +2,7 @@
 <html lang="en">
 	 <head>
 	 <meta charset="utf-8">
-	 <title>mainpage</title>
+	 <title>Debug Tool</title>
 	 <!-- Bootstrap -->
 	 <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
 	 <link href="/css/style.css" rel="stylesheet">
@@ -53,17 +53,16 @@ td{overflow:hidden;white-space:nowrap;text-overflow: ellipsis}
 	 </head>
 	 <body style="padding:0 0; margin:0 0; background-color:#F8F9F9;">
 <div style="height:50px; background-color:#20283F; line-height:50px;"> <img src="/image/loginimg.svg" style="width:29px; height:21px;position:relative;left:12px;"> <a style="font-weight: 200;font-size: 18px;color:white;position:relative;left:10px;">debug tool</a>
-       <div class="tab" id="logapi"> 物联网日志API </div>
-       <div class="tab" id="protransaction"> 商品交易 </div>
+       <div class="tab" id="main"> MainPage </div>
+       <div class="tab" id="sub"> SubPage </div>
        <div style="float:right"> <a class="al aw" id="user">user</a> <a class="al aw" id="logout">退出</a> </div>
      </div>
 <nav class="navbar-default" style="height:100%;height:-moz-calc(100% - 50px);height:-webkit-calc(100% - 50px);height:calc(100% - 50px);position:absolute; top:50px">
        <div style="width:180px; background-color:#404C62; height:100%;" id="leftmenu">
     <div style="height:8px"></div>
     <ul class="nav" style="display:block">
-           <li id="explorer1"> <a> <i class="fa fa-th-large"></i> <span class="menu">概览</span> </a> </li>
-           <li id="orderlog"> <a> <i class="fa fa-list-alt"></i> <span class="menu">日志管理</span> </a> </li>
-		<li id="help"> <a> <i class="fa fa-question-circle-o"></i> <span class="menu">帮助</span> </a> </li>
+           <li id="explorer1"> <a> <i class="fa fa-th-large"></i> <span class="menu">Overview</span> </a> </li>
+           <li id="orderlog"> <a> <i class="fa fa-list-alt"></i> <span class="menu">Log</span> </a> </li>
          </ul>
   </div>
 </nav>
@@ -95,7 +94,7 @@ td{overflow:hidden;white-space:nowrap;text-overflow: ellipsis}
 				<col style="width:10%">
 			</colgroup>
 		    <thead style="background-color:#F8F9F9;border-bottom: solid 2px #dddddd">
-		        <tr style="">
+		        <tr>
 		        	<th><input type="checkbox" id="seltotal"></th>
 		            <th>日志名</th>
 		            <th>日志内容</th>

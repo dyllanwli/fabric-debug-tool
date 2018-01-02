@@ -1,10 +1,10 @@
 $(function(){
 	$("#user").html(sessionStorage.username);
-	$("#logapi").click(function(){
+	$("#main").click(function(){
 		getleft("log");
 		getright("orderlog");
 	}).hover(over,out);
-	$("#protransaction").click(function(){
+	$("#sub").click(function(){
 		getleft("product");
 		getright("orderproduct");
 	}).hover(over,out);

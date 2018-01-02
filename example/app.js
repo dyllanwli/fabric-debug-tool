@@ -403,8 +403,6 @@ app.get('/left', function (req, res) {
 		res.render('leftlog');
 	} else if (topic == "product") {
 		res.render('leftproduct');
-	} else if (topic == "leftapi") {
-		res.render('leftapi');
 	}
 });
 // request mainbody
@@ -430,8 +428,6 @@ app.get('/right', function (req, res) {
 		res.render('rightproducttransaction');
 	} else if (topic == "accountinfo") {
 		res.render('rightaccountinfo');
-	} else if (topic == "help") {
-		res.render('help')
 	}
 });
 
