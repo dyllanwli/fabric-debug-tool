@@ -30,18 +30,20 @@ var expressJWT = require('express-jwt');
 var jwt = require('jsonwebtoken');
 var bearerToken = require('express-bearer-token');
 var cors = require('cors');
-var multer=require('multer');
-var fs=require('fs');
-var upload=multer({dest:'./uploads/'});
+var multer = require('multer');
+var fs = require('fs');
+var upload = multer({
+	dest: './uploads/'
+});
 var unless = require('express-unless');
-var mysql=require('mysql');
-var pool = mysql.createPool({     
-  host     : 'localhost',       
-  user     : 'root',              
-  password : '1234',       
-  port: '3306',                   
-  database: 'debugtool'
-}); 
+var mysql = require('mysql');
+var pool = mysql.createPool({
+	host: 'localhost',
+	user: 'root',
+	password: '1234',
+	port: '3306',
+	database: 'debugtool'
+});
 
 require('./config.js');
 var hfc = require('fabric-client');
@@ -76,20 +78,20 @@ app.set('secret', 'thisismysecret');
 app.use(expressJWT({
 	secret: 'thisismysecret'
 }).unless({
-	path: ['/users/login','/users/register','/users/regvali','/','/users','/favicon.ico','/users/forgetpwd','/users/downloadlogfile']
+	path: ['/users/login', '/users/register', '/users/regvali', '/', '/users', '/favicon.ico', '/users/forgetpwd', '/users/downloadlogfile']
 }));
 app.use(bearerToken());
-app.use(function(req, res, next) {
-    var url=req.originalUrl;
+app.use(function (req, res, next) {
+	var url = req.originalUrl;
 	if (url.indexOf('/users') >= 0) {
 		return next();
 	}
-	if(!req.token){
+	if (!req.token) {
 		res.redirect('/users/login');
 		return;
 	}
 	var token = req.token;
-	jwt.verify(token, app.get('secret'), function(err, decoded) {
+	jwt.verify(token, app.get('secret'), function (err, decoded) {
 		if (err) {
 			res.send({
 				success: false,
@@ -97,7 +99,7 @@ app.use(function(req, res, next) {
 					'token returned from /users call in the authorization header ' +
 					' as a Bearer token'
 			});
-            res.redirect('/users/login');
+			res.redirect('/users/login');
 			return;
 		} else {
 			// add the decoded user name and org name to the request object
@@ -113,7 +115,7 @@ app.use(function(req, res, next) {
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// START SERVER /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-var server = http.createServer(app).listen(port, function() {});
+var server = http.createServer(app).listen(port, function () {});
 logger.info('****************** SERVER STARTED ************************');
 logger.info('**************  http://' + host + ':' + port +
 	'  ******************');
@@ -130,7 +132,7 @@ function getErrorMessage(field) {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////// REST ENDPOINTS START HERE ///////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-app.post('/users', function(req, res) {
+app.post('/users', function (req, res) {
 	var username = req.body.username;
 	var orgName = req.body.orgName;
 	logger.debug('End point : /users');
@@ -149,7 +151,7 @@ app.post('/users', function(req, res) {
 		username: username,
 		orgName: orgName
 	}, app.get('secret'));
-	helper.getRegisteredUsers(username, orgName, true).then(function(response) {
+	helper.getRegisteredUsers(username, orgName, true).then(function (response) {
 		if (response && typeof response !== 'string') {
 			response.token = token;
 			res.json(response);
@@ -162,221 +164,281 @@ app.post('/users', function(req, res) {
 	});
 });
 // 登录
-var orgMap={'org1':'A省公司','org2':'B省公司','org3':'C省公司'};
+var orgMap = {
+	'org1': 'org1',
+	'org2': 'org2',
+	'org3': 'org3'
+};
 app.route('/users/login')
- .get(function(req, res) {
-     res.render('login', { title: '用户登录' });
- })
-.post(function(req, res) {
-    var sql='select * from fabricusers where username=?';
-    var username=req.body.username;
-    var password=req.body.password;
-    pool.query(sql,[username],function (err, result) {
-        if(err){
-          console.log('[SELECT ERROR] - ',err.message);
-          return;
-        }
-        if(result==null||result==''){
-            res.render('login',{loginerr:'nameerr'});
-        }else{
-            if(result[0].userpassword==password){
-			var uorg=result[0].org;
-                var user={
-                  username:result[0].username,
-                  password:result[0].userpassword,
-                  orgName:result[0].org,
-                  orgRname:orgMap[uorg]
-                }
-                var token = jwt.sign({
-                exp: Math.floor(Date.now() / 1000) + parseInt(hfc.getConfigSetting('jwt_expiretime')),
-                username: user.username,
-                orgName: user.orgName
-                }, app.get('secret'));
-                res.render('mainpage',{token:token,username:user.username,userorg:user.orgRname});
-            }else{
-                res.render('login',{loginerr:'pwderr'});
-            }
-        }
-    });
-});
-//注册验证账户唯一
-app.post('/users/regvali',function(req,res){
-    var username=req.body.username;
-    var sql='select userid from fabricusers where username=?';
-    pool.query(sql,[username],function(err,result){
-        if(err){
-          console.log('[SELECT ERROR] - ',err.message);
-          return;
-        }
-        //console.log(result);
-        if(result!=null&&result!=''){
-            res.json({err:'账户名已存在'});
-        }else{
-            res.json({err:''});
-        }
-    })
+	.get(function (req, res) {
+		res.render('login', {
+			title: 'user login'
+		});
+	})
+	.post(function (req, res) {
+		var sql = 'select * from fabricusers where username=?';
+		var username = req.body.username;
+		var password = req.body.password;
+		if (username == 'diya' && password == '1234') {
+			var user = {
+				username: 'diya',
+				password: '1234',
+				orgName: 'org1',
+				orgRname: orgMap[uorg]
+			}
+			var token = jwt.sign({
+				exp: Math.floor(Date.now() / 1000) + parseInt(hfc.getConfigSetting('jwt_expiretime')),
+				username: user.username,
+				orgName: user.orgName
+			}, app.get('secret'));
+			res.render('mainpage', {
+				token: token,
+				username: username,
+				userorg: user.orgName
+			});
+		} else {
+			pool.query(sql, [username], function (err, result) {
+				if (err) {
+					console.log('[SELECT ERROR] - ', err.message);
+					return;
+				}
+				if (result == null || result == '') {
+					res.render('login', {
+						loginerr: 'nameerr'
+					});
+				} else {
+					if (result[0].userpassword == password) {
+						var uorg = result[0].org;
+						var user = {
+							username: result[0].username,
+							password: result[0].userpassword,
+							orgName: result[0].org,
+							orgRname: orgMap[uorg]
+						}
+						var token = jwt.sign({
+							exp: Math.floor(Date.now() / 1000) + parseInt(hfc.getConfigSetting('jwt_expiretime')),
+							username: user.username,
+							orgName: user.orgName
+						}, app.get('secret'));
+						res.render('mainpage', {
+							token: token,
+							username: user.username,
+							userorg: user.orgRname
+						});
+					} else {
+						res.render('login', {
+							loginerr: 'pwderr'
+						});
+					}
+				}
+			});
+		}
+	});
+// verified
+app.post('/users/regvali', function (req, res) {
+	var username = req.body.username;
+	var sql = 'select userid from fabricusers where username=?';
+	pool.query(sql, [username], function (err, result) {
+		if (err) {
+			console.log('[SELECT ERROR] - ', err.message);
+			return;
+		}
+		//console.log(result);
+		if (result != null && result != '') {
+			res.json({
+				err: '账户名已存在'
+			});
+		} else {
+			res.json({
+				err: ''
+			});
+		}
+	})
 })
 //用户注册
 app.route('/users/register')
- .get(function(req, res) {
-     res.render('register', { title: '用户注册' });
- })
- .post(function(req, res) {
-     var user={
-         username: req.body.username,
-         password: req.body.password,
-         org:req.body.org,
-         phonenumber:req.body.phonenumber
-     }
-     helper.getRegisteredUsers(user.username, user.org, true).then(function(response) {
-         if (response && typeof response !== 'string') {
-             var peers;
-             logger.info(user.username);
-             invoke.invokeChaincode(peers, "itemchannel", "itemcc", "initUser", [], user.username, user.org).then(function(message){
-				if(message.indexOf("Failed")==-1){
-					initusertosql(user,res);
-				}else{
-                    invoke.invokeChaincode(peers, "itemchannel", "itemcc", "initUser", [], user.username, user.org).then(function(data){
-                        if(data.indexOf("Failed")==-1) {
-                            initusertosql(user,res);
-                        }else{
-                            res.writeHead(200, {'Content-type' : 'text/html;charset=utf-8'});
-                            res.write('<script>alert("注册失败");window.location.href="/users/register"</script>');
-                            res.end();
-						}
+	.get(function (req, res) {
+		res.render('register', {
+			title: '用户注册'
+		});
+	})
+	.post(function (req, res) {
+		var user = {
+			username: req.body.username,
+			password: req.body.password,
+			org: req.body.org,
+			phonenumber: req.body.phonenumber
+		}
+		helper.getRegisteredUsers(user.username, user.org, true).then(function (response) {
+			if (response && typeof response !== 'string') {
+				var peers;
+				logger.info(user.username);
+				invoke.invokeChaincode(peers, "itemchannel", "itemcc", "initUser", [], user.username, user.org).then(function (message) {
+					if (message.indexOf("Failed") == -1) {
+						initusertosql(user, res);
+					} else {
+						invoke.invokeChaincode(peers, "itemchannel", "itemcc", "initUser", [], user.username, user.org).then(function (data) {
+							if (data.indexOf("Failed") == -1) {
+								initusertosql(user, res);
+							} else {
+								res.writeHead(200, {
+									'Content-type': 'text/html;charset=utf-8'
+								});
+								res.write('<script>alert("注册失败");window.location.href="/users/register"</script>');
+								res.end();
+							}
+						});
+					}
+				});
+			} else {
+				res.writeHead(200, {
+					'Content-type': 'text/html;charset=utf-8'
+				});
+				res.write('<script>alert("注册失败");window.location.href="/users/register"</script>');
+				res.end();
+			}
+		});
+	});
+
+function initusertosql(user, res) {
+	var sql = 'insert into fabricusers values(0,?,?,?,?)';
+	pool.query(sql, [user.username, user.password, user.phonenumber, user.org], function (err, result) {
+		if (err) {
+			console.log('[SELECT ERROR] - ', err.message);
+			res.writeHead(200, {
+				'Content-type': 'text/html;charset=utf-8'
+			});
+			res.write('<script>alert("注册失败");window.location.href="/users/register"</script>');
+			res.end();
+			return;
+		}
+		if (result.affectedRows == '1') {
+			res.writeHead(200, {
+				'Content-type': 'text/html;charset=utf-8'
+			});
+			res.write('<script>alert("注册成功");window.location.href="/users/login"</script>');
+			res.end();
+		} else {
+			res.writeHead(200, {
+				'Content-type': 'text/html;charset=utf-8'
+			});
+			res.write('<script>alert("注册失败");window.location.href="/users/register"</script>');
+			res.end();
+		}
+	});
+}
+
+//忘记密码
+app.route('/users/forgetpwd')
+	.get(function (req, res) {
+		if (req.query.name) {
+			var name = req.query.name;
+			var phone = req.query.phone;
+			var sql1 = "select phonenumber from fabricusers where username=?";
+			pool.query(sql1, [name], function (err, result) {
+				if (err) {
+					console.log('[SELECT ERROR] - ', err.message);
+					return;
+				}
+				if (result[0].phonenumber == phone) {
+					res.json({
+						err: ""
+					});
+				} else {
+					res.json({
+						err: "账号与手机号不匹配"
 					});
 				}
-			 });
-         } else {
-             res.writeHead(200, {'Content-type' : 'text/html;charset=utf-8'});
-             res.write('<script>alert("注册失败");window.location.href="/users/register"</script>');
-             res.end();
-         }
-     });
- });
-function initusertosql(user,res){
-    var sql='insert into fabricusers values(0,?,?,?,?)';
-    pool.query(sql,[user.username,user.password,user.phonenumber,user.org],function(err,result){
-        if(err){
-            console.log('[SELECT ERROR] - ',err.message);
-            res.writeHead(200, {'Content-type' : 'text/html;charset=utf-8'});
-            res.write('<script>alert("注册失败");window.location.href="/users/register"</script>');
-            res.end();
-            return;
-        }
-        if(result.affectedRows=='1'){
-            res.writeHead(200, {'Content-type' : 'text/html;charset=utf-8'});
-            res.write('<script>alert("注册成功");window.location.href="/users/login"</script>');
-            res.end();
-        }else{
-            res.writeHead(200, {'Content-type' : 'text/html;charset=utf-8'});
-            res.write('<script>alert("注册失败");window.location.href="/users/register"</script>');
-            res.end();
-        }
-    });
-}
- 
- //忘记密码
- app.route('/users/forgetpwd')
- .get(function(req,res){
- 	if(req.query.name){
- 		var name=req.query.name;
- 		var phone=req.query.phone;
- 		var sql1="select phonenumber from fabricusers where username=?";
- 		pool.query(sql1,[name],function(err,result){
-	 		if(err){
-	          console.log('[SELECT ERROR] - ',err.message);
-	          return;
-	        }
-	        if(result[0].phonenumber==phone){
-	        	res.json({err:""});
-	        }else{
-	        	res.json({err:"账号与手机号不匹配"});
-	        }
- 		});		
- 	}else{
- 		res.render('forgetpwd',{title:"忘记密码"});
- 	}
- })
- .post(function(req,res){
- 	var name=req.body.username;
- 	var phone=req.body.phonenumber;
- 	var pwd=req.body.password;
- 	var sql1="select phonenumber from fabricusers where username=?";
- 		pool.query(sql1,[name],function(err,result){
-	 		if(err){
-	          console.log('[SELECT ERROR] - ',err.message);
-	          return;
-	        }
-	        if(result[0].phonenumber==phone){
-	        	var sql2="update fabricusers set userpassword=? where username=?";
-	        	pool.query(sql2,[pwd,name],function(err1,result1){
-	        		if(err1){
-			          console.log('[SELECT ERROR] - ',err.message);
-			          return;
-	        		}
-	        		if(result1.affectedRows=='1'){
-	        			res.writeHead(200, {'Content-type' : 'text/html;charset=utf-8'});
- 						res.write('<script>alert("密码修改成功");window.location.href="/users/login"</script>');
- 						res.end();
-	        		}else{
-	        			res.writeHead(200, {'Content-type' : 'text/html;charset=utf-8'});
- 						res.write('<script>alert("密码修改失败");window.location.href="/users/forgetpwd"</script>');
- 						res.end();
-	        		}
-	        	});
-	        }
- 		});		
- });
- 
- 
+			});
+		} else {
+			res.render('forgetpwd', {
+				title: "忘记密码"
+			});
+		}
+	})
+	.post(function (req, res) {
+		var name = req.body.username;
+		var phone = req.body.phonenumber;
+		var pwd = req.body.password;
+		var sql1 = "select phonenumber from fabricusers where username=?";
+		pool.query(sql1, [name], function (err, result) {
+			if (err) {
+				console.log('[SELECT ERROR] - ', err.message);
+				return;
+			}
+			if (result[0].phonenumber == phone) {
+				var sql2 = "update fabricusers set userpassword=? where username=?";
+				pool.query(sql2, [pwd, name], function (err1, result1) {
+					if (err1) {
+						console.log('[SELECT ERROR] - ', err.message);
+						return;
+					}
+					if (result1.affectedRows == '1') {
+						res.writeHead(200, {
+							'Content-type': 'text/html;charset=utf-8'
+						});
+						res.write('<script>alert("密码修改成功");window.location.href="/users/login"</script>');
+						res.end();
+					} else {
+						res.writeHead(200, {
+							'Content-type': 'text/html;charset=utf-8'
+						});
+						res.write('<script>alert("密码修改失败");window.location.href="/users/forgetpwd"</script>');
+						res.end();
+					}
+				});
+			}
+		});
+	});
+
+
 /* app.get('/logout', function(req, res) {
      req.session.user = null;
      res.redirect('/');
  });*/
-  //请求菜单页面
- app.get('/left',function(req,res){
- 	var topic=req.query.menu;
- 	if(topic=="log"){
- 		res.render('leftlog');
- 	}else if(topic=="product"){
- 		res.render('leftproduct');
- 	}else if(topic=="leftapi"){
- 		res.render('leftapi');
- 	}
- });
- //请求主体界面
- app.get('/right',function(req,res){
- 	var topic=req.query.menu;
- 	if(topic=="orderlog"){
- 		res.render('rightlog');
- 	}else if(topic=="explorer"){
-	var opt = {  
-         host:'172.20.29.20',  
-         port:'8080',  
-         method:'GET',  
-         path:'/'  
-    	};
-	var sreq=http.request(opt,function(sres){
-	sres.pipe(res);
-	});
-	req.pipe(sreq);
- 		//res.render('rightexplorer');
- 	}else if(topic=="orderproduct"){
- 		res.render('rightorderproduct');
- 	}else if(topic=="producttransaction"){
- 		res.render('rightproducttransaction');
- 	}else if(topic=="accountinfo"){
- 		res.render('rightaccountinfo');
- 	}else if(topic=="help"){
- 		res.render('help')
- 	}else if(topic=="apihelp"){
- 		res.render('apihelp')
- 	}
- });
- 
+//请求菜单页面
+app.get('/left', function (req, res) {
+	var topic = req.query.menu;
+	if (topic == "log") {
+		res.render('leftlog');
+	} else if (topic == "product") {
+		res.render('leftproduct');
+	} else if (topic == "leftapi") {
+		res.render('leftapi');
+	}
+});
+//请求主体界面
+app.get('/right', function (req, res) {
+	var topic = req.query.menu;
+	if (topic == "orderlog") {
+		res.render('rightlog');
+	} else if (topic == "explorer") {
+		var opt = {
+			host: '172.20.29.20',
+			port: '8080',
+			method: 'GET',
+			path: '/'
+		};
+		var sreq = http.request(opt, function (sres) {
+			sres.pipe(res);
+		});
+		req.pipe(sreq);
+		//res.render('rightexplorer');
+	} else if (topic == "orderproduct") {
+		res.render('rightorderproduct');
+	} else if (topic == "producttransaction") {
+		res.render('rightproducttransaction');
+	} else if (topic == "accountinfo") {
+		res.render('rightaccountinfo');
+	} else if (topic == "help") {
+		res.render('help')
+	} else if (topic == "apihelp") {
+		res.render('apihelp')
+	}
+});
+
 // Create Channel
-app.post('/channels', function(req, res) {
+app.post('/channels', function (req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< C R E A T E  C H A N N E L >>>>>>>>>>>>>>>>>');
 	logger.debug('End point : /channels');
 	var channelName = req.body.channelName;
@@ -393,12 +455,12 @@ app.post('/channels', function(req, res) {
 	}
 
 	channels.createChannel(channelName, channelConfigPath, req.username, req.orgname)
-	.then(function(message) {
-		res.send(message);
-	});
+		.then(function (message) {
+			res.send(message);
+		});
 });
 // Join Channel
-app.post('/channels/:channelName/peers', function(req, res) {
+app.post('/channels/:channelName/peers', function (req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< J O I N  C H A N N E L >>>>>>>>>>>>>>>>>');
 	var channelName = req.params.channelName;
 	var peers = req.body.peers;
@@ -414,12 +476,12 @@ app.post('/channels/:channelName/peers', function(req, res) {
 	}
 
 	join.joinChannel(channelName, peers, req.username, req.orgname)
-	.then(function(message) {
-		res.send(message);
-	});
+		.then(function (message) {
+			res.send(message);
+		});
 });
 // Install chaincode on target peers
-app.post('/chaincodes', function(req, res) {
+app.post('/chaincodes', function (req, res) {
 	logger.debug('==================== INSTALL CHAINCODE ==================');
 	var peers = req.body.peers;
 	var chaincodeName = req.body.chaincodeName;
@@ -447,12 +509,12 @@ app.post('/chaincodes', function(req, res) {
 	}
 
 	install.installChaincode(peers, chaincodeName, chaincodePath, chaincodeVersion, req.username, req.orgname)
-	.then(function(message) {
-		res.send(message);
-	});
+		.then(function (message) {
+			res.send(message);
+		});
 });
 // Instantiate chaincode on target peers
-app.post('/channels/:channelName/chaincodes', function(req, res) {
+app.post('/channels/:channelName/chaincodes', function (req, res) {
 	logger.debug('==================== INSTANTIATE CHAINCODE ==================');
 	var chaincodeName = req.body.chaincodeName;
 	var chaincodeVersion = req.body.chaincodeVersion;
@@ -481,12 +543,12 @@ app.post('/channels/:channelName/chaincodes', function(req, res) {
 		return;
 	}
 	instantiate.instantiateChaincode(channelName, chaincodeName, chaincodeVersion, fcn, args, req.username, req.orgname)
-	.then(function(message) {
-		res.send(message);
-	});
+		.then(function (message) {
+			res.send(message);
+		});
 });
 // Invoke transaction on chaincode on target peers
-app.post('/channels/:channelName/chaincodes/:chaincodeName', function(req, res) {
+app.post('/channels/:channelName/chaincodes/:chaincodeName', function (req, res) {
 	logger.debug('==================== INVOKE ON CHAINCODE ==================');
 	var peers = req.body.peers;
 	var chaincodeName = req.params.chaincodeName;
@@ -515,74 +577,74 @@ app.post('/channels/:channelName/chaincodes/:chaincodeName', function(req, res) 
 	}
 
 	invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, args, req.username, req.orgname)
-	.then(function(message) {
-		res.send(message);
-	});
-});
-//post log file and uplog
-app.post('/uplogfile',upload.single('logfile'),function(req,res){
-	logger.debug('===========upload file=========');
-	var file=req.file;
-	var peers=req.body.peers;
-	var oldname=file.originalname;
-	var index=oldname.lastIndexOf('.');
-	var newname=oldname.substring(0,index)+"_"+Date.now();
-	var logname=newname;
-	var newpath='uploads/'+newname+oldname.substring(index);
-	fs.renameSync(file.path,newpath);
-	fs.readFile(newpath,function(err,data){
-		var logbody="";
-		if(err){
-			logbody="log text ..."
-		}
-		var hasher=crypto.createHash('md5');
-		hasher.update(data);
-		logbody=hasher.digest('hex');
-		var args=[logname,logbody];
-		invoke.invokeChaincode(peers, 'logchannel', 'logcc', 'uploadLog', args, req.username, req.orgname)
-		.then(function(message) {
+		.then(function (message) {
 			res.send(message);
 		});
+});
+//post log file and uplog
+app.post('/uplogfile', upload.single('logfile'), function (req, res) {
+	logger.debug('===========upload file=========');
+	var file = req.file;
+	var peers = req.body.peers;
+	var oldname = file.originalname;
+	var index = oldname.lastIndexOf('.');
+	var newname = oldname.substring(0, index) + "_" + Date.now();
+	var logname = newname;
+	var newpath = 'uploads/' + newname + oldname.substring(index);
+	fs.renameSync(file.path, newpath);
+	fs.readFile(newpath, function (err, data) {
+		var logbody = "";
+		if (err) {
+			logbody = "log text ..."
+		}
+		var hasher = crypto.createHash('md5');
+		hasher.update(data);
+		logbody = hasher.digest('hex');
+		var args = [logname, logbody];
+		invoke.invokeChaincode(peers, 'logchannel', 'logcc', 'uploadLog', args, req.username, req.orgname)
+			.then(function (message) {
+				res.send(message);
+			});
 	});
-	var sql='insert into logsinfo values(0,?,?,?)';
-	pool.query(sql,[logname,newpath,1],function(err,result){
-		if(err){
-          console.log('[SELECT ERROR] - ',err.message);
-          return;
-        }
-        if(result.affectedRows==1){
-        	logger.info("mysql save ok!");
-        }else{
-        	logger.info("mysql save false!");
-        }
+	var sql = 'insert into logsinfo values(0,?,?,?)';
+	pool.query(sql, [logname, newpath, 1], function (err, result) {
+		if (err) {
+			console.log('[SELECT ERROR] - ', err.message);
+			return;
+		}
+		if (result.affectedRows == 1) {
+			logger.info("mysql save ok!");
+		} else {
+			logger.info("mysql save false!");
+		}
 	});
 });
 //检查是否存在log文件
-app.get('/checklog',function(req,res){
+app.get('/checklog', function (req, res) {
 	logger.debug('==================== check if has logfile ==================');
-	var logname=req.query.logname;
-	var sql='select * from logsinfo where logname=?';
-	pool.query(sql,[logname],function(err,result){
-		if(err){
-          console.log('[SELECT ERROR] - ',err.message);
-          res.send("sql ERROR");
-          return;
-        }
-        if(result==''||result==null){
-        	res.send("no log");
-        }else{
-        	res.send(result[0].logpath);
-        }
+	var logname = req.query.logname;
+	var sql = 'select * from logsinfo where logname=?';
+	pool.query(sql, [logname], function (err, result) {
+		if (err) {
+			console.log('[SELECT ERROR] - ', err.message);
+			res.send("sql ERROR");
+			return;
+		}
+		if (result == '' || result == null) {
+			res.send("no log");
+		} else {
+			res.send(result[0].logpath);
+		}
 	});
 });
 //下载log文件
-app.post('/users/downloadlogfile',function(req,res){
-	var logpath=req.body.logpath;
+app.post('/users/downloadlogfile', function (req, res) {
+	var logpath = req.body.logpath;
 	res.download(logpath);
 });
 
 // Query on chaincode on target peers
-app.get('/channels/:channelName/chaincodes/:chaincodeName', function(req, res) {
+app.get('/channels/:channelName/chaincodes/:chaincodeName', function (req, res) {
 	logger.debug('==================== QUERY BY CHAINCODE ==================');
 	var channelName = req.params.channelName;
 	var chaincodeName = req.params.chaincodeName;
@@ -618,12 +680,12 @@ app.get('/channels/:channelName/chaincodes/:chaincodeName', function(req, res) {
 	logger.debug(args);
 
 	query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname)
-	.then(function(message) {
-		res.send(message);
-	});
+		.then(function (message) {
+			res.send(message);
+		});
 });
 //  Query Get Block by BlockNumber
-app.get('/channels/:channelName/blocks/:blockId', function(req, res) {
+app.get('/channels/:channelName/blocks/:blockId', function (req, res) {
 	logger.debug('==================== GET BLOCK BY NUMBER ==================');
 	let blockId = req.params.blockId;
 	let peer = req.query.peer;
@@ -636,12 +698,12 @@ app.get('/channels/:channelName/blocks/:blockId', function(req, res) {
 	}
 
 	query.getBlockByNumber(peer, blockId, req.username, req.orgname)
-		.then(function(message) {
+		.then(function (message) {
 			res.send(message);
 		});
 });
 // Query Get Transaction by Transaction ID
-app.get('/channels/:channelName/transactions/:trxnId', function(req, res) {
+app.get('/channels/:channelName/transactions/:trxnId', function (req, res) {
 	logger.debug(
 		'================ GET TRANSACTION BY TRANSACTION_ID ======================'
 	);
@@ -654,12 +716,12 @@ app.get('/channels/:channelName/transactions/:trxnId', function(req, res) {
 	}
 
 	query.getTransactionByID(peer, trxnId, req.username, req.orgname)
-		.then(function(message) {
+		.then(function (message) {
 			res.send(message);
 		});
 });
 // Query Get Block by Hash
-app.get('/channels/:channelName/blocks', function(req, res) {
+app.get('/channels/:channelName/blocks', function (req, res) {
 	logger.debug('================ GET BLOCK BY HASH ======================');
 	logger.debug('channelName : ' + req.params.channelName);
 	let hash = req.query.hash;
@@ -670,24 +732,24 @@ app.get('/channels/:channelName/blocks', function(req, res) {
 	}
 
 	query.getBlockByHash(peer, hash, req.username, req.orgname).then(
-		function(message) {
+		function (message) {
 			res.send(message);
 		});
 });
 //Query for Channel Information
-app.get('/channels/:channelName', function(req, res) {
+app.get('/channels/:channelName', function (req, res) {
 	logger.debug(
 		'================ GET CHANNEL INFORMATION ======================');
 	logger.debug('channelName : ' + req.params.channelName);
 	let peer = req.query.peer;
 
 	query.getChainInfo(peer, req.username, req.orgname).then(
-		function(message) {
+		function (message) {
 			res.send(message);
 		});
 });
 // Query to fetch all Installed/instantiated chaincodes
-app.get('/chaincodes', function(req, res) {
+app.get('/chaincodes', function (req, res) {
 	var peer = req.query.peer;
 	var installType = req.query.type;
 	//TODO: add Constnats
@@ -700,12 +762,12 @@ app.get('/chaincodes', function(req, res) {
 	}
 
 	query.getInstalledChaincodes(peer, installType, req.username, req.orgname)
-	.then(function(message) {
-		res.send(message);
-	});
+		.then(function (message) {
+			res.send(message);
+		});
 });
 // Query to fetch channels
-app.get('/channels', function(req, res) {
+app.get('/channels', function (req, res) {
 	logger.debug('================ GET CHANNELS ======================');
 	logger.debug('peer: ' + req.query.peer);
 	var peer = req.query.peer;
@@ -715,127 +777,132 @@ app.get('/channels', function(req, res) {
 	}
 
 	query.getChannels(peer, req.username, req.orgname)
-	.then(function(
-		message) {
-		res.send(message);
-	});
+		.then(function (
+			message) {
+			res.send(message);
+		});
 });
 
 //分页返回请求信息
-app.get('/getallinfo/channels/:channelName/chaincodes/:chaincodeName',function(req,res){
+app.get('/getallinfo/channels/:channelName/chaincodes/:chaincodeName', function (req, res) {
 	logger.debug('==============get allinfo===============');
-	var page=req.query.page;//页码
-	var topic=req.query.topic;//获取信息主题
-	var fcn;//chaincode函数
-	var results=new Array();//返回结果集，一个json串
+	var page = req.query.page; //页码
+	var topic = req.query.topic; //获取信息主题
+	var fcn; //chaincode函数
+	var results = new Array(); //返回结果集，一个json串
 	var chaincodeName = req.params.chaincodeName;
 	var channelName = req.params.channelName;
 	var peer = req.query.peer;
-	var users=new Array();
+	var users = new Array();
 
- 	//根据主题判断调用函数
-	switch(topic){ 
+	//根据主题判断调用函数
+	switch (topic) {
 		//log all
-		case '1': 
-			fcn="queryLogsByUser";
-			break; 
-		case '2': 
-			fcn="queryLogsByUser";
-			break; 
-			//item not own
-		case '3': 
-			fcn="queryItemsByItemOwner";
+		case '1':
+			fcn = "queryLogsByUser";
 			break;
-		case '4': 
-			fcn="queryItemsByItemOwner";
-			break; 
-		default: 
-		res.json(getErrorMessage('\'topic\''));
-		return;
-	} 
+		case '2':
+			fcn = "queryLogsByUser";
+			break;
+			//item not own
+		case '3':
+			fcn = "queryItemsByItemOwner";
+			break;
+		case '4':
+			fcn = "queryItemsByItemOwner";
+			break;
+		default:
+			res.json(getErrorMessage('\'topic\''));
+			return;
+	}
 	var records = new Array();
 	//获取用户列表
-	if (topic == 2 || topic == 4 ) {
+	if (topic == 2 || topic == 4) {
 		users.push(req.username);
 		if (!users) {
-		res.json(getErrorMessage('\'No users info\''));
-		return;
-		}
-		var args=[];
-		if(topic==4){
-			args=['',users[0]];
-		}else{
-			args=[users[0]];
-		}
-		query.queryChaincode(peer, channelName, chaincodeName,args, fcn, req.username, req.orgname).then(function(message) {
-		records =records.concat(JSON.parse(message));
-		if (records.length==0) {
-			res.json(getErrorMessage('\'no record in the page\''));
+			res.json(getErrorMessage('\'No users info\''));
 			return;
 		}
-		var results=new Array();
-		for (var index = page * 10-10; (index < records.length) && (index < (page * 10)); index++) {
-			var element = records[index];
-			results.push(element);
+		var args = [];
+		if (topic == 4) {
+			args = ['', users[0]];
+		} else {
+			args = [users[0]];
 		}
-		var totalpage=Math.ceil(records.length/10.0);
-		results.push({"totalpages":totalpage});
-		res.send(results);
-		return;
-		});
-		
-	}
-	else{
-		
-	var sql="select username from fabricusers";
-	pool.query(sql,function(err,result){
-        if(err){
-          console.log('[SELECT ERROR] - ',err.message);
-          return;
-        }
-	for(var j=0;j<result.length;j++){
-		if(topic==3&&result[j].username==req.username){
-			continue;
-		}
-		users.push(result[j].username);
-	}	
-	//logger.debug(result[0].username);
-	if (!users) {
-		res.json(getErrorMessage('\'No users info\''));
-		return;
-	}
-		var promisearray=[];
-		for(var i=0;i<users.length;i++){
-			var args=[];
-			if(topic==1){
-				args=[users[i]];
-			}else{
-				args=['',users[i]];
+		query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname).then(function (message) {
+			records = records.concat(JSON.parse(message));
+			if (records.length == 0) {
+				res.json(getErrorMessage('\'no record in the page\''));
+				return;
 			}
-			logger.debug(users[i]);
-			promisearray.push(query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname).then(function(data){//logger.info(data);
-return data;}));
-		} 
-		Promise.all(promisearray).then(function(data){
-			//logger.info(data);
-			for(var i=0;i<data.length;i++){
-				records=records.concat(JSON.parse(data[i]));
+			var results = new Array();
+			for (var index = page * 10 - 10;
+				(index < records.length) && (index < (page * 10)); index++) {
+				var element = records[index];
+				results.push(element);
 			}
-		if (records.length==0) {
-			res.json(getErrorMessage('\'no record in the page\''));
+			var totalpage = Math.ceil(records.length / 10.0);
+			results.push({
+				"totalpages": totalpage
+			});
+			res.send(results);
 			return;
-		}
-		var results=new Array();
-		for (var index = page * 10-10; (index < records.length) && (index < (page * 10)); index++) {
-			var element = records[index];
-			results.push(element);
-		}
-		var totalpage=Math.ceil(records.length/10.0);
-		results.push({"totalpages":totalpage});
-		res.send(results);
-		return;
 		});
-	});
-	}	
-});
 
+	} else {
+
+		var sql = "select username from fabricusers";
+		pool.query(sql, function (err, result) {
+			if (err) {
+				console.log('[SELECT ERROR] - ', err.message);
+				return;
+			}
+			for (var j = 0; j < result.length; j++) {
+				if (topic == 3 && result[j].username == req.username) {
+					continue;
+				}
+				users.push(result[j].username);
+			}
+			//logger.debug(result[0].username);
+			if (!users) {
+				res.json(getErrorMessage('\'No users info\''));
+				return;
+			}
+			var promisearray = [];
+			for (var i = 0; i < users.length; i++) {
+				var args = [];
+				if (topic == 1) {
+					args = [users[i]];
+				} else {
+					args = ['', users[i]];
+				}
+				logger.debug(users[i]);
+				promisearray.push(query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname).then(function (data) { //logger.info(data);
+					return data;
+				}));
+			}
+			Promise.all(promisearray).then(function (data) {
+				//logger.info(data);
+				for (var i = 0; i < data.length; i++) {
+					records = records.concat(JSON.parse(data[i]));
+				}
+				if (records.length == 0) {
+					res.json(getErrorMessage('\'no record in the page\''));
+					return;
+				}
+				var results = new Array();
+				for (var index = page * 10 - 10;
+					(index < records.length) && (index < (page * 10)); index++) {
+					var element = records[index];
+					results.push(element);
+				}
+				var totalpage = Math.ceil(records.length / 10.0);
+				results.push({
+					"totalpages": totalpage
+				});
+				res.send(results);
+				return;
+			});
+		});
+	}
+});

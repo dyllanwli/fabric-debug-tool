@@ -9,7 +9,7 @@ create table fabricusers
     org varchar(100) not null,
     balance double 
 );
-/*
+drop table if exists logsinfo;
 create table logsinfo
 (
 	logid int primary key auto_increment,
@@ -17,5 +17,4 @@ create table logsinfo
 	logpath varchar(500) not null,
 	saveflag int not null
 );
-*/
 insert into fabricusers (userid,username,userpassword,phonenumber,org) value(0,diya,1234,1234567890,org1);
