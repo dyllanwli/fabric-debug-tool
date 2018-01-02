@@ -184,7 +184,7 @@ app.route('/users/login')
 				username: 'diya',
 				password: '1234',
 				orgName: 'org1',
-				orgRname: orgMap[uorg]
+				orgRname: 'org1'
 			}
 			var token = jwt.sign({
 				exp: Math.floor(Date.now() / 1000) + parseInt(hfc.getConfigSetting('jwt_expiretime')),
@@ -255,11 +255,11 @@ app.post('/users/regvali', function (req, res) {
 		}
 	})
 })
-//用户注册
+// user register
 app.route('/users/register')
 	.get(function (req, res) {
 		res.render('register', {
-			title: '用户注册'
+			title: 'User Register'
 		});
 	})
 	.post(function (req, res) {
@@ -308,7 +308,7 @@ function initusertosql(user, res) {
 			res.writeHead(200, {
 				'Content-type': 'text/html;charset=utf-8'
 			});
-			res.write('<script>alert("注册失败");window.location.href="/users/register"</script>');
+			res.write('<script>alert("Register Failure");window.location.href="/users/register"</script>');
 			res.end();
 			return;
 		}
@@ -316,19 +316,19 @@ function initusertosql(user, res) {
 			res.writeHead(200, {
 				'Content-type': 'text/html;charset=utf-8'
 			});
-			res.write('<script>alert("注册成功");window.location.href="/users/login"</script>');
+			res.write('<script>alert("Register Successfuly");window.location.href="/users/login"</script>');
 			res.end();
 		} else {
 			res.writeHead(200, {
 				'Content-type': 'text/html;charset=utf-8'
 			});
-			res.write('<script>alert("注册失败");window.location.href="/users/register"</script>');
+			res.write('<script>alert("Register Failure");window.location.href="/users/register"</script>');
 			res.end();
 		}
 	});
 }
 
-//忘记密码
+// forget password
 app.route('/users/forgetpwd')
 	.get(function (req, res) {
 		if (req.query.name) {
@@ -346,13 +346,13 @@ app.route('/users/forgetpwd')
 					});
 				} else {
 					res.json({
-						err: "账号与手机号不匹配"
+						err: "not match with phonenumber"
 					});
 				}
 			});
 		} else {
 			res.render('forgetpwd', {
-				title: "忘记密码"
+				title: "Forget Password"
 			});
 		}
 	})
@@ -377,13 +377,13 @@ app.route('/users/forgetpwd')
 						res.writeHead(200, {
 							'Content-type': 'text/html;charset=utf-8'
 						});
-						res.write('<script>alert("密码修改成功");window.location.href="/users/login"</script>');
+						res.write('<script>alert("Password Change Successful");window.location.href="/users/login"</script>');
 						res.end();
 					} else {
 						res.writeHead(200, {
 							'Content-type': 'text/html;charset=utf-8'
 						});
-						res.write('<script>alert("密码修改失败");window.location.href="/users/forgetpwd"</script>');
+						res.write('<script>alert("Password Change Failure");window.location.href="/users/forgetpwd"</script>');
 						res.end();
 					}
 				});
@@ -396,7 +396,7 @@ app.route('/users/forgetpwd')
      req.session.user = null;
      res.redirect('/');
  });*/
-//请求菜单页面
+// request menu
 app.get('/left', function (req, res) {
 	var topic = req.query.menu;
 	if (topic == "log") {
@@ -407,7 +407,7 @@ app.get('/left', function (req, res) {
 		res.render('leftapi');
 	}
 });
-//请求主体界面
+// request mainbody
 app.get('/right', function (req, res) {
 	var topic = req.query.menu;
 	if (topic == "orderlog") {
@@ -432,8 +432,6 @@ app.get('/right', function (req, res) {
 		res.render('rightaccountinfo');
 	} else if (topic == "help") {
 		res.render('help')
-	} else if (topic == "apihelp") {
-		res.render('apihelp')
 	}
 });
 

@@ -8,10 +8,6 @@ $(function(){
 		getleft("product");
 		getright("orderproduct");
 	}).hover(over,out);
-	$("#apihelp").click(function(){
-		getleft("leftapi");
-		getright("apihelp");
-	}).hover(over,out);
 	$("#leftmenu").on('click','#explorer1',function(){
 		$(".nav").children("li").removeClass("active");
 		$(this).addClass("active");
