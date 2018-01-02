@@ -1,10 +1,10 @@
 <div id="front">
 	<div class="bodydiv1">
 		<div style="float:left;color: black;width: 800px">
-			商品名称<input type="text" placeholder="请输入..." id="itemname" class="input1">
+			Name<input type="text" placeholder="Please enter..." id="itemname" class="input1">
 		</div>
 		<div style="display: inline-block;position: relative;left: 10px">
-			<button class="btn btnb" id="getitem1">查询商品</button>
+			<button class="btn btnb" id="getitem1">Query</button>
 		</div>
 	</div>
 	<div style="position: relative;top:30px;left: 5%;margin: 20px 0">
@@ -24,9 +24,9 @@
 			</colgroup>
 			<thead style="background-color:#F8F9F9;border-bottom: solid 2px #dddddd">
 		    	<tr><th style="" data-field="0" tabindex="0"><div class="th-inner "><input type="checkbox" id="seltotal"></div><div class="fht-cell"></div></th>
-		    		<th style="" data-field="1" tabindex="0"><div class="th-inner ">商品名称</div><div class="fht-cell"></div></th>
-		    		<th style="" data-field="2" tabindex="0"><div class="th-inner ">商品属性</div><div class="fht-cell"></div></th>
-		    		<th style="" data-field="3" tabindex="0"><div class="th-inner ">商品价格</div><div class="fht-cell"></div></th>
+		    		<th style="" data-field="1" tabindex="0"><div class="th-inner ">Name</div><div class="fht-cell"></div></th>
+		    		<th style="" data-field="2" tabindex="0"><div class="th-inner ">type</div><div class="fht-cell"></div></th>
+		    		<th style="" data-field="3" tabindex="0"><div class="th-inner ">value</div><div class="fht-cell"></div></th>
 		    		<th style="" data-field="4" tabindex="0"><div class="th-inner ">操作</div><div class="fht-cell"></div></th></tr>
 		    </thead>
 		    <tbody id="itemlist">
@@ -41,9 +41,9 @@
       		商品上链
       	</div>
       	<div style="margin: 30px;">
-      		<div style="margin: 30px;">商品名称<input type="text" id="itemname2" placeholder="请输入..." ></div>
-      		<div style="margin: 30px;">商品属性<input type="text" name="" id="itemproperty2" placeholder="请输入..."></div>
-      		<div style="margin: 30px;">商品价格<input type="text" name="" id="itemprice2" placeholder="请输入整数" onkeypress="clearNoNum(this)" oninput="clearNoNum(this)" onpropertychange="clearNoNum(this)" sonblur="clearNoNum(this)"></div>
+      		<div style="margin: 30px;">Name<input type="text" id="itemname2" placeholder="Please enter..." ></div>
+      		<div style="margin: 30px;">type<input type="text" name="" id="itemproperty2" placeholder="Please enter..."></div>
+      		<div style="margin: 30px;">value<input type="text" name="" id="itemprice2" placeholder="请输入整数" onkeypress="clearNoNum(this)" oninput="clearNoNum(this)" onpropertychange="clearNoNum(this)" sonblur="clearNoNum(this)"></div>
       		<input type="button" class="btn btnb" id="upitem2" value="上链">
       		<input type="button" class="btn btn2" id="cancelup" value="取消">
       	</div>

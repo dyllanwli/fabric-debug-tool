@@ -631,7 +631,7 @@ app.get('/checklog', function (req, res) {
 		}
 	});
 });
-//下载log文件
+//Download Log文件
 app.post('/users/downloadlogfile', function (req, res) {
 	var logpath = req.body.logpath;
 	res.download(logpath);
