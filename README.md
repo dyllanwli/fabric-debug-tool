@@ -4,6 +4,7 @@ Hyperledger debug tool; fabric node sdk; e2e-test
 ### TODO：
 
 + enable mysql
++ add fabric explorer
 
 
 #### Requirements:
