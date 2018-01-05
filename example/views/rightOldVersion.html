@@ -1,0 +1,282 @@
+<style>
+    #front {
+        position: left;
+    }
+    #clear {
+        position: absolute;
+        top: -20px;
+        right: 50%;
+        font-size: 14px;
+    }
+
+    #result {
+        position: absolute;
+        top: 50px;
+        right: 10%;
+    }
+
+    #resultArea {
+        float: right;
+        font-size: 13px;
+        right: 50%;
+        width: 450px;
+        height: 600px;
+    }
+
+    #invoke_args {
+        width: 300px;
+        height: 200px;
+        text-align: left
+    }
+
+    #div_token {
+        background-color: rgb(200, 200, 200);
+        float: left;
+        padding: 10px;
+        width: 100%;
+    }
+
+    #div_identified {
+        background-color: rgb(200, 200, 220);
+        float: left;
+        padding: 10px;
+        width: 100%
+    }
+
+    #div_join_form {
+        float: left;
+    }
+
+    #div_channels {
+        float: left;
+    }
+
+
+    input[type="radio"] {
+        display: inline-block;
+        margin: 0 -2px 0 -1px;
+        width: 19px;
+        height: 19px;
+    }
+
+
+    input[type="radio"]+label {
+        display: inline-block;
+        margin: -2px 10px 0 0;
+    }
+
+    input[type="radio"]:checked+label {
+        background-color: gainsboro
+    }
+
+
+    #div_createchannel {
+        background-color: rgb(226, 226, 226);
+        padding: 10px;
+        float: left;
+        width: 100%;
+    }
+
+    #channelConfigPath {
+        width: 100%;
+    }
+
+    #div_join {
+        background-color: rgb(228, 217, 217);
+        width: 100%;
+        float: left;
+        padding: 10px;
+    }
+
+    #div_install {
+        background-color: rgb(255, 235, 221);
+        padding: 10px;
+        float: left;
+        width: 100%;
+    }
+
+    #div_instantiate {
+        background-color: rgb(245, 214, 200);
+        padding: 10px;
+        float: left;
+        width: 100%;
+    }
+
+    #div_invoke {
+        background-color: rgb(240, 221, 206);
+        padding: 10px;
+        float: left;
+        width: 100%;
+    }
+
+    #div_query {
+        background-color: rgb(218, 197, 173);
+        padding: 10px;
+        float: left;
+        width: 100%;
+    }
+</style>
+
+<div id="front">
+    <div id="result">
+        <input type="button" id="clear" value="Clear Result">
+        <textarea readonly id="resultArea"></textarea>
+    </div>
+    <div id="div_token">
+        <form>
+            username:
+            <input type="text" id="username" value="diya">
+            </br>
+            orgName:
+            <input type="text" id="orgName" value="org1">
+            <input type="button" id="enrollAdmin" value="enroll Admin">
+        </form>
+    </div>
+    <div id="div_identified">
+        <div id="div_select_token">
+            &nbsp;Select enrolled user:
+            <input type="radio" name="token" value="no token1">
+            <label for="token">no user</label>
+        </div>
+        <div id="div_channels">
+            &nbsp;Select existing channel:
+        </div>
+    </div>
+
+    <div id="div_createchannel">
+        <form>
+            channelName:
+            <input id="channelName" type="text" name="channelName" value="mychannel">
+            <input id="createChannel" type="button" value="create Channel">
+            </br>
+            channelConfigPath:
+            <input id="channelConfigPath" type="text" name="channelConfigPath" value="../artifacts/channel/mychannel.tx">
+        </form>
+    </div>
+
+    <div id="div_join">
+        <form>
+            <!-- &nbsp;channelName:
+            <input id="join_channelName" type="text" value="mychannel">
+            </br> -->
+            &nbsp;peers:
+            <input type="text" id="join_peers" value="peer1,peer2">
+            <input id="joinChannel" type="button" value="join Channel">
+            <input id="join_all" type="button" value="join All peers">
+            </br>
+            <div id="div_join_form">
+                &nbsp;Joined peers:
+            </div>
+
+
+        </form>
+    </div>
+    </br>
+    <div id="div_install">
+        <p>1.Install Chaincode function:</p>
+        <form name="installChaincode">
+            peers:
+            <input type="text" id="install_peers" value="peer1,peer2">
+            </br>
+            chaincodeName:
+            <input type="text" id="install_chaincodeName" value="mycc">
+            </br>
+            chaincodePath:
+            <input type="text" id="install_chaincodePath" value="github.com/example_cc">
+            </br>
+            chaincodeVersion:
+            <input type="text" id="install_chaincodeVersion" value="v0">
+            </br>
+            <input id="installChaincode" type="button" value="install Chaincode">
+        </form>
+    </div>
+
+    <div id="div_instantiate">
+        <p>&nbsp;2.Instantiate Chaincode function( This will take a few seconds):</p>
+        <form>
+            &nbsp;chaincodeName:
+            <input type="text" id="instan_chaincodeName" value="mycc">
+            </br>
+            &nbsp;chaincodeVersion:
+            <input type="text" id="instan_chaincodeVersion" value="v0">
+            </br>
+            <!-- &nbsp;channelName:
+            <input type="text" id="instan_channelName" value="mychannel">
+            </br> -->
+            &nbsp;arg:
+            <input type="text" id="instan_args" name="instan_args" value="a,100,b,200">
+            </br>
+            <input id="instantiateChaincode" type="button" value="instantiate Chaincode">
+        </form>
+    </div>
+
+    <div id="div_invoke">
+        <p>3.Invoke function (move, delete, create):</p>
+        <form>
+            chaincodeName:
+            <input type="text" id="invoke_chaincodeName" value="mycc">
+            </br>
+            channelName:
+            <input type="text" id="invoke_channelName" value="mychannel">
+            </br>
+            fcn:
+            <input type="text" id="invoke_fcn" value="create">
+            </br>
+            args (move:a,b,10; delete:a; create: ):
+            </br>
+            <textarea id="invoke_args" value="{a:100,b:200,c:130}">{a:100,b:200,c:130}</textarea>
+            </br>
+            <input id="invokeTransaction" type="button" value="Invoke Transaction">
+        </form>
+    </div>
+
+    <div id="div_query">
+        <p>&nbsp;4.Query Chaincode:</p>
+        <form>
+            &nbsp;peer:
+            <input type="text" id="query_peer" value="peer1">
+            </br>
+            &nbsp;chaincodeName:
+            <input type="text" id="query_chaincodeName" value="mycc">
+            </br>
+            &nbsp;channelName:
+            <input type="text" id="query_channelName" value="mychannel">
+            <!-- </br>
+            &nbsp;fcn:
+            <input type="text" id="query_fcn" value="query"> -->
+            </br>
+            &nbsp;args:
+            <input type="text" id="query_args" value="a">
+            </br>
+            &nbsp;block ID:
+            <input type="text" id="query_blockId" value="1">
+            </br>
+            &nbsp;Transaction ID:
+            <input type="text" id="query_trxnId" value="null">
+            </br>
+            &nbsp;installType:
+            <input type="text" id="query_type" value="installed"> ( e.g. instantiated/ installed)</input>
+            </br>
+            <input id="query1" type="button" value="query by args"> needs: channelName, chaincodes, peer, args, (fcn query)</input>
+            </br>
+            <input id="query2" type="button" value="query by blockId"> needs: channelName, blockId, peer</input>
+            </br>
+            <input id="query3" type="button" value="query by TransactionID"> needs: channelName, TransactionID, peer</input>
+            </br>
+            <input id="query4" type="button" value="query ChainInfo"> needs: channelName, peer</input>
+            </br>
+            <input id="query5" type="button" value="query installType"> needs: peer, installType</input>
+            </br>
+            <input id="query6" type="button" value="query Channels "> needs: peer</input>
+        </form>
+    </div>
+    <div id="div_joined_chaincode">
+        &nbsp; Joined Chaincode:
+        </br>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="js/frameworks/jquery.min.js"></script>
+<script type="text/javascript" src="js/old/utility.js"></script>
+<script type="text/javascript" src="js/old/init.js"></script>

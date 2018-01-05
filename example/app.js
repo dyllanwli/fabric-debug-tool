@@ -410,6 +410,8 @@ app.get('/left', function (req, res) {
 		res.render('leftlog');
 	} else if (topic == "product") {
 		res.render('leftproduct');
+	} else if (topic == 'oldversion'){
+		res.render('leftOldVersion');
 	}
 });
 // request mainbody
@@ -417,10 +419,12 @@ app.get('/right', function (req, res) {
 	var topic = req.query.menu;
 	if (topic == "orderlog") {
 		res.render('rightlog');
+	} else if (topic == "oldversion"){
+		res.render('rightOldVersion');
 	} else if (topic == "explorer") {
 		var opt = {
 			host: '39.106.141.206',
-			port: '4001',
+			port: '4002',
 			method: 'GET',
 			path: '/'
 		};

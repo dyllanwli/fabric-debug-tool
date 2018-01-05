@@ -11,10 +11,12 @@ $(function(){
 	$("#leftmenu").on('click','#explorer1',function(){
 		$(".nav").children("li").removeClass("active");
 		$(this).addClass("active");
-		$("#rightbody").empty();
+		// $Loading=$("<h3>Loading...</h3>");
+		// $("#rightbody").append($Loading);
 		//$("#rightbody").html("<iframe width=800px height=800px src=></iframe>")
-		$explo.attr("src","//39.106.141.206:4001/");
 		$explo=$("<iframe width=90% height=100%></iframe>");
+		$explo.attr("src","//39.106.141.206:4002/");
+		$("#rightbody").empty();
 		$("#rightbody").append($explo);
 	});
 	$("#leftmenu").on('click','#explorer2',function(){
@@ -46,10 +48,10 @@ $(function(){
 		$(this).addClass("active");
 		getright("accountinfo");
 	});
-	$("#leftmenu").on('click','#help',function(){
+	$("#leftmenu").on('click','#oldversion',function(){
 		$(".nav").children("li").removeClass("active");
 		$(this).addClass("active");
-		getright("help");
+		getright("oldversion");
 	});
 	$("#logout").click(function(){
 		sessionStorage.clear();
