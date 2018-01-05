@@ -9,6 +9,10 @@
     "start": "webpack-dev-server",
     "watch": "webpack --watch"
   },
+  "browser": {
+    "fs": false,
+    "child_process": false
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
