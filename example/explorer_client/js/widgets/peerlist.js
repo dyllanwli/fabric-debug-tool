@@ -14,7 +14,7 @@ module.exports = function(id) {
 			'<thead style="font-weight: bold;">'+
 			'<tr><td width="20%">name</td><td  width="20%">org</td><td  width="20%">mspid</td><td width="40%">request</td></tr></thead>'+
 			'<tbody>'+
-			'<tr> <td>peer1</td> <td>peerOrg1</td><td>Org1MSP</td><td>grpc://112.124.115.82:7051</td></tr>' +
+			'<tr> <td>peer1_example</td> <td>peerOrg1</td><td>Org1MSP</td><td>grpc://112.124.115.82:7051</td></tr>' +
 
 			'</tbody>'+
 			' </table> <div>'),

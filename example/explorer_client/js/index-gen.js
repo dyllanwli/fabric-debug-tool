@@ -94118,7 +94118,7 @@
 
 			hideLink: true,
 
-			template: _.template('<div class="info-table"> ' + '<table style="width: 100%; table-layout: fixed;" class="table table-striped">' + '<thead style="font-weight: bold;">' + '<tr><td width="20%">name</td><td  width="20%">org</td><td  width="20%">mspid</td><td width="40%">request</td></tr></thead>' + '<tbody>' + '<tr> <td>peer1</td> <td>peerOrg1</td><td>Org1MSP</td><td>grpc://112.124.115.82:7051</td></tr>' + '</tbody>' + ' </table> <div>'),
+			template: _.template('<div class="info-table"> ' + '<table style="width: 100%; table-layout: fixed;" class="table table-striped">' + '<thead style="font-weight: bold;">' + '<tr><td width="20%">name</td><td  width="20%">org</td><td  width="20%">mspid</td><td width="40%">request</td></tr></thead>' + '<tbody>' + '<tr> <td>peer1_example</td> <td>peerOrg1</td><td>Org1MSP</td><td>grpc://112.124.115.82:7051</td></tr>' + '</tbody>' + ' </table> <div>'),
 
 			init: function init(data) {
 				Dashboard.Utils.emit('widget|init|' + this.name);
