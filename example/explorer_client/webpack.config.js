@@ -23,7 +23,7 @@ module.exports = {
 	  inline: true,
     stats: 'errors-only',
     host: '0.0.0.0',
-    port: 4001,
+    port: 4002,
     disableHostCheck: true,
   },
   plugins: [

@@ -54,4 +54,5 @@ restartNetwork
 
 installNodeModules
 
-PORT=4000 node app
+mysql -uroot -p1234 < ./db/fabricUsers.sql
+node app
