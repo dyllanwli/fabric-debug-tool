@@ -62,7 +62,7 @@ echo
 echo "POST instantiate chaincode on peer1 of Org1"
 echo
 curl -s -X POST \
-  http://localhost:4000/channels/mychannel/chaincodes \
+  http://localhost:4000/channels/logchannel/chaincodes \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json" \
   -d '{
@@ -78,7 +78,7 @@ sleep 5s
 echo "POST invoke chaincode on peers of Org1 and Org2"
 echo
 TRX_ID=$(curl -s -X POST \
-  http://localhost:4000/channels/mychannel/chaincodes/itemcc \
+  http://localhost:4000/channels/logchannel/chaincodes/itemcc \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json" \
   -d '{
@@ -93,7 +93,7 @@ sleep 5s
 echo "POST invoke chaincode on peers of Org1 and Org2"
 echo
 TRX_ID=$(curl -s -X POST \
-  http://localhost:4000/channels/mychannel/chaincodes/itemcc \
+  http://localhost:4000/channels/logchannel/chaincodes/itemcc \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json" \
   -d '{
@@ -108,7 +108,7 @@ sleep 5s
 echo "POST invoke chaincode on peers of Org1 and Org2"
 echo
 TRX_ID=$(curl -s -X POST \
-  http://localhost:4000/channels/mychannel/chaincodes/itemcc \
+  http://localhost:4000/channels/logchannel/chaincodes/itemcc \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json" \
   -d '{
@@ -123,7 +123,7 @@ echo
 echo "GET query chaincode on peer1 of Org1"
 echo
 curl -s -X GET \
-  "http://localhost:4000/channels/mychannel/chaincodes/itemcc?peer=peer1&fcn=queryItemsByItemPropertyOwner&args=%5B%22%22%2c%22%22%2c%22Jim%22%5D&startKey=0&endKey=9" \
+  "http://localhost:4000/channels/logchannel/chaincodes/itemcc?peer=peer1&fcn=queryItemsByItemPropertyOwner&args=%5B%22%22%2c%22%22%2c%22Jim%22%5D&startKey=0&endKey=9" \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json"
 echo

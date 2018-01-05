@@ -198,7 +198,7 @@ echo
 #echo
 #hash=????
 #curl -s -X GET \
-#  "http://localhost:4000/channels/mychannel/blocks?hash=$hash&peer=peer1" \
+#  "http://localhost:4000/channels/logchannel/blocks?hash=$hash&peer=peer1" \
 #  -H "authorization: Bearer $ORG1_TOKEN" \
 #  -H "cache-control: no-cache" \
 #  -H "content-type: application/json" \

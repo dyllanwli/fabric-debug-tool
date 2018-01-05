@@ -450,7 +450,7 @@ app.post('/channels', function (req, res) {
 	var channelName = req.body.channelName;
 	var channelConfigPath = req.body.channelConfigPath;
 	logger.debug('Channel name : ' + channelName);
-	logger.debug('channelConfigPath : ' + channelConfigPath); //../artifacts/channel/mychannel.tx
+	logger.debug('channelConfigPath : ' + channelConfigPath); //../artifacts/channel/logchannel.tx
 	if (!channelName) {
 		res.json(getErrorMessage('\'channelName\''));
 		return;
@@ -613,7 +613,7 @@ app.post('/uplogfile', upload.single('logfile'), function (req, res) {
 		hasher.update(data);
 		logbody = hasher.digest('hex');
 		var args = [logname, logbody];
-		invoke.invokeChaincode(peers, 'mychannel', 'logcc', 'uploadLog', args, req.username, req.orgname)
+		invoke.invokeChaincode(peers, 'logchannel', 'logcc', 'uploadLog', args, req.username, req.orgname)
 			.then(function (message) {
 				res.send(message);
 			});

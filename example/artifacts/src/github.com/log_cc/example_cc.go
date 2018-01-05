@@ -18,14 +18,14 @@ under the License.
 // ====CHAINCODE EXECUTION SAMPLES (CLI) ==================
 
 // ==== Invoke logs ====
-// peer chaincode invoke -C mychannel -n mycc -c '{"Args":["uploadLog","msc_20170613","900150983cd24fb0d6963f7d28e16f72","tom"]}'
-// peer chaincode invoke -C mychannel -n mycc -c '{"Args":["deleteLog","msc_20170613"]}'
+// peer chaincode invoke -C logchannel -n mycc -c '{"Args":["uploadLog","msc_20170613","900150983cd24fb0d6963f7d28e16f72","tom"]}'
+// peer chaincode invoke -C logchannel -n mycc -c '{"Args":["deleteLog","msc_20170613"]}'
 
 // ==== Query logs ====
-// peer chaincode query -C mychannel -n mycc -c '{"Args":["readLog","msc_20170613"]}'
+// peer chaincode query -C logchannel -n mycc -c '{"Args":["readLog","msc_20170613"]}'
 
 // Rich Query (Only supported if CouchDB is used as state database):
-//   peer chaincode query -C mychannel -n mycc -c '{"Args":["queryLogsByUser","tom"]}'
+//   peer chaincode query -C logchannel -n mycc -c '{"Args":["queryLogsByUser","tom"]}'
 
 //The following examples demonstrate creating indexes on CouchDB
 //Example hostname:port configurations
