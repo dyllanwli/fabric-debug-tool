@@ -234,6 +234,7 @@ app.route('/users/login')
 			});
 		}
 	});
+	
 // verified
 app.post('/users/regvali', function (req, res) {
 	var username = req.body.username;

@@ -13,11 +13,9 @@ $(function(){
 		$(this).addClass("active");
 		$("#rightbody").empty();
 		//$("#rightbody").html("<iframe width=800px height=800px src=></iframe>")
-		// $explo.attr("src","//39.106.141.206:4001/");
+		$explo.attr("src","//39.106.141.206:4001/");
 		$explo=$("<iframe width=90% height=100%></iframe>");
 		$("#rightbody").append($explo);
-		$attention = $("<h3>Null</h3>");
-		$("#rightbody").append($attention);
 	});
 	$("#leftmenu").on('click','#explorer2',function(){
 		$(".nav").children("li").removeClass("active");
@@ -25,7 +23,7 @@ $(function(){
 		$("#rightbody").empty();
 		//$("#rightbody").html("<iframe width=800px height=800px src=></iframe>")
 		$explo=$("<iframe width=90% height=100%></iframe>");
-		$explo.attr("src","//39.106.141.206:4001/");
+		// $explo.attr("src","//39.106.141.206:4001/");
 		$("#rightbody").append($explo);
 	});
 	$("#leftmenu").on('click','#orderlog',function(){
