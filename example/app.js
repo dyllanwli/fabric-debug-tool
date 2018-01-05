@@ -412,8 +412,8 @@ app.get('/right', function (req, res) {
 		res.render('rightlog');
 	} else if (topic == "explorer") {
 		var opt = {
-			host: '172.20.29.20',
-			port: '8080',
+			host: '39.106.141.206',
+			port: '4001',
 			method: 'GET',
 			path: '/'
 		};

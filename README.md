@@ -1,6 +1,12 @@
 ## README
 Hyperledger debug tool; fabric node sdk; e2e-test
 
+## Log:
+
++ got problem on example/explorer/; try add xmlhttprequest 
++ set host on 0.0.0.0, look into this [issue](https://github.com/webpack/webpack-dev-server/issues/151)
++ 
+
 ### TODO：
 
 + enable mysql
