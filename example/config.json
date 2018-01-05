@@ -1,8 +1,8 @@
 {
    "host":"localhost",
-   "port":"4000",
+   "port":"4001",
    "jwt_expiretime": "36000",
-   "channelName":"logchannel",
+   "channelName":"mychannel",
    "CC_SRC_PATH":"../artifacts",
    "keyValueStore":"/tmp/fabric-client-kvs",
    "eventWaitTime":"30000",

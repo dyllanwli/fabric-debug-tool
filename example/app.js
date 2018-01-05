@@ -115,7 +115,7 @@ app.use(function (req, res, next) {
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// START SERVER /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-var server = http.createServer(app).listen(port, function () {});
+var server = http.createServer(app).listen(port, function () { });
 logger.info('****************** SERVER STARTED ************************');
 logger.info('**************  http://' + host + ':' + port +
 	'  ******************');
@@ -234,7 +234,13 @@ app.route('/users/login')
 			});
 		}
 	});
-	
+
+
+
+// =============================================================================
+// =============================================================================
+// =============================================================================
+// Below is the frontend
 // verified
 app.post('/users/regvali', function (req, res) {
 	var username = req.body.username;
@@ -432,6 +438,11 @@ app.get('/right', function (req, res) {
 	}
 });
 
+// ========================================================================
+// ========================================================================
+// ========================================================================
+// Above is the frontend
+
 // Create Channel
 app.post('/channels', function (req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< C R E A T E  C H A N N E L >>>>>>>>>>>>>>>>>');
@@ -452,8 +463,11 @@ app.post('/channels', function (req, res) {
 	channels.createChannel(channelName, channelConfigPath, req.username, req.orgname)
 		.then(function (message) {
 			res.send(message);
+		}, (err) => {
+			res.send(err)
 		});
 });
+
 // Join Channel
 app.post('/channels/:channelName/peers', function (req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< J O I N  C H A N N E L >>>>>>>>>>>>>>>>>');
@@ -475,6 +489,7 @@ app.post('/channels/:channelName/peers', function (req, res) {
 			res.send(message);
 		});
 });
+
 // Install chaincode on target peers
 app.post('/chaincodes', function (req, res) {
 	logger.debug('==================== INSTALL CHAINCODE ==================');
@@ -576,6 +591,8 @@ app.post('/channels/:channelName/chaincodes/:chaincodeName', function (req, res)
 			res.send(message);
 		});
 });
+
+// ================================== USER Function
 //post log file and uplog
 app.post('/uplogfile', upload.single('logfile'), function (req, res) {
 	logger.debug('===========upload file=========');
@@ -596,7 +613,7 @@ app.post('/uplogfile', upload.single('logfile'), function (req, res) {
 		hasher.update(data);
 		logbody = hasher.digest('hex');
 		var args = [logname, logbody];
-		invoke.invokeChaincode(peers, 'logchannel', 'logcc', 'uploadLog', args, req.username, req.orgname)
+		invoke.invokeChaincode(peers, 'mychannel', 'logcc', 'uploadLog', args, req.username, req.orgname)
 			.then(function (message) {
 				res.send(message);
 			});
@@ -637,6 +654,8 @@ app.post('/users/downloadlogfile', function (req, res) {
 	var logpath = req.body.logpath;
 	res.download(logpath);
 });
+// ==================================================== USER
+
 
 // Query on chaincode on target peers
 app.get('/channels/:channelName/chaincodes/:chaincodeName', function (req, res) {
@@ -778,6 +797,8 @@ app.get('/channels', function (req, res) {
 		});
 });
 
+
+// =========================================================== QUERY 
 //分页返回请求信息
 app.get('/getallinfo/channels/:channelName/chaincodes/:chaincodeName', function (req, res) {
 	logger.debug('==============get allinfo===============');
@@ -799,7 +820,7 @@ app.get('/getallinfo/channels/:channelName/chaincodes/:chaincodeName', function 
 		case '2':
 			fcn = "queryLogsByUser";
 			break;
-			//item not own
+		//item not own
 		case '3':
 			fcn = "queryItemsByItemOwner";
 			break;

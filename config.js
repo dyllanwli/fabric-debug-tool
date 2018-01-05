@@ -12,11 +12,3 @@ else
 
 hfc.addConfigFile(path.join(__dirname, 'app', file));
 hfc.addConfigFile(path.join(__dirname, 'config.json'));
-
-
-var dbMysql = {
-	host: "localhost",
-	user:"root",
-	password:"1234",
-	database:"test",
-}
