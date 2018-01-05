@@ -3,6 +3,10 @@ var webpack = require('webpack');
 
 
 module.exports = {
+  // debug the child_prosess error
+  externals:[{
+    xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
+  }],
   entry: ["webpack/hot/dev-server", "./js/index.js"],
   output: {
     path: path.join(__dirname, 'js'),
