@@ -1,19 +1,3 @@
-/**
- * Copyright 2017 IBM All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the 'License');
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an 'AS IS' BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-'use strict';
 var log4js = require('log4js');
 var logger = log4js.getLogger('SampleWebApp');
 var express = require('express');
@@ -115,8 +99,9 @@ app.use(function (req, res, next) {
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// START SERVER /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-var server = http.createServer(app).listen(port, function () { });
-logger.info('****************** SERVER STARTED ************************');
+var server = http.createServer(app).listen(port, function () {
+	logger.info('****************** SERVER STARTED ************************');
+});
 logger.info('**************  http://' + host + ':' + port +
 	'  ******************');
 server.timeout = 240000;
@@ -410,7 +395,7 @@ app.get('/left', function (req, res) {
 		res.render('leftlog');
 	} else if (topic == "product") {
 		res.render('leftproduct');
-	} else if (topic == 'oldversion'){
+	} else if (topic == 'oldversion') {
 		res.render('leftOldVersion');
 	}
 });
@@ -419,7 +404,7 @@ app.get('/right', function (req, res) {
 	var topic = req.query.menu;
 	if (topic == "orderlog") {
 		res.render('rightlog');
-	} else if (topic == "oldversion"){
+	} else if (topic == "oldversion") {
 		res.render('rightOldVersion');
 	} else if (topic == "explorer") {
 		var opt = {
@@ -449,7 +434,7 @@ app.get('/right', function (req, res) {
 
 // Create Channel
 app.post('/channels', function (req, res) {
-	logger.info('<<<<<<<<<<<<<<<<< C R E A T E  C H A N N E L >>>>>>>>>>>>>>>>>');
+	logger.info('====================CREATE CHANNEL====================');
 	logger.debug('End point : /channels');
 	var channelName = req.body.channelName;
 	var channelConfigPath = req.body.channelConfigPath;
@@ -474,7 +459,7 @@ app.post('/channels', function (req, res) {
 
 // Join Channel
 app.post('/channels/:channelName/peers', function (req, res) {
-	logger.info('<<<<<<<<<<<<<<<<< J O I N  C H A N N E L >>>>>>>>>>>>>>>>>');
+	logger.info('==================== JOIN CHANNEL====================');
 	var channelName = req.params.channelName;
 	var peers = req.body.peers;
 	logger.debug('channelName : ' + channelName);
@@ -661,6 +646,20 @@ app.post('/users/downloadlogfile', function (req, res) {
 // ==================================================== USER
 
 
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////below is query///////////////////////////////////////////////
+// Got 
+// Query to fetch channels
+// Query on chaincode on target peers
+// Query Get Block by BlockNumber
+// Query Get Transaction by Transaction ID
+// Query Get Block by Hash
+// Query for Channel Information
+// Query to fetch all Installed/instantiated chaincodes
+// 
+// 
+// 
 // Query on chaincode on target peers
 app.get('/channels/:channelName/chaincodes/:chaincodeName', function (req, res) {
 	logger.debug('==================== QUERY BY CHAINCODE ==================');
@@ -824,7 +823,7 @@ app.get('/getallinfo/channels/:channelName/chaincodes/:chaincodeName', function 
 		case '2':
 			fcn = "queryLogsByUser";
 			break;
-		//item not own
+			//item not own
 		case '3':
 			fcn = "queryItemsByItemOwner";
 			break;

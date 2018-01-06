@@ -1,18 +1,3 @@
-/**
- * Copyright 2017 IBM All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
 var path = require('path');
 var fs = require('fs');
 var util = require('util');
@@ -25,11 +10,11 @@ var logger = helper.getLogger('Query');
 
 var queryChaincode = function(peer, channelName, chaincodeName, args, fcn, username, org) {
 	var channel = helper.getChannelForOrg(org);
-	channel._name=channelName;
 	var client = helper.getClientForOrg(org);
 	var target = buildTarget(peer, org);
 	return helper.getRegisteredUsers(username, org).then((user) => {
-		tx_id = client.newTransactionID();
+		var tx_id = client.newTransactionID();
+        logger.info("We got new Transaction ID: "+tx_id);
 		// send query
 		var request = {
 			chaincodeId: chaincodeName,
@@ -44,7 +29,13 @@ var queryChaincode = function(peer, channelName, chaincodeName, args, fcn, usern
 			err;
 	}).then((response_payloads) => {
 		if (response_payloads) {
-			result = response_payloads[0].toString('utf8');
+			// for (let i = 0; i < response_payloads.length; i++) {
+			// 	logger.info(args[0]+' has ' + response_payloads[i].toString('utf8') +
+			// 		' after the invoke');
+			// 	return args[0]+' has ' + response_payloads[i].toString('utf8') +
+			// 		' after the invoke';
+			// }
+			result = response_payloads[0].toString('utf-8');
 			return result;
 		} else {
 			logger.error('response_payloads is null');
@@ -155,11 +146,11 @@ var getChainInfo = function(peer, username, org) {
 			err.stack : err;
 	}).then((blockchainInfo) => {
 		if (blockchainInfo) {
-			// FIXME: Save this for testing 'getBlockByHash'  ?
+			// FIXME: Save this for testing 'getBlockByHash'  
 			logger.debug('===========================================');
 			logger.debug(blockchainInfo.currentBlockHash);
 			logger.debug('===========================================');
-			//logger.debug(blockchainInfo);
+			logger.debug(blockchainInfo);
 			return blockchainInfo;
 		} else {
 			logger.error('response_payloads is null');

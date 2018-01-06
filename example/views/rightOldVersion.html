@@ -2,6 +2,15 @@
     #front {
         position: left;
     }
+
+    input[type="button"] {
+        margin: 0em;
+        font: -webkit-small-control;
+        color: initial;
+        letter-spacing: normal;
+        word-spacing: normal;
+    }
+
     #clear {
         position: absolute;
         top: -20px;
@@ -25,21 +34,20 @@
 
     #invoke_args {
         width: 300px;
-        height: 200px;
+        height: 100px;
         text-align: left
     }
 
     #div_token {
         background-color: rgb(200, 200, 200);
         float: left;
-        padding: 10px;
         width: 100%;
     }
 
     #div_identified {
         background-color: rgb(200, 200, 220);
         float: left;
-        padding: 10px;
+
         width: 100%
     }
 
@@ -72,12 +80,7 @@
 
     #div_createchannel {
         background-color: rgb(226, 226, 226);
-        padding: 10px;
         float: left;
-        width: 100%;
-    }
-
-    #channelConfigPath {
         width: 100%;
     }
 
@@ -85,33 +88,31 @@
         background-color: rgb(228, 217, 217);
         width: 100%;
         float: left;
-        padding: 10px;
     }
 
     #div_install {
         background-color: rgb(255, 235, 221);
-        padding: 10px;
         float: left;
         width: 100%;
     }
 
     #div_instantiate {
         background-color: rgb(245, 214, 200);
-        padding: 10px;
+
         float: left;
         width: 100%;
     }
 
     #div_invoke {
         background-color: rgb(240, 221, 206);
-        padding: 10px;
+
         float: left;
         width: 100%;
     }
 
     #div_query {
         background-color: rgb(218, 197, 173);
-        padding: 10px;
+
         float: left;
         width: 100%;
     }
@@ -124,12 +125,10 @@
     </div>
     <div id="div_token">
         <form>
-            username:
-            <input type="text" id="username" value="diya">
-            </br>
-            orgName:
+            <input type="button" id="enrollAdmin" value="enroll Admin"> username:
+            <input type="text" id="username" value="diya"> orgName:
             <input type="text" id="orgName" value="org1">
-            <input type="button" id="enrollAdmin" value="enroll Admin">
+
         </form>
     </div>
     <div id="div_identified">
@@ -145,88 +144,69 @@
 
     <div id="div_createchannel">
         <form>
-            channelName:
-            <input id="channelName" type="text" name="channelName" value="mychannel">
-            <input id="createChannel" type="button" value="create Channel">
-            </br>
-            channelConfigPath:
+            <input id="createChannel" type="button" value="create Channel"> channelName:
+            <input id="channelName" type="text" name="channelName" value="mychannel"> channelConfigPath:
             <input id="channelConfigPath" type="text" name="channelConfigPath" value="../artifacts/channel/mychannel.tx">
+
         </form>
     </div>
 
     <div id="div_join">
         <form>
+            <input id="joinChannel" type="button" value="join Channel">
+            <input id="join_all" type="button" value="join All peers">
             <!-- &nbsp;channelName:
             <input id="join_channelName" type="text" value="mychannel">
             </br> -->
             &nbsp;peers:
             <input type="text" id="join_peers" value="peer1,peer2">
-            <input id="joinChannel" type="button" value="join Channel">
-            <input id="join_all" type="button" value="join All peers">
+
             </br>
             <div id="div_join_form">
                 &nbsp;Joined peers:
             </div>
-
-
         </form>
     </div>
     </br>
     <div id="div_install">
-        <p>1.Install Chaincode function:</p>
+        1.<input id="installChaincode" type="button" value="install Chaincode">&nbsp;Install Chaincode function:
         <form name="installChaincode">
             peers:
-            <input type="text" id="install_peers" value="peer1,peer2">
-            </br>
-            chaincodeName:
+            <input type="text" id="install_peers" value="peer1,peer2"> chaincodeName:
             <input type="text" id="install_chaincodeName" value="mycc">
             </br>
             chaincodePath:
-            <input type="text" id="install_chaincodePath" value="github.com/example_cc">
-            </br>
-            chaincodeVersion:
+            <input type="text" id="install_chaincodePath" value="github.com/example_cc"> chaincodeVersion:
             <input type="text" id="install_chaincodeVersion" value="v0">
-            </br>
-            <input id="installChaincode" type="button" value="install Chaincode">
+
         </form>
     </div>
 
     <div id="div_instantiate">
-        <p>&nbsp;2.Instantiate Chaincode function( This will take a few seconds):</p>
+        2.<input id="instantiateChaincode" type="button" value="instantiate Chaincode">&nbsp;Instantiate Chaincode function( This will take a few seconds):
         <form>
             &nbsp;chaincodeName:
-            <input type="text" id="instan_chaincodeName" value="mycc">
-            </br>
-            &nbsp;chaincodeVersion:
+            <input type="text" id="instan_chaincodeName" value="mycc"> &nbsp;chaincodeVersion:
             <input type="text" id="instan_chaincodeVersion" value="v0">
-            </br>
             <!-- &nbsp;channelName:
             <input type="text" id="instan_channelName" value="mychannel">
             </br> -->
             &nbsp;arg:
             <input type="text" id="instan_args" name="instan_args" value="a,100,b,200">
-            </br>
-            <input id="instantiateChaincode" type="button" value="instantiate Chaincode">
         </form>
     </div>
 
     <div id="div_invoke">
-        <p>3.Invoke function (move, delete, create):</p>
+        3.<input id="invokeTransaction" type="button" value="Invoke Transaction">&nbsp;Invoke function (move, delete, create):
         <form>
             chaincodeName:
-            <input type="text" id="invoke_chaincodeName" value="mycc">
-            </br>
-            channelName:
-            <input type="text" id="invoke_channelName" value="mychannel">
-            </br>
-            fcn:
+            <input type="text" id="invoke_chaincodeName" value="mycc"> channelName:
+            <input type="text" id="invoke_channelName" value="mychannel"> fcn:
             <input type="text" id="invoke_fcn" value="create">
             </br>
             args (move:a,b,10; delete:a; create: ):
             </br>
             <textarea id="invoke_args" value="{a:100,b:200,c:130}">{a:100,b:200,c:130}</textarea>
-            </br>
-            <input id="invokeTransaction" type="button" value="Invoke Transaction">
         </form>
     </div>
 
