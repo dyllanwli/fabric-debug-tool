@@ -17,4 +17,4 @@ create table logsinfo
 	logpath varchar(500) not null,
 	saveflag int not null
 );
-insert into fabricusers (userid,username,userpassword,token,org,balance) value(0,'diya',1234,1234567890,'org1',1000);
+insert into fabricusers (userid,username,userpassword,token,org,balance) value(0,'tom',1234,1234567890,'org1',1000);
