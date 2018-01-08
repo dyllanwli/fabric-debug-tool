@@ -12,10 +12,15 @@ var invokeChaincode = function(peerNames, channelName, chaincodeName, fcn, args,
 	logger.debug(util.format('\n============ invoke transaction on organization %s ============\n', org));
 	var client = helper.getClientForOrg(org);
 	var channel = helper.getChannelForOrg(org);
+	channel._name=channelName;
 	var targets = (peerNames) ? helper.newPeers(peerNames, org) : undefined;
 	var tx_id = null;
 
 	return helper.getRegisteredUsers(username, org).then((user) => {
+		if (fcn != "deleteLog") {
+			logger.debug("fcn != deleteLog");
+			args.push(username);
+		}
 		tx_id = client.newTransactionID();
 		logger.debug(util.format('Sending transaction "%j"', tx_id));
 		// send proposal to endorser

@@ -29,12 +29,14 @@ var queryChaincode = function(peer, channelName, chaincodeName, args, fcn, usern
 			err;
 	}).then((response_payloads) => {
 		if (response_payloads) {
-			for (let i = 0; i < response_payloads.length; i++) {
-				logger.info(args[0]+' now has ' + response_payloads[i].toString('utf8') +
-					' after the invoke');
-				return args[0]+' now has ' + response_payloads[i].toString('utf8') +
-					' after the invoke';
-			}
+			// for (let i = 0; i < response_payloads.length; i++) {
+			// 	logger.info(args[0]+' has ' + response_payloads[i].toString('utf8') +
+			// 		' after the invoke');
+			// 	return args[0]+' has ' + response_payloads[i].toString('utf8') +
+			// 		' after the invoke';
+			// }
+			result = response_payloads[0].toString('utf-8');
+			return result;
 		} else {
 			logger.error('response_payloads is null');
 			return 'response_payloads is null';

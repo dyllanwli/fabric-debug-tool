@@ -28,12 +28,12 @@ var joinChannel = function(channelName, peers, username, org) {
 		for (var key in allEventhubs) {
 			var eventhub = allEventhubs[key];
 			if (eventhub && eventhub.isconnected()) {
-				logger.debug('Disconnecting the event hub');
+				//logger.debug('Disconnecting the event hub');
 				eventhub.disconnect();
 			}
 		}
 	};
-	logger.debug('\n============ Join Channel ============\n')
+	//logger.debug('\n============ Join Channel ============\n')
 	logger.info(util.format(
 		'Calling peers in organization "%s" to join the channel', org));
 

@@ -5,9 +5,9 @@ var config = require('../config.json');
 var helper = require('./helper.js');
 var logger = helper.getLogger('Create-Channel');
 // Channel can only create once, otherwise it will rise BAD REQUEST error.
-// Attempt to send a request to the orderer with the sendCreateChain method
+//Attempt to send a request to the orderer with the sendCreateChain method
 var createChannel = function(channelName, channelConfigPath, username, orgName) {
-	logger.debug('\n==== Creating Channel \'' + channelName + '\' ======\n');
+	logger.debug('\n====== Creating Channel \'' + channelName + '\' ======\n');
 	var client = helper.getClientForOrg(orgName);
 	var channel = helper.getChannelForOrg(orgName);
 
@@ -15,7 +15,7 @@ var createChannel = function(channelName, channelConfigPath, username, orgName) 
 	var envelope = fs.readFileSync(path.join(__dirname, channelConfigPath));
 	// extract the channel config bytes from the envelope to be signed
 	var channelConfig = client.extractChannelConfig(envelope);
-	logger.info("createChannel Got: "+channelName+channelConfigPath+username+orgName);
+
 	//Acting as a client in the given organization provided with "orgName" param
 	return helper.getOrgAdmin(orgName).then((admin) => {
 		logger.debug(util.format('Successfully acquired admin user for the organization "%s"', orgName));
@@ -31,7 +31,7 @@ var createChannel = function(channelName, channelConfigPath, username, orgName) 
 			txId: client.newTransactionID()
 		};
 
-		// send to orderer.js
+		// send to orderer
 		return client.createChannel(request);
 	}, (err) => {
 		logger.error('Failed to enroll user \''+username+'\'. Error: ' + err);
