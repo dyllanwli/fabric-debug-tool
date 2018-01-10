@@ -1,0 +1,94 @@
+[
+    {
+        "Name": "artifacts_default",
+        "Id": "de566a2989c60dae1fe9a0433da6f774cac7c2b93adb0dbd55e27dd278fd5d05",
+        "Created": "2018-01-09T17:06:18.491183633+08:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.21.0.0/16",
+                    "Gateway": "172.21.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "0061fa91d84943b89c656e0c22cd09abd355dc01ebcbae767346f4dc5c8bcc49": {
+                "Name": "peer1.org2.example.com",
+                "EndpointID": "71c2f57347e5aeb6fa98e8f2defa9eeecde289e86866c836e6483dabcdf4ba2e",
+                "MacAddress": "02:42:ac:15:00:06",
+                "IPv4Address": "172.21.0.6/16",
+                "IPv6Address": ""
+            },
+            "0b21bdc2edc84a82594b606f03dba300e32ec364267d4853cdcb43a6e43bac8a": {
+                "Name": "dev-peer0.org1.example.com-mycc-v0",
+                "EndpointID": "eb1e88e741c2431c70fde4d57366f8b528ad1d277f05ba1b5a339b1b1de9abf1",
+                "MacAddress": "02:42:ac:15:00:0a",
+                "IPv4Address": "172.21.0.10/16",
+                "IPv6Address": ""
+            },
+            "66db11d5822fd13ccf327dc1df9a61cf31d2d22ef1cdd949a09667cc5a794968": {
+                "Name": "dev-peer1.org1.example.com-mycc-v0",
+                "EndpointID": "4ffe22e767b3b7e877db9dd37e9acd706b166e7471d8ae6afa9fbb222953b0cf",
+                "MacAddress": "02:42:ac:15:00:09",
+                "IPv4Address": "172.21.0.9/16",
+                "IPv6Address": ""
+            },
+            "a09fc5ac575ce1398bc52fccfb8efbad590bebf28cde6bf9872654bd7b1ff597": {
+                "Name": "peer1.org1.example.com",
+                "EndpointID": "9a93aa7c71d80237bd5d447de61aa5616522de1617b722f67006460cfb2b9859",
+                "MacAddress": "02:42:ac:15:00:08",
+                "IPv4Address": "172.21.0.8/16",
+                "IPv6Address": ""
+            },
+            "a6a040829dec08b415fabdf6b79bcfb743c3936500ae9a925a19bd0c05f22bb3": {
+                "Name": "peer0.org2.example.com",
+                "EndpointID": "bea8cca55833eeeb8a2deea630cb03de90a8ee2d8f745ce26474591284d41c88",
+                "MacAddress": "02:42:ac:15:00:05",
+                "IPv4Address": "172.21.0.5/16",
+                "IPv6Address": ""
+            },
+            "de30b9d63b290d1b2d72adfc03abd9d725a1563c9e26a175120268c394cc1d17": {
+                "Name": "ca_peerOrg1",
+                "EndpointID": "b6ae19ed158f210491bc3b8b83809eba28da6d6b187a9b6abdf8423b27dadd88",
+                "MacAddress": "02:42:ac:15:00:04",
+                "IPv4Address": "172.21.0.4/16",
+                "IPv6Address": ""
+            },
+            "e355e3657bbb467aa81f5f9622026568793500b0a0caafce2115d259ad7c26dc": {
+                "Name": "orderer.example.com",
+                "EndpointID": "22067e84e5e787ff0d28b4c4bc9945989da880fa9dff2cb3bf74a896ed96fb18",
+                "MacAddress": "02:42:ac:15:00:03",
+                "IPv4Address": "172.21.0.3/16",
+                "IPv6Address": ""
+            },
+            "e48c9aabf35c563c2f959a3f8fc589fd46d315dd137d7fe8fc3923321401dbfb": {
+                "Name": "ca_peerOrg2",
+                "EndpointID": "197ba46ce8fe77c9a76ebd52a1622cd4a155ba9b18bfecb2520ff8ed3a47c8c5",
+                "MacAddress": "02:42:ac:15:00:02",
+                "IPv4Address": "172.21.0.2/16",
+                "IPv6Address": ""
+            },
+            "e8bd8b9e6648e0f892552d1cdc4bbf19fa10764b04c5b5e336038d2756fa731e": {
+                "Name": "peer0.org1.example.com",
+                "EndpointID": "588be1e3e78813760c75eaf7b0b2a71b6a23ebbccca3134c083e670cee7fd3b7",
+                "MacAddress": "02:42:ac:15:00:07",
+                "IPv4Address": "172.21.0.7/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {}
+    }
+]
