@@ -1,7 +1,13 @@
+function bdc(x){
+	$(".nav").children("li").removeClass("active");
+	$(x).addClass("active");
+	$(x).siblings().children("ul").removeClass("in");
+	$(x).children("ul").addClass("in");
+}
+
 $(function(){
 	$("#showfabricins").click(function(){
 		bdc(this);
-		$(".WordSection1").hide();
 		$("#fabricins").show();
 	})
 	$("#showfabricdev").click(function(){
@@ -40,9 +46,3 @@ $(function(){
 		$("#control").show();
 	})
 })
-function bdc(x){
-	$(".nav").children("li").removeClass("active");
-	$(x).addClass("active");
-	$(x).siblings().children("ul").removeClass("in");
-	$(x).children("ul").addClass("in");
-}

@@ -62,7 +62,7 @@ app.set('secret', 'thisismysecret');
 app.use(expressJWT({
 	secret: 'thisismysecret'
 }).unless({
-	path: ['/users/login', '/users/register', '/users/regvali', '/', '/users', '/favicon.ico', '/users/forgetpwd', '/users/downloadlogfile']
+	path: ['/users/login', '/users/register', '/', '/users', '/favicon.ico', '/users/forgetpwd', '/users/downloadlogfile']
 }));
 app.use(bearerToken());
 app.use(function (req, res, next) {
@@ -161,15 +161,14 @@ app.route('/users/login')
 		});
 	})
 	.post(function (req, res) {
-		var sql = 'select * from fabricusers where username=?';
+		var sql = 'select * from debugtool where username=?';
 		var username = req.body.username;
 		var password = req.body.password;
 		if (username == 'diya' && password == '1234') {
 			var user = {
 				username: 'diya',
 				password: '1234',
-				orgName: 'org1',
-				orgRname: 'org1'
+				orgName: 'org1'
 			}
 			var token = jwt.sign({
 				exp: Math.floor(Date.now() / 1000) + parseInt(hfc.getConfigSetting('jwt_expiretime')),
@@ -224,161 +223,157 @@ app.route('/users/login')
 // =============================================================================
 // Below is the frontend
 // verified
-app.post('/users/regvali', function (req, res) {
-	var username = req.body.username;
-	var sql = 'select userid from fabricusers where username=?';
+app.get('/users/password', function (req, res) {
+	var username = req.query.username;
+	var sql = 'select userpassword from debugtool where username=?';
 	pool.query(sql, [username], function (err, result) {
 		if (err) {
 			console.log('[SELECT ERROR] - ', err.message);
-			return;
+			res.send("sql Error")
+			res.end()
+			return
+		} else{
+			res.send(result)
 		}
-		//console.log(result);
-		if (result != null && result != '') {
-			res.json({
-				err: '账户名已存在'
-			});
-		} else {
-			res.json({
-				err: ''
-			});
-		}
+		res.end()
 	})
 })
-// user register
-app.route('/users/register')
-	.get(function (req, res) {
-		res.render('register', {
-			title: 'User Register'
-		});
-	})
-	.post(function (req, res) {
-		var user = {
-			username: req.body.username,
-			password: req.body.password,
-			org: req.body.org,
-			phonenumber: req.body.phonenumber
-		}
-		helper.getRegisteredUsers(user.username, user.org, true).then(function (response) {
-			if (response && typeof response !== 'string') {
-				var peers;
-				logger.info(user.username);
-				invoke.invokeChaincode(peers, "itemchannel", "itemcc", "initUser", [], user.username, user.org).then(function (message) {
-					if (message.indexOf("Failed") == -1) {
-						initusertosql(user, res);
-					} else {
-						invoke.invokeChaincode(peers, "itemchannel", "itemcc", "initUser", [], user.username, user.org).then(function (data) {
-							if (data.indexOf("Failed") == -1) {
-								initusertosql(user, res);
-							} else {
-								res.writeHead(200, {
-									'Content-type': 'text/html;charset=utf-8'
-								});
-								res.write('<script>alert("注册失败");window.location.href="/users/register"</script>');
-								res.end();
-							}
-						});
-					}
-				});
-			} else {
-				res.writeHead(200, {
-					'Content-type': 'text/html;charset=utf-8'
-				});
-				res.write('<script>alert("Register Failure");window.location.href="/users/register"</script>');
-				res.end();
-			}
-		});
-	});
 
-function initusertosql(user, res) {
-	var sql = 'insert into fabricusers values(0,?,?,?,?)';
-	pool.query(sql, [user.username, user.password, user.phonenumber, user.org], function (err, result) {
-		if (err) {
-			console.log('[SELECT ERROR] - ', err.message);
-			res.writeHead(200, {
-				'Content-type': 'text/html;charset=utf-8'
-			});
-			res.write('<script>alert("Register Failure");window.location.href="/users/register"</script>');
-			res.end();
-			return;
-		}
-		if (result.affectedRows == '1') {
-			res.writeHead(200, {
-				'Content-type': 'text/html;charset=utf-8'
-			});
-			res.write('<script>alert("Register Successfuly");window.location.href="/users/login"</script>');
-			res.end();
-		} else {
-			res.writeHead(200, {
-				'Content-type': 'text/html;charset=utf-8'
-			});
-			res.write('<script>alert("Register Failure");window.location.href="/users/register"</script>');
-			res.end();
-		}
-	});
-}
+// user register
+// app.route('/users/register')
+// 	.get(function (req, res) {
+// 		res.render('register', {
+// 			title: 'User Register'
+// 		});
+// 	})
+// 	.post(function (req, res) {
+// 		var user = {
+// 			username: req.body.username,
+// 			password: req.body.password,
+// 			org: req.body.org,
+// 			phonenumber: req.body.phonenumber
+// 		}
+// 		helper.getRegisteredUsers(user.username, user.org, true).then(function (response) {
+// 			if (response && typeof response !== 'string') {
+// 				var peers;
+// 				logger.info(user.username);
+// 				invoke.invokeChaincode(peers, "itemchannel", "itemcc", "initUser", [], user.username, user.org).then(function (message) {
+// 					if (message.indexOf("Failed") == -1) {
+// 						initusertosql(user, res);
+// 					} else {
+// 						invoke.invokeChaincode(peers, "itemchannel", "itemcc", "initUser", [], user.username, user.org).then(function (data) {
+// 							if (data.indexOf("Failed") == -1) {
+// 								initusertosql(user, res);
+// 							} else {
+// 								res.writeHead(200, {
+// 									'Content-type': 'text/html;charset=utf-8'
+// 								});
+// 								res.write('<script>alert("Register Failure");window.location.href="/users/register"</script>');
+// 								res.end();
+// 							}
+// 						});
+// 					}
+// 				});
+// 			} else {
+// 				res.writeHead(200, {
+// 					'Content-type': 'text/html;charset=utf-8'
+// 				});
+// 				res.write('<script>alert("Register Failure");window.location.href="/users/register"</script>');
+// 				res.end();
+// 			}
+// 		});
+// 	});
+
+// function initusertosql(user, res) {
+// 	var sql = 'insert into debugtool values(0,?,?,?,?)';
+// 	pool.query(sql, [user.username, user.password, user.phonenumber, user.org], function (err, result) {
+// 		if (err) {
+// 			console.log('[SELECT ERROR] - ', err.message);
+// 			res.writeHead(200, {
+// 				'Content-type': 'text/html;charset=utf-8'
+// 			});
+// 			res.write('<script>alert("Register Failure");window.location.href="/users/register"</script>');
+// 			res.end();
+// 			return;
+// 		}
+// 		if (result.affectedRows == '1') {
+// 			res.writeHead(200, {
+// 				'Content-type': 'text/html;charset=utf-8'
+// 			});
+// 			res.write('<script>alert("Register Successfuly");window.location.href="/users/login"</script>');
+// 			res.end();
+// 		} else {
+// 			res.writeHead(200, {
+// 				'Content-type': 'text/html;charset=utf-8'
+// 			});
+// 			res.write('<script>alert("Register Failure");window.location.href="/users/register"</script>');
+// 			res.end();
+// 		}
+// 	});
+// }
 
 // forget password
-app.route('/users/forgetpwd')
-	.get(function (req, res) {
-		if (req.query.name) {
-			var name = req.query.name;
-			var phone = req.query.phone;
-			var sql1 = "select phonenumber from fabricusers where username=?";
-			pool.query(sql1, [name], function (err, result) {
-				if (err) {
-					console.log('[SELECT ERROR] - ', err.message);
-					return;
-				}
-				if (result[0].phonenumber == phone) {
-					res.json({
-						err: ""
-					});
-				} else {
-					res.json({
-						err: "not match with phonenumber"
-					});
-				}
-			});
-		} else {
-			res.render('forgetpwd', {
-				title: "Forget Password"
-			});
-		}
-	})
-	.post(function (req, res) {
-		var name = req.body.username;
-		var phone = req.body.phonenumber;
-		var pwd = req.body.password;
-		var sql1 = "select phonenumber from fabricusers where username=?";
-		pool.query(sql1, [name], function (err, result) {
-			if (err) {
-				console.log('[SELECT ERROR] - ', err.message);
-				return;
-			}
-			if (result[0].phonenumber == phone) {
-				var sql2 = "update fabricusers set userpassword=? where username=?";
-				pool.query(sql2, [pwd, name], function (err1, result1) {
-					if (err1) {
-						console.log('[SELECT ERROR] - ', err.message);
-						return;
-					}
-					if (result1.affectedRows == '1') {
-						res.writeHead(200, {
-							'Content-type': 'text/html;charset=utf-8'
-						});
-						res.write('<script>alert("Password Change Successful");window.location.href="/users/login"</script>');
-						res.end();
-					} else {
-						res.writeHead(200, {
-							'Content-type': 'text/html;charset=utf-8'
-						});
-						res.write('<script>alert("Password Change Failure");window.location.href="/users/forgetpwd"</script>');
-						res.end();
-					}
-				});
-			}
-		});
-	});
+// app.route('/users/forgetpwd')
+// 	.get(function (req, res) {
+// 		if (req.query.name) {
+// 			var name = req.query.name;
+// 			var phone = req.query.phone;
+// 			var sql1 = "select phonenumber from debugtool where username=?";
+// 			pool.query(sql1, [name], function (err, result) {
+// 				if (err) {
+// 					console.log('[SELECT ERROR] - ', err.message);
+// 					return;
+// 				}
+// 				if (result[0].phonenumber == phone) {
+// 					res.json({
+// 						err: ""
+// 					});
+// 				} else {
+// 					res.json({
+// 						err: "not match with phonenumber"
+// 					});
+// 				}
+// 			});
+// 		} else {
+// 			res.render('forgetpwd', {
+// 				title: "Forget Password"
+// 			});
+// 		}
+// 	})
+// 	.post(function (req, res) {
+// 		var name = req.body.username;
+// 		var phone = req.body.phonenumber;
+// 		var pwd = req.body.password;
+// 		var sql1 = "select phonenumber from debugtool where username=?";
+// 		pool.query(sql1, [name], function (err, result) {
+// 			if (err) {
+// 				console.log('[SELECT ERROR] - ', err.message);
+// 				return;
+// 			}
+// 			if (result[0].phonenumber == phone) {
+// 				var sql2 = "update debugtool set userpassword=? where username=?";
+// 				pool.query(sql2, [pwd, name], function (err1, result1) {
+// 					if (err1) {
+// 						console.log('[SELECT ERROR] - ', err.message);
+// 						return;
+// 					}
+// 					if (result1.affectedRows == '1') {
+// 						res.writeHead(200, {
+// 							'Content-type': 'text/html;charset=utf-8'
+// 						});
+// 						res.write('<script>alert("Password Change Successful");window.location.href="/users/login"</script>');
+// 						res.end();
+// 					} else {
+// 						res.writeHead(200, {
+// 							'Content-type': 'text/html;charset=utf-8'
+// 						});
+// 						res.write('<script>alert("Password Change Failure");window.location.href="/users/forgetpwd"</script>');
+// 						res.end();
+// 					}
+// 				});
+// 			}
+// 		});
+// 	});
 
 
 /* app.get('/logout', function(req, res) {
@@ -392,8 +387,6 @@ app.get('/left', function (req, res) {
 		res.render('leftlog');
 	} else if (topic == "product") {
 		res.render('leftproduct');
-	} else if (topic == 'oldversion'){
-		res.render('leftOldVersion');
 	} else if (topic == "leftapi") {
 		res.render('leftapi');
 	} else if (topic == "phonescams") {
@@ -405,8 +398,6 @@ app.get('/right', function (req, res) {
 	var topic = req.query.menu;
 	if (topic == "orderlog") {
 		res.render('rightlog');
-	} else if (topic == "oldversion") {
-		res.render('rightOldVersion');
 	} else if (topic == "explorer") {
 		var opt = {
 			name:"diya",
@@ -425,8 +416,8 @@ app.get('/right', function (req, res) {
 		res.render('rightaccountinfo');
 	} else if (topic == "help") {
 		res.render('help')
-	} else if (topic == "apihelp") {
-		res.render('apihelp')
+	} else if (topic == "init_") {
+		res.render('init_')
 	} else if (topic == "phonescams") {
 		res.render('rightphonescams');
 	}
@@ -856,7 +847,7 @@ app.get('/getallinfo/channels/:channelName/chaincodes/:chaincodeName', function 
 
 	} else {
 
-		var sql = "select username from fabricusers";
+		var sql = "select username from debugtool";
 		pool.query(sql, function (err, result) {
 			if (err) {
 				console.log('[SELECT ERROR] - ', err.message);

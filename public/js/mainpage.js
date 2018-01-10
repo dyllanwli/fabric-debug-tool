@@ -8,9 +8,9 @@ $(function(){
 		getleft("product");
 		getright("orderproduct");
 	}).hover(over,out);
-	$("#apihelp").click(function(){
+	$("#init_").click(function(){
 		getleft("leftapi");
-		getright("apihelp");
+		getright("init_");
 	}).hover(over,out);
 	$("#phonescams").click(function(){
 		getleft("phonescams");

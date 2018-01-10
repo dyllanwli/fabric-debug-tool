@@ -54,6 +54,6 @@ restartNetwork
 
 installNodeModules
 
-# mysql -uroot -p1234 < ./db/debugtool.sql
+mysql -uroot -p1234 < ./db/debugtool.sql
 
 node app

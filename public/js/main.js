@@ -133,7 +133,7 @@
 			$("#oneloginfo").hide();
 			$("#oneloginfoback").hide();
 		});
-		$("#getlog").click(function(){
+		$("#getChainCode").click(function(){
 			var lname=$("#logname").val();
 			var useraccount=$("#username").val();
 			var fcn="";

@@ -13,7 +13,6 @@
 	<script src="/js/bootstrap-paginator.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/bootstrap-table.min.js"></script>
-	<script src="/js/bootstrap-table-zh-CN.min.js"></script>
 	<script type="text/javascript" src="/js/mainpage.js"></script>
 	<script type="text/javascript">
 		sessionStorage.token = "<%=token%>";
@@ -109,7 +108,7 @@
 <body style="padding:0 0; margin:0 0; background-color:#F8F9F9;">
 	<div style="height:50px; background-color:#20283F; line-height:50px;">
 		<a style="font-weight: 200;font-size: 18px;color:white;position:relative;left:10px;">debug tool</a>
-		<div class="tab" id="apihelp"> apihelp </div>
+		<div class="tab" id="init_"> init_ </div>
 		<div class="tab" id="logapi"> logapi </div>
 		<div class="tab" id="protransaction"> protransaction </div>
 		<div class="tab" id="phonescams"> phonescams </div>
@@ -151,8 +150,8 @@
 					<input type="text" placeholder="Please enter..." id="logname" class="input1"> 用户名
 					<input type="text" placeholder="Please enter..." id="username" class="input1">
 				</div>
-				<div style="display: inline-block;position: relative;left: 10px">
-					<button class="btn btnb" id="getlog">查询日志</button>
+				<div style="display: inline-block;position: relative;">
+					<button class="btn btnb" id="getChainCode">Query ChainCode</button>
 				</div>
 			</div>
 			<div style="position: relative;top:30px;left: 5%;margin: 20px 0">
@@ -243,7 +242,7 @@
 			<input type="button" class="btn" value="Download Log" style="display: none;float:right" id="download">
 			<span id="logpath" style="display: none;"></span>
 		</div>
-		<script type="text/javascript" src="/js/logAPI.js"></script>
+		<script type="text/javascript" src="/js/main.js"></script>
 	</div>
 </body>
 
