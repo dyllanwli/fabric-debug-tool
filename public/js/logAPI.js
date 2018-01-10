@@ -131,6 +131,7 @@
 		});
 		$("#closeinfo").click(function(){
 			$("#oneloginfo").hide();
+			$("#oneloginfoback").hide();
 		});
 		$("#getlog").click(function(){
 			var lname=$("#logname").val();
@@ -303,10 +304,12 @@ function checklog(logname){
 					$("#logpath").text("");
 					$("#download").hide();
 				}
+				$("#oneloginfoback").show();
 				$("#oneloginfo").show();				
 			},
 			error:function(data){
 				console.log(data);
+				$("#oneloginfoback").show();
 				$("#oneloginfo").show();
 			}	
 		});

@@ -1,22 +1,27 @@
 $(function(){
 	$("#user").html(sessionStorage.username);
-	$("#main").click(function(){
+	$("#logapi").click(function(){
 		getleft("log");
 		getright("orderlog");
 	}).hover(over,out);
-	$("#sub").click(function(){
+	$("#protransaction").click(function(){
 		getleft("product");
 		getright("orderproduct");
+	}).hover(over,out);
+	$("#apihelp").click(function(){
+		getleft("leftapi");
+		getright("apihelp");
+	}).hover(over,out);
+	$("#phonescams").click(function(){
+		getleft("phonescams");
+		getright("phonescams");
 	}).hover(over,out);
 	$("#leftmenu").on('click','#explorer1',function(){
 		$(".nav").children("li").removeClass("active");
 		$(this).addClass("active");
-		// $Loading=$("<h3>Loading...</h3>");
-		// $("#rightbody").append($Loading);
-		//$("#rightbody").html("<iframe width=800px height=800px src=></iframe>")
-		$explo=$("<iframe width=90% height=100%></iframe>");
-		$explo.attr("src","//39.106.141.206:4002/");
 		$("#rightbody").empty();
+		//$("#rightbody").html("<iframe width=800px height=800px src=></iframe>")
+		$explo=$("<h4>explorer1 Under developing</h4>");
 		$("#rightbody").append($explo);
 	});
 	$("#leftmenu").on('click','#explorer2',function(){
@@ -24,8 +29,7 @@ $(function(){
 		$(this).addClass("active");
 		$("#rightbody").empty();
 		//$("#rightbody").html("<iframe width=800px height=800px src=></iframe>")
-		$explo=$("<iframe width=90% height=100%></iframe>");
-		// $explo.attr("src","//39.106.141.206:4001/");
+		$explo=$("<h4>explorer2 Under developing</h4>");
 		$("#rightbody").append($explo);
 	});
 	$("#leftmenu").on('click','#orderlog',function(){
@@ -48,11 +52,16 @@ $(function(){
 		$(this).addClass("active");
 		getright("accountinfo");
 	});
-	$("#leftmenu").on('click','#oldversion',function(){
+	$("#leftmenu").on('click','#help',function(){
 		$(".nav").children("li").removeClass("active");
 		$(this).addClass("active");
-		getright("oldversion");
+		getright("help");
 	});
+	$("#leftmenu").on('click','#phonemark',function(){
+		$(".nav").children("li").removeClass("active");
+                $(this).addClass("active");
+		getright('phonescams');	
+	})
 	$("#logout").click(function(){
 		sessionStorage.clear();
 		window.location.href="/users/login";
@@ -60,7 +69,6 @@ $(function(){
 	$("#user").click(function(){
 		getright("accountinfo");
 	});
-
 });
 function getleft(topic){
 	$("#leftmenu").empty();

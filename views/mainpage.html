@@ -9,12 +9,11 @@
 	<link href="/css/style.css" rel="stylesheet">
 	<link href="/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="/css/bootstrap-table.min.css" rel="stylesheet">
-	<script src="/js/frameworks/jquery.min.js"></script>
-	<script src="/js/frameworks/bootstrap-paginator.min.js"></script>
-	<script src="/js/frameworks/bootstrap.min.js"></script>
-	<script src="/js/frameworks/bootstrap-table.min.js"></script>
-
-	<script src="/js/frameworks/bootstrap-table-zh-CN.min.js"></script>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap-paginator.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/bootstrap-table.min.js"></script>
+	<script src="/js/bootstrap-table-zh-CN.min.js"></script>
 	<script type="text/javascript" src="/js/mainpage.js"></script>
 	<script type="text/javascript">
 		sessionStorage.token = "<%=token%>";
@@ -70,17 +69,19 @@
 			height: -moz-calc(100% - 50px);
 			height: -webkit-calc(100% - 50px);
 			height: calc(100% - 50px);
+			min-height: 500px;
 			background-color: white;
-			width: 100%
+			width: 100%;
+			min-width: 800px;
 		}
 
 		.bodydiv1 {
-			height: 85px;
+			height: 70px;
 			position: relative;
 			left: 5%;
 			top: 30px;
 			border: solid 1px #dddddd;
-			padding: 25px;
+			padding: 18px;
 			width: 80%
 		}
 
@@ -100,6 +101,7 @@
 			position: relative;
 			left: 60%;
 			top: 5px;
+			margin: 20px 0 0 0
 		}
 	</style>
 </head>
@@ -108,33 +110,35 @@
 	<div style="height:50px; background-color:#20283F; line-height:50px;">
 		<img src="/image/loginimg.svg" style="width:29px; height:21px;position:relative;left:12px;">
 		<a style="font-weight: 200;font-size: 18px;color:white;position:relative;left:10px;">debug tool</a>
-		<div class="tab" id="main"> MainPage </div>
-		<div class="tab" id="sub"> SubPage </div>
+		<div class="tab" id="apihelp"> apihelp </div>
+		<div class="tab" id="logapi"> logapi </div>
+		<div class="tab" id="protransaction"> protransaction </div>
+		<div class="tab" id="phonescams"> phonescams </div>
 		<div style="float:right">
 			<a class="al aw" id="user">user</a>
 			<a class="al aw" id="logout">exit</a>
 		</div>
 	</div>
-	<nav class="navbar-default" style="height:100%;height:-moz-calc(100% - 50px);height:-webkit-calc(100% - 50px);height:calc(100% - 50px);position:absolute; top:50px">
+	<nav class="navbar-default" style="height:100%;height:-moz-calc(100% - 50px);height:-webkit-calc(100% - 50px);height:calc(100% - 50px);min-height:500px;position:absolute; top:50px">
 		<div style="width:180px; background-color:#404C62; height:100%;" id="leftmenu">
 			<div style="height:8px"></div>
 			<ul class="nav" style="display:block">
 				<li id="explorer1">
 					<a>
 						<i class="fa fa-th-large"></i>
-						<span class="menu">Overview</span>
+						<span class="menu">explorer1</span>
 					</a>
 				</li>
 				<li id="orderlog">
 					<a>
 						<i class="fa fa-list-alt"></i>
-						<span class="menu">Log</span>
+						<span class="menu">orderlog</span>
 					</a>
 				</li>
-				<li id="oldversion">
+				<li id="help">
 					<a>
-						<i class="fa fa-list-old"></i>
-						<span class="menu">Old Version</span>
+						<i class="fa fa-question-circle-o"></i>
+						<span class="menu">help</span>
 					</a>
 				</li>
 			</ul>
@@ -145,18 +149,18 @@
 			<div class="bodydiv1">
 				<div style="float:left;color: black;width: 800px">
 					Log Name
-					<input type="text" placeholder="Please enter..." id="logname" class="input1"> User Name
+					<input type="text" placeholder="Please enter..." id="logname" class="input1"> 用户名
 					<input type="text" placeholder="Please enter..." id="username" class="input1">
 				</div>
 				<div style="display: inline-block;position: relative;left: 10px">
-					<button class="btn btnb" id="getlog">Query Log</button>
+					<button class="btn btnb" id="getlog">查询日志</button>
 				</div>
 			</div>
 			<div style="position: relative;top:30px;left: 5%;margin: 20px 0">
 				<button class="btn btnb" id="sendbtn">
-					Upload Log
+					上传日志
 				</button>
-				<button class="btn btn2" id="dellog">Delete Log</button>
+				<button class="btn btn2" id="dellog">删除日志</button>
 			</div>
 			<div style="position: relative;top:20px;width:80%;left:5%">
 				<table data-toggle="table" class="table-striped" style="width:100%;table-layout:fixed;">
@@ -169,15 +173,15 @@
 						<col style="width:10%">
 					</colgroup>
 					<thead style="background-color:#F8F9F9;border-bottom: solid 2px #dddddd">
-						<tr>
+						<tr style="">
 							<th>
 								<input type="checkbox" id="seltotal">
 							</th>
-							<th>Log Name</th>
-							<th>Log</th>
-							<th>Upload Time</th>
-							<th>User Name</th>
-							<th>Operation</th>
+							<th>日志名</th>
+							<th>日志内容</th>
+							<th>上传时间</th>
+							<th>用户名</th>
+							<th>操作</th>
 						</tr>
 					</thead>
 					<tbody id="loglist">
@@ -191,21 +195,21 @@
 			<div style="border-bottom: solid 1px #dddddd;margin: 30px;padding: 10px;font-size: 16px">
 				Upload Log
 			</div>
-			<div style="margin: 30px;">
+			<div style="margin:30px 30px 0 30px;">
 				<div style="margin: 30px;">Log Name
 					<input type="text" id="logname2" placeholder="Please enter...">
 				</div>
 				<div style="margin: 30px;">Log
 					<div style="width: 800px;height: 80px;border:dashed 1px #dddddd;text-align: center;display: inline-block;" id="logfilediv">
-						<a style="line-height: 80px">Upload Attachment</a>
+						<a style="line-height: 80px">pload Attachment</a>
 					</div>
 					<input type="file" style="display: none;" id="logfile">
 				</div>
 				<div style="margin: 30px;">Enter Log
-					<textarea style="width: 800px;height: 300px;" id="log2"></textarea>
+					<textarea style="width: 800px;height: 250px;" id="log2"></textarea>
 				</div>
 				<input type="button" class="btn btnb" id="sendlog" value="submit">
-				<input type="button" class="btn btn2" id="cancel" value="calcel">
+				<input type="button" class="btn btn2" id="cancel" value="cancel">
 			</div>
 		</div>
 		<div id="downtips" style="display: none;position: absolute;top:0;left: 0;width: 100%;height: 100%;z-index: 10;background-color: #cccccc;filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;">
@@ -224,11 +228,12 @@
 				<input type="button" class="btn btn2" id="canceldel" value="Cancel">
 			</div>
 		</div>
-		<div id="oneloginfo" style="display: none;position: absolute;left: 30%;top: 20%;width: 600px;height: 500px;z-index: 20;background-color:white;border:solid 1px #cccccc">
+		<div id="oneloginfoback" style="display: none;position: absolute;top:0;left: 0;width: 100%;height: 100%;z-index: 10;background-color: #cccccc;filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6;"></div>
+		<div id="oneloginfo" style="display:none;position: absolute;left: 20%;top: 15%;width: 600px;height: 500px;z-index: 20;background-color:white;border:solid 1px #cccccc">
 			<span style="float: right;" id="closeinfo">Close</span>
 			<div style="text-align: center;margin: 30px 0;word-wrap:break-word;">
 				<span id="infologname" style="font-size:18px;margin:0 0 0 140px;"></span>
-				<span id="logtime" style="color:#dddddd;font-size:8px;float:right;margin:20px 100px 0 0;">Time:</span>
+				<span id="logtime" style="color:#dddddd;font-size:8px;float:right;margin:20px 100px 0 0;">时间:</span>
 
 			</div>
 			<div style="text-align: left;margin: 10px 0;padding:10px 20px;word-wrap:break-word;border-top: solid 1px #eeeeee;">

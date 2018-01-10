@@ -54,5 +54,6 @@ restartNetwork
 
 installNodeModules
 
-mysql -uroot -p1234 < ./db/fabricUsers.sql
+# mysql -uroot -p1234 < ./db/debugtool.sql
+
 node app

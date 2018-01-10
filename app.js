@@ -219,9 +219,6 @@ app.route('/users/login')
 			});
 		}
 	});
-
-
-
 // =============================================================================
 // =============================================================================
 // =============================================================================
@@ -286,7 +283,7 @@ app.route('/users/register')
 				res.writeHead(200, {
 					'Content-type': 'text/html;charset=utf-8'
 				});
-				res.write('<script>alert("注册失败");window.location.href="/users/register"</script>');
+				res.write('<script>alert("Register Failure");window.location.href="/users/register"</script>');
 				res.end();
 			}
 		});
@@ -395,8 +392,12 @@ app.get('/left', function (req, res) {
 		res.render('leftlog');
 	} else if (topic == "product") {
 		res.render('leftproduct');
-	} else if (topic == 'oldversion') {
+	} else if (topic == 'oldversion'){
 		res.render('leftOldVersion');
+	} else if (topic == "leftapi") {
+		res.render('leftapi');
+	} else if (topic == "phonescams") {
+		res.render('leftphonescams');
 	}
 });
 // request mainbody
@@ -408,10 +409,8 @@ app.get('/right', function (req, res) {
 		res.render('rightOldVersion');
 	} else if (topic == "explorer") {
 		var opt = {
-			host: '39.106.141.206',
-			port: '4002',
-			method: 'GET',
-			path: '/'
+			name:"diya",
+			password:"1234"
 		};
 		var sreq = http.request(opt, function (sres) {
 			sres.pipe(res);
@@ -424,6 +423,12 @@ app.get('/right', function (req, res) {
 		res.render('rightproducttransaction');
 	} else if (topic == "accountinfo") {
 		res.render('rightaccountinfo');
+	} else if (topic == "help") {
+		res.render('help')
+	} else if (topic == "apihelp") {
+		res.render('apihelp')
+	} else if (topic == "phonescams") {
+		res.render('rightphonescams');
 	}
 });
 
@@ -434,12 +439,12 @@ app.get('/right', function (req, res) {
 
 // Create Channel
 app.post('/channels', function (req, res) {
-	logger.info('====================CREATE CHANNEL====================');
+	logger.info('<<<<<<<<<<<<<<<<< C R E A T E  C H A N N E L >>>>>>>>>>>>>>>>>');
 	logger.debug('End point : /channels');
 	var channelName = req.body.channelName;
 	var channelConfigPath = req.body.channelConfigPath;
 	logger.debug('Channel name : ' + channelName);
-	logger.debug('channelConfigPath : ' + channelConfigPath); //../artifacts/channel/logchannel.tx
+	logger.debug('channelConfigPath : ' + channelConfigPath); 
 	if (!channelName) {
 		res.json(getErrorMessage('\'channelName\''));
 		return;
@@ -456,10 +461,9 @@ app.post('/channels', function (req, res) {
 			res.send(err)
 		});
 });
-
 // Join Channel
 app.post('/channels/:channelName/peers', function (req, res) {
-	logger.info('==================== JOIN CHANNEL====================');
+	logger.info('<<<<<<<<<<<<<<<<< J O I N  C H A N N E L >>>>>>>>>>>>>>>>>');
 	var channelName = req.params.channelName;
 	var peers = req.body.peers;
 	logger.debug('channelName : ' + channelName);
@@ -478,7 +482,6 @@ app.post('/channels/:channelName/peers', function (req, res) {
 			res.send(message);
 		});
 });
-
 // Install chaincode on target peers
 app.post('/chaincodes', function (req, res) {
 	logger.debug('==================== INSTALL CHAINCODE ==================');
@@ -580,7 +583,6 @@ app.post('/channels/:channelName/chaincodes/:chaincodeName', function (req, res)
 			res.send(message);
 		});
 });
-
 // ================================== USER Function
 //post log file and uplog
 app.post('/uplogfile', upload.single('logfile'), function (req, res) {
@@ -643,23 +645,7 @@ app.post('/users/downloadlogfile', function (req, res) {
 	var logpath = req.body.logpath;
 	res.download(logpath);
 });
-// ==================================================== USER
 
-
-///////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////below is query///////////////////////////////////////////////
-// Got 
-// Query to fetch channels
-// Query on chaincode on target peers
-// Query Get Block by BlockNumber
-// Query Get Transaction by Transaction ID
-// Query Get Block by Hash
-// Query for Channel Information
-// Query to fetch all Installed/instantiated chaincodes
-// 
-// 
-// 
 // Query on chaincode on target peers
 app.get('/channels/:channelName/chaincodes/:chaincodeName', function (req, res) {
 	logger.debug('==================== QUERY BY CHAINCODE ==================');
@@ -800,8 +786,8 @@ app.get('/channels', function (req, res) {
 		});
 });
 
+// =========================================================== QUERY Below
 
-// =========================================================== QUERY 
 //分页返回请求信息
 app.get('/getallinfo/channels/:channelName/chaincodes/:chaincodeName', function (req, res) {
 	logger.debug('==============get allinfo===============');
