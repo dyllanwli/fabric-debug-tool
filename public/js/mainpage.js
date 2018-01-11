@@ -8,56 +8,56 @@ $(function(){
 		getleft("product");
 		getright("orderproduct");
 	}).hover(over,out);
-	$("#init_").click(function(){
+	$("#channel_").click(function(){
 		getleft("leftapi");
-		getright("init_");
+		getright("channel_");
 	}).hover(over,out);
 	$("#phonescams").click(function(){
 		getleft("phonescams");
 		getright("phonescams");
 	}).hover(over,out);
-	$("#leftmenu").on('click','#explorer1',function(){
+	$("#producttransaction").click(function(){
+		getleft("producttransaction");
+		getright("producttransaction");
+	}).hover(over,out);
+	// 
+	// 
+	$("#leftresult").on('click','#explorer1',function(){
 		$(".nav").children("li").removeClass("active");
 		$(this).addClass("active");
 		$("#rightbody").empty();
-		//$("#rightbody").html("<iframe width=800px height=800px src=></iframe>")
 		$explo=$("<h4>explorer1 Under developing</h4>");
 		$("#rightbody").append($explo);
 	});
-	$("#leftmenu").on('click','#explorer2',function(){
+	$("#leftresult").on('click','#explorer2',function(){
 		$(".nav").children("li").removeClass("active");
 		$(this).addClass("active");
 		$("#rightbody").empty();
-		//$("#rightbody").html("<iframe width=800px height=800px src=></iframe>")
 		$explo=$("<h4>explorer2 Under developing</h4>");
 		$("#rightbody").append($explo);
 	});
-	$("#leftmenu").on('click','#orderlog',function(){
+	$("#leftresult").on('click','#orderlog',function(){
 		$(".nav").children("li").removeClass("active");
 		$(this).addClass("active");
 		getright("orderlog");
 	});
-	$("#leftmenu").on('click','#orderproduct',function(){
+	$("#leftresult").on('click','#orderproduct',function(){
 		$(".nav").children("li").removeClass("active");
 		$(this).addClass("active");
 		getright("orderproduct");
 	});
-	$("#leftmenu").on('click','#producttransaction',function(){
-		$(".nav").children("li").removeClass("active");
-		$(this).addClass("active");
-		getright("producttransaction");
-	});
-	$("#leftmenu").on('click','#accountinfo',function(){
+	
+	$("#leftresult").on('click','#accountinfo',function(){
 		$(".nav").children("li").removeClass("active");
 		$(this).addClass("active");
 		getright("accountinfo");
 	});
-	$("#leftmenu").on('click','#help',function(){
+	$("#leftresult").on('click','#help',function(){
 		$(".nav").children("li").removeClass("active");
 		$(this).addClass("active");
 		getright("help");
 	});
-	$("#leftmenu").on('click','#phonemark',function(){
+	$("#leftresult").on('click','#phonemark',function(){
 		$(".nav").children("li").removeClass("active");
                 $(this).addClass("active");
 		getright('phonescams');	
@@ -71,7 +71,7 @@ $(function(){
 	});
 });
 function getleft(topic){
-	$("#leftmenu").empty();
+	$("#leftresult").empty();
 	$.ajax({
 			type:"get",
 			url:"/left/?menu="+topic,
@@ -81,7 +81,7 @@ function getleft(topic){
 				xhr.setRequestHeader("content-type","application/json");
 			},
 			success:function(data){
-				$("#leftmenu").html(data);
+				$("#leftresult").html(data);
 			},
 			error:function(data){
 				console.log(data);

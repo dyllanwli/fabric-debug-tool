@@ -148,7 +148,7 @@ app.post('/users', function (req, res) {
 		}
 	});
 });
-// 登录
+// login
 var orgMap = {
 	'org1': 'org1',
 	'org2': 'org2',
@@ -230,12 +230,10 @@ app.get('/users/password', function (req, res) {
 		if (err) {
 			console.log('[SELECT ERROR] - ', err.message);
 			res.send("sql Error")
-			res.end()
 			return
 		} else{
 			res.send(result)
 		}
-		res.end()
 	})
 })
 
@@ -384,14 +382,16 @@ app.get('/users/password', function (req, res) {
 app.get('/left', function (req, res) {
 	var topic = req.query.menu;
 	if (topic == "log") {
-		res.render('leftlog');
+		res.render('leftresult');
 	} else if (topic == "product") {
-		res.render('leftproduct');
+		res.render('leftresult');
 	} else if (topic == "leftapi") {
-		res.render('leftapi');
+		res.render('leftresult');
 	} else if (topic == "phonescams") {
-		res.render('leftphonescams');
-	}
+		res.render('leftresult');
+	} else if(topic == "producttransaction"){
+		res.render("leftresult");
+	} 
 });
 // request mainbody
 app.get('/right', function (req, res) {
@@ -416,8 +416,8 @@ app.get('/right', function (req, res) {
 		res.render('rightaccountinfo');
 	} else if (topic == "help") {
 		res.render('help')
-	} else if (topic == "init_") {
-		res.render('init_')
+	} else if (topic == "channel_") {
+		res.render('channel_')
 	} else if (topic == "phonescams") {
 		res.render('rightphonescams');
 	}

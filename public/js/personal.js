@@ -1,6 +1,7 @@
 function getUserInfo(args) {
 	var password;
 	$.ajax({
+		async :false,
 		type: "get",
 		url: "/users/password?username="+args,
 		dataType: "text",
