@@ -8,10 +8,10 @@
   <h3>Create Channel</h3>
   <div id="div_createchannel">
     <div>
-      channelName:
+      channel Name:
       <input id="channelName" class="input_" type="text" name="channelName" value="mychannel">
       </br>
-      User Name:
+      channelConfigPath:
       <input id="channelConfigPath" class="input_" type="text" name="channelConfigPath" value="../artifacts/channel/mychannel.tx">
     </div>
     <div>
@@ -19,9 +19,47 @@
     </div>
   </div>
   <div style="border: solid 1px #dddddd;left: 5%;height: 10px;"></div>
-  <div id = "channelList">
+  <div id="channelList">
 
   </div>
 </body>
+<script type="text/javascript">
+  $("#createChannel").click(function () {
+    createChannel();
+  });
+
+  function createChannel() {
+    channelName = $("#channelName").val()
+    channelConfigPath = $("#channelConfigPath").val()
+    $.ajax({
+      async: false,
+      type: "post",
+      url: "/channels",
+      data: JSON.stringify({
+        "channelName": channelName,
+        "channelConfigPath": channelConfigPath
+      }),
+      dataType: "json",
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader("authorization", "Bearer " + sessionStorage.token);
+        xhr.setRequestHeader("content-type", "application/json");
+      },
+      success: function (data) {
+        var response = xhr.responseText
+        var ele = document.getElementById("resultArea")
+        if (response == "{}") {
+          alert("Check if channel are existing")
+          return
+        }
+        ele.value += response + "\n\n"
+      },
+      error: function (data) {
+        var response = xhr.responseText
+        var ele = document.getElementById("resultArea")
+        ele.value += response + "\n\n"
+      }
+    });
+  }
+</script>
 
 </html>

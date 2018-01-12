@@ -38,10 +38,12 @@
 
 	<nav class="navbar-default" style="height:100%;height:-moz-calc(100% - 50px);height:-webkit-calc(100% - 50px);height:calc(100% - 50px);min-height:500px;position:absolute; top:50px">
 		<div style="width:400px; background-color:#404C62; height:100%;" id="leftresult">
-			<div id="result">
-				<input type="button" id="clear" value="Clear Result">
-				<textarea readonly id="resultArea"></textarea>
-			</div>
+			<script>
+				$(function () {
+					getleft("leftresult");
+				})
+			</script>
+
 	</nav>
 	<div class="rightbody" id="rightbody">
 		<script type="text/javascript">

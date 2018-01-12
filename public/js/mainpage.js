@@ -1,23 +1,29 @@
 $(function(){
+	// utility
+	function tempalert(msg, duration) {
+        var el = document.createElement("div");
+        el.setAttribute("style", "position:absolute;top:10%;left:10%;background-color:white;text-align:center;");
+        el.innerHTML = msg;
+        setTimeout(function () {
+            el.parentNode.removeChild(el);
+        }, duration);
+        document.body.appendChild(el);
+	}
+	// utility
 	$("#user").html(sessionStorage.username);
 	$("#logapi").click(function(){
-		getleft("log");
 		getright("orderlog");
 	}).hover(over,out);
 	$("#protransaction").click(function(){
-		getleft("product");
 		getright("orderproduct");
 	}).hover(over,out);
 	$("#channel_").click(function(){
-		getleft("leftapi");
 		getright("channel_");
 	}).hover(over,out);
 	$("#phonescams").click(function(){
-		getleft("phonescams");
 		getright("phonescams");
 	}).hover(over,out);
 	$("#producttransaction").click(function(){
-		getleft("producttransaction");
 		getright("producttransaction");
 	}).hover(over,out);
 	// 

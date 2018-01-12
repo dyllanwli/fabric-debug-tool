@@ -378,21 +378,12 @@ app.get('/users/password', function (req, res) {
      req.session.user = null;
      res.redirect('/');
  });*/
-// request menu
-app.get('/left', function (req, res) {
-	var topic = req.query.menu;
-	if (topic == "log") {
-		res.render('leftresult');
-	} else if (topic == "product") {
-		res.render('leftresult');
-	} else if (topic == "leftapi") {
-		res.render('leftresult');
-	} else if (topic == "phonescams") {
-		res.render('leftresult');
-	} else if(topic == "producttransaction"){
-		res.render("leftresult");
-	} 
-});
+ app.get('/left', function (req, res) {
+	 var topic = req.query.menu;
+	 if (topic == "leftresult"){
+		 res.render("leftresult")
+	 }
+ })
 // request mainbody
 app.get('/right', function (req, res) {
 	var topic = req.query.menu;

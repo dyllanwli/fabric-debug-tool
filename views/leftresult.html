@@ -23,7 +23,25 @@
 
 <div id="result">
     <input type="button" id="clear" value="Clear Result">
-    <textarea readonly id="resultArea"></textarea>
+    <textarea id="resultArea"></textarea>
 </div>
 <script type="text/javascript">
+    // clear result area
+    function clear() {
+        $("#clear").click(function () {
+            $("#resultArea").val("")
+            tempalert("Log cleared", 500)
+        })
+    }
+
+    function tempalert(msg, duration) {
+        var el = document.createElement("div");
+        el.setAttribute("style", "position:absolute;top:10%;left:10%;background-color:white;text-align:center;");
+        el.innerHTML = msg;
+        setTimeout(function () {
+            el.parentNode.removeChild(el);
+        }, duration);
+        document.body.appendChild(el);
+    }
+    clear()
 </script>
