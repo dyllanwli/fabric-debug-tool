@@ -1,19 +1,3 @@
-/**
- * Copyright 2017 IBM All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the 'License');
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an 'AS IS' BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-'use strict';
 var log4js = require('log4js');
 var logger = log4js.getLogger('Helper');
 logger.setLevel('DEBUG');
@@ -23,9 +7,11 @@ var util = require('util');
 var fs = require('fs-extra');
 var User = require('fabric-client/lib/User.js');
 var crypto = require('crypto');
-var copService = require('fabric-ca-client');
+var config = require("../config.json");
+var FabricCAService = require('fabric-ca-client');
 
 var hfc = require('fabric-client');
+hfc.addConfigFile(path.join(__dirname, 'network-config.json'));
 hfc.setLogger(logger);
 var ORGS = hfc.getConfigSetting('network-config');
 
@@ -39,53 +25,62 @@ for (let key in ORGS) {
 		let client = new hfc();
 
 		let cryptoSuite = hfc.newCryptoSuite();
-		cryptoSuite.setCryptoKeyStore(hfc.newCryptoKeyStore({path: getKeyStoreForOrg(ORGS[key].name)}));
+		cryptoSuite.setCryptoKeyStore(hfc.newCryptoKeyStore({
+			path: getKeyStoreForOrg(ORGS[key].name)
+		}));
 		client.setCryptoSuite(cryptoSuite);
+		channels[key] = {};
+		for (let index in config.channelsList) {
+			let channelName = config.channelsList[index];
+			let channel = client.newChannel(channelName);
+			//Add all the orderers
+			newOrderer(client, channel)
+			clients[key] = client;
+			channels[key][channelName] = channel;
 
-		let channel = client.newChannel(hfc.getConfigSetting('channelName'));
-		channel.addOrderer(newOrderer(client));
-
-		clients[key] = client;
-		channels[key] = channel;
-
-		setupPeers(channel, key, client);
-
+			setupPeers(channel, key, client);
+		}
 		let caUrl = ORGS[key].ca;
-		caClients[key] = new copService(caUrl, null /*defautl TLS opts*/, '' /* default CA */, cryptoSuite);
+		caClients[key] = new FabricCAService(caUrl, null /*defautl TLS opts*/ , '' /* default CA */ , cryptoSuite);
 	}
 }
+logger.debug("=======client and channel setted up======")
 
 function setupPeers(channel, org, client) {
 	for (let key in ORGS[org].peers) {
 		let data = fs.readFileSync(path.join(__dirname, ORGS[org].peers[key]['tls_cacerts']));
 		let peer = client.newPeer(
-			ORGS[org].peers[key].requests,
-			{
+			ORGS[org].peers[key].requests, {
 				pem: Buffer.from(data).toString(),
 				'ssl-target-name-override': ORGS[org].peers[key]['server-hostname']
 			}
 		);
 		peer.setName(key);
 
+
 		channel.addPeer(peer);
 	}
 }
 
-function newOrderer(client) {
-	var caRootsPath = ORGS.orderer.tls_cacerts;
-	let data = fs.readFileSync(path.join(__dirname, caRootsPath));
-	let caroots = Buffer.from(data).toString();
-	return client.newOrderer(ORGS.orderer.url, {
-		'pem': caroots,
-		'ssl-target-name-override': ORGS.orderer['server-hostname']
-	});
+function newOrderer(client, channel) {
+	for (let index in ORGS['orderer']) {
+		let newOrderer
+		let data = fs.readFileSync(path.join(__dirname, ORGS.orderer[index]['tls_cacerts']));
+		newOrderer = client.newOrderer(
+			ORGS.orderer[index].url, {
+				pem: Buffer.from(data).toString(),
+				'ssl-target-name-override': ORGS.orderer[index]['server-hostname']
+			}
+		);
+		channel.addOrderer(newOrderer);
+	}
 }
 
 function readAllFiles(dir) {
 	var files = fs.readdirSync(dir);
 	var certs = [];
 	files.forEach((file_name) => {
-		let file_path = path.join(dir,file_name);
+		let file_path = path.join(dir, file_name);
 		let data = fs.readFileSync(file_path);
 		certs.push(data);
 	});
@@ -100,7 +95,7 @@ function getKeyStoreForOrg(org) {
 	return hfc.getConfigSetting('keyValueStore') + '_' + org;
 }
 
-function newRemotes(names, forPeers, userOrg) {
+function newRemotes(names, forPeers, userOrg, channelName) {
 	let client = getClientForOrg(userOrg);
 
 	let targets = [];
@@ -135,28 +130,33 @@ function newRemotes(names, forPeers, userOrg) {
 //-------------------------------------//
 // APIs
 //-------------------------------------//
-var getChannelForOrg = function(org) {
-	return channels[org];
+var getChannelForOrg = function (org, channelName) {
+	// 默认为第一个channel
+	if (channelName == undefined) {
+		channelName = config.channelsList[0];
+	}
+	return channels[org][channelName];
 };
 
-var getClientForOrg = function(org) {
+var getClientForOrg = function (org) {
 	return clients[org];
 };
 
-var newPeers = function(names, org) {
-	return newRemotes(names, true, org);
+var newPeers = function (names, org, channelName) {
+	// channelName is not use.
+	return newRemotes(names, true, org, channelName);
 };
 
-var newEventHubs = function(names, org) {
-	return newRemotes(names, false, org);
+var newEventHubs = function (names, org, channelName) {
+	return newRemotes(names, false, org, channelName);
 };
 
-var getMspID = function(org) {
+var getMspID = function (org) {
 	logger.debug('Msp ID : ' + ORGS[org].mspid);
 	return ORGS[org].mspid;
 };
 
-var getAdminUser = function(userOrg) {
+var getAdminUser = function (userOrg) {
 	var users = hfc.getConfigSetting('admins');
 	var username = users[0].username;
 	var password = users[0].secret;
@@ -198,7 +198,7 @@ var getAdminUser = function(userOrg) {
 	});
 };
 
-var getRegisteredUsers = function(username, userOrg, isJson) {
+var getRegisteredUsers = function (username, userOrg, isJson) {
 	var member;
 	var client = getClientForOrg(userOrg);
 	var enrollmentSecret = null;
@@ -214,7 +214,7 @@ var getRegisteredUsers = function(username, userOrg, isJson) {
 				return user;
 			} else {
 				let caClient = caClients[userOrg];
-				return getAdminUser(userOrg).then(function(adminUserObj) {
+				return getAdminUser(userOrg).then(function (adminUserObj) {
 					member = adminUserObj;
 					return caClient.register({
 						enrollmentID: username,
@@ -267,7 +267,7 @@ var getRegisteredUsers = function(username, userOrg, isJson) {
 	});
 };
 
-var getOrgAdmin = function(userOrg) {
+var getOrgAdmin = function (userOrg) {
 	var admin = ORGS[userOrg].admin;
 	var keyPath = path.join(__dirname, admin.key);
 	var keyPEM = Buffer.from(readAllFiles(keyPath)[0]).toString();
@@ -277,7 +277,9 @@ var getOrgAdmin = function(userOrg) {
 	var client = getClientForOrg(userOrg);
 	var cryptoSuite = hfc.newCryptoSuite();
 	if (userOrg) {
-		cryptoSuite.setCryptoKeyStore(hfc.newCryptoKeyStore({path: getKeyStoreForOrg(getOrgName(userOrg))}));
+		cryptoSuite.setCryptoKeyStore(hfc.newCryptoKeyStore({
+			path: getKeyStoreForOrg(getOrgName(userOrg))
+		}));
 		client.setCryptoSuite(cryptoSuite);
 	}
 
@@ -287,7 +289,7 @@ var getOrgAdmin = function(userOrg) {
 		client.setStateStore(store);
 
 		return client.createUser({
-			username: 'peer'+userOrg+'Admin',
+			username: 'peer' + userOrg + 'Admin',
 			mspid: getMspID(userOrg),
 			cryptoContent: {
 				privateKeyPEM: keyPEM,
@@ -297,14 +299,37 @@ var getOrgAdmin = function(userOrg) {
 	});
 };
 
-var setupChaincodeDeploy = function() {
+var setupChaincodeDeploy = function () {
 	process.env.GOPATH = path.join(__dirname, hfc.getConfigSetting('CC_SRC_PATH'));
 };
 
-var getLogger = function(moduleName) {
+var getLogger = function (moduleName) {
 	var logger = log4js.getLogger(moduleName);
 	logger.setLevel('DEBUG');
 	return logger;
+};
+
+var getPeerAddressByName = function (org, peer) {
+	var address = ORGS[org].peers[peer].requests;
+	return address.split('grpcs://')[1];
+};
+
+var getOrgs = function () {
+	let orgList = []
+	for (let key in ORGS) {
+		if (key.indexOf('org') === 0) {
+			orgList.push(key)
+		}
+	}
+	return orgList
+}
+
+var getPeersByOrg = function (org) {
+	let peerList = []
+	for (let peerName in ORGS[org].peers) {
+		peerList.push(ORGS[org].peers[peerName]);
+	}
+	return peerList;
 };
 
 exports.getChannelForOrg = getChannelForOrg;
@@ -315,5 +340,9 @@ exports.getMspID = getMspID;
 exports.ORGS = ORGS;
 exports.newPeers = newPeers;
 exports.newEventHubs = newEventHubs;
+exports.getPeerAddressByName = getPeerAddressByName;
 exports.getRegisteredUsers = getRegisteredUsers;
 exports.getOrgAdmin = getOrgAdmin;
+exports.getAdminUser = getAdminUser;
+exports.getOrgs = getOrgs;
+exports.getPeersByOrg = getPeersByOrg;

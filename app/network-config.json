@@ -1,55 +1,189 @@
 {
-	"network-config": {
-		"orderer": {
-			"url": "grpcs://localhost:7050",
-			"server-hostname": "orderer.example.com",
-			"tls_cacerts": "../artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt"
-		},
-		"org1": {
-			"name": "peerOrg1",
-			"mspid": "Org1MSP",
-			"ca": "https://localhost:7054",
-			"peers": {
-				"peer1": {
-					"requests": "grpcs://localhost:7051",
-					"events": "grpcs://localhost:7053",
-					"server-hostname": "peer0.org1.example.com",
-					"tls_cacerts": "../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
-				},
-				"peer2": {
-					"requests": "grpcs://localhost:7056",
-					"events": "grpcs://localhost:7058",
-					"server-hostname": "peer1.org1.example.com",
-					"tls_cacerts": "../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt"
-				}	
-			},
-			"admin": {
-				"key": "../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore",
-				"cert": "../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts"
-			}
-		},
-		"org2": {
-			"name": "peerOrg2",
-			"mspid": "Org2MSP",
-			"ca": "https://localhost:8054",
-			"peers": {
-				"peer1": {
-					"requests": "grpcs://localhost:8051",
-					"events": "grpcs://localhost:8053",
-					"server-hostname": "peer0.org2.example.com",
-					"tls_cacerts": "../artifacts/channel/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
-				},
-				"peer2": {
-					"requests": "grpcs://localhost:8056",
-					"events": "grpcs://localhost:8058",
-					"server-hostname": "peer1.org2.example.com",
-					"tls_cacerts": "../artifacts/channel/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt"
-				}	
-			},
-			"admin": {
-				"key": "../artifacts/channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore",
-				"cert": "../artifacts/channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts"
-			}
-		}
-	}
+    "network-config": {
+        "orderer": [{
+            "url": "grpcs://127.0.0.1:7050",
+            "server-hostname": "orderer0.veredholdings.com",
+            "tls_cacerts": "../artifacts/crypto-config/ordererOrganizations/veredholdings.com/orderers/orderer0.veredholdings.com/tls/ca.crt"
+        }, {
+            "url": "grpcs://127.0.0.1:8050",
+            "server-hostname": "orderer1.veredholdings.com",
+            "tls_cacerts": "../artifacts/crypto-config/ordererOrganizations/veredholdings.com/orderers/orderer1.veredholdings.com/tls/ca.crt"
+        }, {
+            "url": "grpcs://127.0.0.1:9050",
+            "server-hostname": "orderer2.veredholdings.com",
+            "tls_cacerts": "../artifacts/crypto-config/ordererOrganizations/veredholdings.com/orderers/orderer2.veredholdings.com/tls/ca.crt"
+        }, {
+            "url": "grpcs://127.0.0.1:10050",
+            "server-hostname": "orderer3.veredholdings.com",
+            "tls_cacerts": "../artifacts/crypto-config/ordererOrganizations/veredholdings.com/orderers/orderer3.veredholdings.com/tls/ca.crt"
+        }, {
+            "url": "grpcs://127.0.0.1:11050",
+            "server-hostname": "orderer4.veredholdings.com",
+            "tls_cacerts": "../artifacts/crypto-config/ordererOrganizations/veredholdings.com/orderers/orderer4.veredholdings.com/tls/ca.crt"
+        }],
+        "orgbigtree": {
+            "name": "peerOrgBigtree",
+            "mspid": "OrgBigtreeMSP",
+            "ca": "https://127.0.0.1:7054",
+            "peer": {
+                "peer0": {
+                    "requests": "grpcs://127.0.0.1:7051",
+                    "events": "grpcs://127.0.0.1:7053",
+                    "server-hostname": "peer0.bigtree.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer0.bigtree.veredholdings.com/tls/ca.crt"
+                },
+                "peer1": {
+                    "requests": "grpcs://127.0.0.1:8051",
+                    "events": "grpcs://127.0.0.1:8053",
+                    "server-hostname": "peer1.bigtree.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer1.bigtree.veredholdings.com/tls/ca.crt"
+                },
+                "peer2": {
+                    "requests": "grpcs://127.0.0.1:9051",
+                    "events": "grpcs://127.0.0.1:9053",
+                    "server-hostname": "peer2.bigtree.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer2.bigtree.veredholdings.com/tls/ca.crt"
+                },
+                "peer3": {
+                    "requests": "grpcs://127.0.0.1:10051",
+                    "events": "grpcs://127.0.0.1:10053",
+                    "server-hostname": "peer3.bigtree.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer3.bigtree.veredholdings.com/tls/ca.crt"
+                },
+                "peer4": {
+                    "requests": "grpcs://127.0.0.1:10051",
+                    "events": "grpcs://127.0.0.1:10053",
+                    "server-hostname": "peer4.bigtree.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/bigtree.veredholdings.com/peers/peer4.bigtree.veredholdings.com/tls/ca.crt"
+                }
+            },
+            "admin": {
+                "key": "../artifacts/crypto-config/peerOrganizations/bigtree.veredholdings.com/users/Admin@bigtree.veredholdings.com/msp/keystore",
+                "cert": "../artifacts/crypto-config/peerOrganizations/bigtree.veredholdings.com/users/Admin@bigtree.veredholdings.com/msp/signcerts"
+            }
+        },
+        "orgfactoring": {
+            "name": "peerOrgFactoring",
+            "mspid": "OrgFactoringMSP",
+            "ca": "https://127.0.0.1:8054",
+            "peer": {
+                "peer0": {
+                    "requests": "grpcs://127.0.0.1:12051",
+                    "events": "grpcs://127.0.0.1:12053",
+                    "server-hostname": "peer0.factoring.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer0.factoring.veredholdings.com/tls/ca.crt"
+                },
+                "peer1": {
+                    "requests": "grpcs://127.0.0.1:13051",
+                    "events": "grpcs://127.0.0.1:13053",
+                    "server-hostname": "peer1.factoring.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer1.factoring.veredholdings.com/tls/ca.crt"
+                },
+                "peer2": {
+                    "requests": "grpcs://127.0.0.1:14051",
+                    "events": "grpcs://127.0.0.1:14053",
+                    "server-hostname": "peer2.factoring.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer2.factoring.veredholdings.com/tls/ca.crt"
+                },
+                "peer3": {
+                    "requests": "grpcs://127.0.0.1:15051",
+                    "events": "grpcs://127.0.0.1:15053",
+                    "server-hostname": "peer3.factoring.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer3.factoring.veredholdings.com/tls/ca.crt"
+                },
+                "peer4": {
+                    "requests": "grpcs://127.0.0.1:16051",
+                    "events": "grpcs://127.0.0.1:16053",
+                    "server-hostname": "peer4.factoring.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/factoring.veredholdings.com/peers/peer4.factoring.veredholdings.com/tls/ca.crt"
+                }
+            },
+            "admin": {
+                "key": "../artifacts/crypto-config/peerOrganizations/factoring.veredholdings.com/users/Admin@factoring.veredholdings.com/msp/keystore",
+                "cert": "../artifacts/crypto-config/peerOrganizations/factoring.veredholdings.com/users/Admin@factoring.veredholdings.com/msp/signcerts"
+            }
+        },
+        "orgcore": {
+            "name": "peerOrgCore",
+            "mspid": "OrgCoreMSP",
+            "ca": "https://127.0.0.1:9054",
+            "peer" :{
+                "peer0": {
+                    "requests": "grpcs://127.0.0.1:17051",
+                    "events": "grpcs://127.0.0.1:17053",
+                    "server-hostname": "peer0.core.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/core.veredholdings.com/peers/peer0.core.veredholdings.com/tls/ca.crt"
+                },
+                "peer1": {
+                    "requests": "grpcs://127.0.0.1:18051",
+                    "events": "grpcs://127.0.0.1:18053",
+                    "server-hostname": "peer1.core.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/core.veredholdings.com/peers/peer1.core.veredholdings.com/tls/ca.crt"
+                },
+                "peer2": {
+                    "requests": "grpcs://127.0.0.1:19051",
+                    "events": "grpcs://127.0.0.1:19053",
+                    "server-hostname": "peer2.core.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/core.veredholdings.com/peers/peer2.core.veredholdings.com/tls/ca.crt"
+                },
+                "peer3": {
+                    "requests": "grpcs://127.0.0.1:20051",
+                    "events": "grpcs://127.0.0.1:20053",
+                    "server-hostname": "peer3.core.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/core.veredholdings.com/peers/peer3.core.veredholdings.com/tls/ca.crt"
+                },
+                "peer4": {
+                    "requests": "grpcs://127.0.0.1:21051",
+                    "events": "grpcs://127.0.0.1:21053",
+                    "server-hostname": "peer4.core.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/core.veredholdings.com/peers/peer4.core.veredholdings.com/tls/ca.crt"
+                }
+            },
+            "admin": {
+                "key": "../artifacts/crypto-config/peerOrganizations/core.veredholdings.com/users/Admin@core.veredholdings.com/msp/keystore",
+                "cert": "../artifacts/crypto-config/peerOrganizations/core.veredholdings.com/users/Admin@core.veredholdings.com/msp/signcerts"
+            }
+        },
+        "orgsupply": {
+            "name": "peerOrgSupply",
+            "mspid": "OrgSupplyMSP",
+            "ca": "https://127.0.0.1:10054",
+            "peer": {
+                "peer0": {
+                    "requests": "grpcs://127.0.0.1:22051",
+                    "events": "grpcs://127.0.0.1:22053",
+                    "server-hostname": "peer0.supply.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer0.supply.veredholdings.com/tls/ca.crt"
+                },
+                "peer1": {
+                    "requests": "grpcs://127.0.0.1:23051",
+                    "events": "grpcs://127.0.0.1:23053",
+                    "server-hostname": "peer1.supply.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer1.supply.veredholdings.com/tls/ca.crt"
+                },
+                "peer2": {
+                    "requests": "grpcs://127.0.0.1:24051",
+                    "events": "grpcs://127.0.0.1:24053",
+                    "server-hostname": "peer2.supply.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer2.supply.veredholdings.com/tls/ca.crt"
+                },
+                "peer3": {
+                    "requests": "grpcs://127.0.0.1:25051",
+                    "events": "grpcs://127.0.0.1:25053",
+                    "server-hostname": "peer3.supply.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer3.supply.veredholdings.com/tls/ca.crt"
+                },
+                "peer4": {
+                    "requests": "grpcs://127.0.0.1:26051",
+                    "events": "grpcs://127.0.0.1:26053",
+                    "server-hostname": "peer4.supply.veredholdings.com",
+                    "tls_cacerts": "../artifacts/crypto-config/peerOrganizations/supply.veredholdings.com/peers/peer4.supply.veredholdings.com/tls/ca.crt"
+                }
+            },
+            "admin": {
+                "key": "../artifacts/crypto-config/peerOrganizations/supply.veredholdings.com/users/Admin@supply.veredholdings.com/msp/keystore",
+                "cert": "../artifacts/crypto-config/peerOrganizations/supply.veredholdings.com/users/Admin@supply.veredholdings.com/msp/signcerts"
+            }
+        }
+    }
 }

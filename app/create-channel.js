@@ -1,25 +1,11 @@
-/**
- * Copyright 2017 IBM All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the 'License');
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an 'AS IS' BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
 var util = require('util');
 var fs = require('fs');
 var path = require('path');
 var config = require('../config.json');
 var helper = require('./helper.js');
 var logger = helper.getLogger('Create-Channel');
-//Attempt to send a request to the orderer with the sendCreateChain method
+// same Channel can only create once, otherwise it will rise BAD REQUEST error.
+// Attempt to send a request to the orderer with the sendCreateChain method
 var createChannel = function(channelName, channelConfigPath, username, orgName) {
 	logger.debug('\n====== Creating Channel \'' + channelName + '\' ======\n');
 	var client = helper.getClientForOrg(orgName);
@@ -27,6 +13,7 @@ var createChannel = function(channelName, channelConfigPath, username, orgName) 
 
 	// read in the envelope for the channel config raw bytes
 	var envelope = fs.readFileSync(path.join(__dirname, channelConfigPath));
+	console.info(envelope.toString())
 	// extract the channel config bytes from the envelope to be signed
 	var channelConfig = client.extractChannelConfig(envelope);
 
