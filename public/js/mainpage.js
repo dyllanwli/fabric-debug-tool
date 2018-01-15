@@ -11,20 +11,17 @@ $(function(){
 	}
 	// utility
 	$("#user").html(sessionStorage.username);
-	$("#logapi").click(function(){
-		getright("orderlog");
+	$("#chaincode_").click(function(){
+		getright("chaincode");
 	}).hover(over,out);
-	$("#protransaction").click(function(){
-		getright("orderproduct");
+	$("#invoke_").click(function(){
+		getright("invoke");
 	}).hover(over,out);
 	$("#channel_").click(function(){
 		getright("channel_");
 	}).hover(over,out);
-	$("#phonescams").click(function(){
-		getright("phonescams");
-	}).hover(over,out);
-	$("#producttransaction").click(function(){
-		getright("producttransaction");
+	$("#query_").click(function(){
+		getright("query");
 	}).hover(over,out);
 	// 
 	// 
@@ -66,7 +63,7 @@ $(function(){
 	$("#leftresult").on('click','#phonemark',function(){
 		$(".nav").children("li").removeClass("active");
                 $(this).addClass("active");
-		getright('phonescams');	
+		getright('query');	
 	})
 	$("#logout").click(function(){
 		sessionStorage.clear();

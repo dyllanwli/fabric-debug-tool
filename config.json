@@ -1,15 +1,17 @@
 {
-   "host":"localhost",
-   "port":"4001",
-   "jwt_expiretime": "36000",
-   "channelName":"itemchannel",
-   "CC_SRC_PATH":"../artifacts",
-   "keyValueStore":"/tmp/fabric-client-kvs",
-   "eventWaitTime":"30000",
-   "admins":[
-      {
-         "username":"admin",
-         "secret":"adminpw"
-      }
-   ]
-}
+    "host":"localhost",
+    "port":"4000",
+    "jwt_expiretime": "36000",
+    "channelName":"mychannel",
+    "CC_SRC_PATH":"../artifacts",
+    "keyValueStore":"/tmp/fabric-client-kvs",
+    "eventWaitTime":"30000",
+    "channelsList":["mychannel"],
+    "admins":[
+       {
+          "username":"admin",
+          "secret":"adminpw"
+       }
+    ]
+ }
+ 

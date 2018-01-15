@@ -9,11 +9,10 @@ var logger = helper.getLogger('Create-Channel');
 var createChannel = function(channelName, channelConfigPath, username, orgName) {
 	logger.debug('\n====== Creating Channel \'' + channelName + '\' ======\n');
 	var client = helper.getClientForOrg(orgName);
-	var channel = helper.getChannelForOrg(orgName);
+	var channel = helper.getChannelForOrg(orgName,channelName);
 
 	// read in the envelope for the channel config raw bytes
 	var envelope = fs.readFileSync(path.join(__dirname, channelConfigPath));
-	console.info(envelope.toString())
 	// extract the channel config bytes from the envelope to be signed
 	var channelConfig = client.extractChannelConfig(envelope);
 

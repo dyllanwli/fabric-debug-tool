@@ -1,0 +1,82 @@
+<div id="front">
+	<div class="bodydiv1">
+		<div style="float:left;color: black;width: 100%">
+			Peers:
+			<input type="text"  id="peers" class="input1">ChaincodeName:
+			<input type="text"  id="chaincodeName" class="input1">ChaincodePath:
+			<input type="text"  id="chaincodePath" class="input1">
+		</div>
+		<div style="display: inline-block;position:inherit;top:20px;left: 10px">
+			<button class="btn btnb" id="createChannel">Create Channel</button>
+			<button class="btn btnb" id="joinPeers">Join Peers</button>
+			<button class="btn btnb" id="joinAllPeers">Join All Peers</button>
+		</div>
+	</div>
+	<div style="position: relative;top:70px;width:70%;left:5%;">
+		<div class="bootstrap-table">
+			<div class="fixed-table-toolbar"></div>
+			<div class="fixed-table-container" style="padding-bottom: 0px;">
+				<div class="fixed-table-header" style="display: none;">
+					<table></table>
+				</div>
+				<div class="fixed-table-body">
+					<div class="fixed-table-loading" style="top: 38px;">Loading...</div>
+					<table data-toggle="table" class="table-striped table table-hover" style="width:100%;table-layout:fixed;">
+						<colgroup>
+							<col style="width:5%">
+							<col style="width:10%">
+							<col style="width:10%">
+							<col style="width:10%">
+							<col style="width:5%">
+							<col style="width:10%">
+						</colgroup>
+						<thead style="background-color:#F8F9F9;border-bottom: solid 2px #dddddd">
+							<tr>
+								<th  data-field="0" tabindex="0">
+									<div class="th-inner ">
+										<input type="checkbox" id="seltotal">
+									</div>
+									<div class="fht-cell"></div>
+								</th>
+								<th  data-field="1" tabindex="0">
+									<div class="th-inner ">Log Name</div>
+									<div class="fht-cell"></div>
+								</th>
+								<th  data-field="2" tabindex="0">
+									<div class="th-inner ">Log</div>
+									<div class="fht-cell"></div>
+								</th>
+								<th  data-field="3" tabindex="0">
+									<div class="th-inner ">Upload Time</div>
+									<div class="fht-cell"></div>
+								</th>
+								<th  data-field="4" tabindex="0">
+									<div class="th-inner ">User Name</div>
+									<div class="fht-cell"></div>
+								</th>
+								<th  data-field="5" tabindex="0">
+									<div class="th-inner ">Operation</div>
+									<div class="fht-cell"></div>
+								</th>
+							</tr>
+						</thead>
+						<tbody id="loglist">
+
+						</tbody>
+					</table>
+				</div>
+				<div class="fixed-table-footer" style="display: none;">
+					<table>
+						<tbody>
+							<tr></tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="fixed-table-pagination" style="display: none;"></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<ul style="position: relative;top:70px;width:70%;left:5%;" class="pagination" id="page"></ul>
+</div>
+<script type="text/javascript" src="/js/main.js"></script>

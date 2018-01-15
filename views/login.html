@@ -38,21 +38,22 @@
 
 <body style="background-color: #20283F;">
 
-    <div class="text-center" style="height:530px; width:600px;top:140px;position:absolute;left:55%">
-        <div style="float:left; height:100%; width:50%; opacity:1; background:url(/image/u6.png);">
-            <div class="title">Debug Tool</div>
-        </div>
+    <div class="text-center" style="height:530px; width:600px;top:140px;position:absolute;left:75%">
         <div style="float:left; height:95%; width:45%;background-color: #FFFFFF;position:relative;top:6px">
-            <span style="font-size:20px;position:relative;top:10px;left:5px; text-align:left;">LOGIN</span>
+            <span style="font-size:20px;position:relative;top:10px;left:5px; text-align:left;">DEBUG-TOOL</span>
             <div style="width:80%;left:20px;top:70px;position:relative">
                 <form class="m-t" role="form" action="/users/login" method="post">
                     <div class="form-group">
                         <label id="nameerr" class="redtext"></label>
-                        <input type="name" class="form-control" placeholder="name" required="" name="username" id="username">
+                        <input type="name" class="form-control" placeholder="name" required="" name="username" id="username" value = "diya">
+                    </div>
+                    <div class="form-group">
+                        <label id="orgerr" class="redtext"></label>
+                        <input type="org" class="form-control" placeholder="org" required="" name="orgname" id="orgname" value = "org1">
                     </div>
                     <div class="form-group">
                         <label id="pwderr" class="redtext"></label>
-                        <input type="password" class="form-control" placeholder="password" required="" name="password" id="password">
+                        <input type="password" class="form-control" placeholder="password" required="" name="password" id="password" value = "1234">
                     </div>
                     <button type="submit" class="btn btn-primary" style="float:right" onClick="return sub()">login</button>
                 </form>
@@ -66,11 +67,14 @@
     <script>
         $("#nameerr").text("");
         $("#pwderr").text("");
+        $("#orgerr").text("");
         var err = "<%= locals.loginerr%>";
         if (err == "nameerr") {
             $("#nameerr").text("name does exist");
         } else if (err == "pwderr") {
             $("#pwderr").text("password wrong");
+        } else if (err = "orgerr"){
+            $("#orgerr").text("org wrong");
         }
     </script>
 

@@ -1,5 +1,7 @@
 {
-  "name": "balance-transfer",
+  "name": "debug-tool",
+  "version": "1.0.0",
+  "description": "fabric tool",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"

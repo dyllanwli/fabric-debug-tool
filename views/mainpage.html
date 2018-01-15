@@ -26,10 +26,9 @@
 	<div style="height:50px; background-color:#20283F; line-height:50px;">
 		<a style="font-weight: 200;font-size: 18px;color:white;position:relative;left:10px;">debug tool</a>
 		<div class="tab" id="channel_"> channel </div>
-		<div class="tab" id="logapi"> logapi </div>
-		<div class="tab" id="protransaction"> protransaction </div>
-		<div class="tab" id="phonescams"> phonescams </div>
-		<div class="tab" id="producttransaction"> producttransaction </div>
+		<div class="tab" id="chaincode_"> chaincode </div>
+		<div class="tab" id="invoke_"> Invoke </div>
+		<div class="tab" id="query_"> query </div>
 		<div style="float:right">
 			<a class="al aw" id="user">user</a>
 			<a class="al aw" id="logout">exit</a>
@@ -50,7 +49,7 @@
 			$(function () {
 				$(".nav").children("li").removeClass("active");
 				$(this).addClass("active");
-				getright("orderlog");
+				getright("chaincode");
 			});
 		</script>
 		<script type="text/javascript" src="/js/main.js"></script>
