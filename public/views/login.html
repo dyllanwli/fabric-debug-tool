@@ -67,14 +67,11 @@
     <script>
         $("#nameerr").text("");
         $("#pwderr").text("");
-        $("#orgerr").text("");
         var err = "<%= locals.loginerr%>";
         if (err == "nameerr") {
             $("#nameerr").text("name does exist");
         } else if (err == "pwderr") {
             $("#pwderr").text("password wrong");
-        } else if (err = "orgerr"){
-            $("#orgerr").text("org wrong");
         }
     </script>
 

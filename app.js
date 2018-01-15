@@ -16,9 +16,6 @@ var bearerToken = require('express-bearer-token');
 var cors = require('cors');
 var multer = require('multer');
 var fs = require('fs');
-var upload = multer({
-	dest: './uploads/'
-});
 var unless = require('express-unless');
 var mysql = require('mysql');
 var pool = mysql.createPool({
@@ -53,7 +50,7 @@ app.use(bodyParser.urlencoded({
 	extended: false
 }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'public/views'));
 //app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
@@ -62,7 +59,7 @@ app.set('secret', 'thisismysecret');
 app.use(expressJWT({
 	secret: 'thisismysecret'
 }).unless({
-	path: ['/users/login', '/users/register', '/', '/users', '/favicon.ico', '/users/forgetpwd', '/users/downloadlogfile']
+	path: ['/users/login', '/', '/users', '/favicon.ico']
 }));
 app.use(bearerToken());
 app.use(function (req, res, next) {
@@ -148,12 +145,17 @@ app.post('/users', function (req, res) {
 		}
 	});
 });
-// login
+// default login
 var orgMap = {
 	'org1': 'org1',
 	'org2': 'org2',
 	'org3': 'org3'
 };
+var default_user = {
+	username:"diya",
+	password:"1234",
+	org:"org1"
+}
 app.route('/users/login')
 	.get(function (req, res) {
 		res.render('login', {
@@ -166,7 +168,7 @@ app.route('/users/login')
 		var password = req.body.password;
 		var orgname = req.body.orgname;
 		// default account
-		if (username == 'diya' && password == '1234' && orgname == "org1") {
+		if (username == default_user.username && password == default_user.password && orgname == default_user.org) {
 			var user = {
 				username: username,
 				password: password,
@@ -227,19 +229,21 @@ app.route('/users/login')
 // verified
 app.get('/users/password', function (req, res) {
 	var username = req.query.username;
-	var sql = 'select userpassword from debugtool where username=?';
+	var sql = 'select * from users where username=?';
+	if (username == default_user.username){
+		res.send(default_user.password)
+	}
 	pool.query(sql, [username], function (err, result) {
 		if (err) {
 			console.log('[SELECT ERROR] - ', err.message);
 			res.send("sql Error")
 			return
-		} else{
+		} else {
 			res.send(result)
 		}
 	})
 })
 
-// user register
 // app.route('/users/register')
 // 	.get(function (req, res) {
 // 		res.render('register', {
@@ -284,35 +288,6 @@ app.get('/users/password', function (req, res) {
 // 		});
 // 	});
 
-// function initusertosql(user, res) {
-// 	var sql = 'insert into debugtool values(0,?,?,?,?)';
-// 	pool.query(sql, [user.username, user.password, user.phonenumber, user.org], function (err, result) {
-// 		if (err) {
-// 			console.log('[SELECT ERROR] - ', err.message);
-// 			res.writeHead(200, {
-// 				'Content-type': 'text/html;charset=utf-8'
-// 			});
-// 			res.write('<script>alert("Register Failure");window.location.href="/users/register"</script>');
-// 			res.end();
-// 			return;
-// 		}
-// 		if (result.affectedRows == '1') {
-// 			res.writeHead(200, {
-// 				'Content-type': 'text/html;charset=utf-8'
-// 			});
-// 			res.write('<script>alert("Register Successfuly");window.location.href="/users/login"</script>');
-// 			res.end();
-// 		} else {
-// 			res.writeHead(200, {
-// 				'Content-type': 'text/html;charset=utf-8'
-// 			});
-// 			res.write('<script>alert("Register Failure");window.location.href="/users/register"</script>');
-// 			res.end();
-// 		}
-// 	});
-// }
-
-// forget password
 // app.route('/users/forgetpwd')
 // 	.get(function (req, res) {
 // 		if (req.query.name) {
@@ -380,12 +355,12 @@ app.get('/users/password', function (req, res) {
      req.session.user = null;
      res.redirect('/');
  });*/
- app.get('/left', function (req, res) {
-	 var topic = req.query.menu;
-	 if (topic == "leftresult"){
-		 res.render("leftresult")
-	 }
- })
+app.get('/left', function (req, res) {
+	var topic = req.query.menu;
+	if (topic == "leftresult") {
+		res.render("leftresult")
+	}
+})
 // request mainbody
 app.get('/right', function (req, res) {
 	var topic = req.query.menu;
@@ -393,8 +368,8 @@ app.get('/right', function (req, res) {
 		res.render('chaincode_');
 	} else if (topic == "explorer") {
 		var opt = {
-			name:"diya",
-			password:"1234"
+			name: "diya",
+			password: "1234"
 		};
 		var sreq = http.request(opt, function (sres) {
 			sres.pipe(res);
@@ -421,6 +396,34 @@ app.get('/right', function (req, res) {
 // ========================================================================
 // Above is the frontend
 
+function insertLog(table, req) {
+	var sql = 'insert into ' + table + ' values(0,?,?)';
+	if (table == 'channels') {
+		var channelName = req.body.channelName;
+		var channelConfigPath = req.body.channelConfigPath;
+		pool.query(sql, [channelname, channelconfigpath], function (err, result) {
+			if (err) {
+				console.log('[SELECT ERROR] - ', err.message);
+				res.writeHead(200, {
+					'Content-type': 'text/html;charset=utf-8'
+				});
+				res.write('<script>alert("insert Failure");window.location.href="/users/login"</script>');
+				res.end();
+				return;
+			}
+			if (result.affectedRows == '1') {
+				res.writeHead(200, {
+					'Content-type': 'text/html;charset=utf-8'
+				});
+				res.write('<script>alert("Register Successfuly");window.location.href="/users/login"</script>');
+				res.end();
+			}
+		});
+	} else if (table == 'chaincodes') {
+
+	}
+}
+
 // Create Channel
 app.post('/channels', function (req, res) {
 
@@ -440,6 +443,7 @@ app.post('/channels', function (req, res) {
 		res.json(getErrorMessage('\'channelConfigPath\''));
 		return;
 	}
+	insertLog('channels',req)
 	channels.createChannel(channelName, channelConfigPath, req.username, req.orgname)
 		.then(function (message) {
 			res.send(message);
@@ -721,7 +725,7 @@ app.get('/chaincodes', function (req, res) {
 		logger.debug("Add Constant Type")
 	}
 
-	query.getInstalledChaincodes(peer,channelName, installType, req.username, req.orgname)
+	query.getInstalledChaincodes(peer, channelName, installType, req.username, req.orgname)
 		.then(function (message) {
 			res.send(message);
 		});
@@ -746,189 +750,213 @@ app.get('/channels', function (req, res) {
 // =========================================================== QUERY avobe
 
 
+
+
+// ============== unused function note
+// var newpath = 'uploads/' + newname + oldname.substring(index);
+// fs.renameSync(file.path, newpath);
+// fs.readFile(newpath, function (err, data) {
+// 	var logbody = "";
+// 	if (err) {
+// 		logbody = "log text ..."
+// 	}
+// 	var hasher = crypto.createHash('md5');
+// 	hasher.update(data);
+// 	logbody = hasher.digest('hex');
+// 	var args = [logname, logbody];
+// 	invoke.invokeChaincode(peers, 'logchannel', 'logcc', 'uploadLog', args, req.username, req.orgname)
+// 		.then(function (message) {
+// 			res.send(message);
+// 		});
+// });
+
 // =========================================================== USER Function
 //post log file and uplog
-app.post('/uplogfile', upload.single('logfile'), function (req, res) {
-	logger.debug('===========upload file=========');
-	var file = req.file;
-	var peers = req.body.peers;
-	var oldname = file.originalname;
-	var index = oldname.lastIndexOf('.');
-	var newname = oldname.substring(0, index) + "_" + Date.now();
-	var logname = newname;
-	var newpath = 'uploads/' + newname + oldname.substring(index);
-	fs.renameSync(file.path, newpath);
-	fs.readFile(newpath, function (err, data) {
-		var logbody = "";
-		if (err) {
-			logbody = "log text ..."
-		}
-		var hasher = crypto.createHash('md5');
-		hasher.update(data);
-		logbody = hasher.digest('hex');
-		var args = [logname, logbody];
-		invoke.invokeChaincode(peers, 'logchannel', 'logcc', 'uploadLog', args, req.username, req.orgname)
-			.then(function (message) {
-				res.send(message);
-			});
-	});
-	var sql = 'insert into logsinfo values(0,?,?,?)';
-	pool.query(sql, [logname, newpath, 1], function (err, result) {
-		if (err) {
-			console.log('[SELECT ERROR] - ', err.message);
-			return;
-		}
-		if (result.affectedRows == 1) {
-			logger.info("mysql save ok!");
-		} else {
-			logger.info("mysql save false!");
-		}
-	});
-});
-//检查是否存在log文件
-app.get('/checklog', function (req, res) {
-	logger.debug('==================== check if has logfile ==================');
-	var logname = req.query.logname;
-	var sql = 'select * from logsinfo where logname=?';
-	pool.query(sql, [logname], function (err, result) {
-		if (err) {
-			console.log('[SELECT ERROR] - ', err.message);
-			res.send("sql ERROR");
-			return;
-		}
-		if (result == '' || result == null) {
-			res.send("no log");
-		} else {
-			res.send(result[0].logpath);
-		}
-	});
-});
-//Download Log文件
-app.post('/users/downloadlogfile', function (req, res) {
-	var logpath = req.body.logpath;
-	res.download(logpath);
-});
+// app.post('/uplogfile', upload.single('logfile'), function (req, res) {
+// 	logger.debug('===========upload file=========');
+// 	var file = req.file;
+// 	var peers = req.body.peers;
+// 	var oldname = file.originalname;
+// 	var index = oldname.lastIndexOf('.');
+// 	var newname = oldname.substring(0, index) + "_" + Date.now();
+// 	var logname = newname;
+// 	var newpath = 'uploads/' + newname + oldname.substring(index);
+// 	fs.renameSync(file.path, newpath);
+// 	fs.readFile(newpath, function (err, data) {
+// 		var logbody = "";
+// 		if (err) {
+// 			logbody = "log text ..."
+// 		}
+// 		var hasher = crypto.createHash('md5');
+// 		hasher.update(data);
+// 		logbody = hasher.digest('hex');
+// 		var args = [logname, logbody];
+// 		invoke.invokeChaincode(peers, 'logchannel', 'logcc', 'uploadLog', args, req.username, req.orgname)
+// 			.then(function (message) {
+// 				res.send(message);
+// 			});
+// 	});
+// 	var sql = 'insert into logsinfo values(0,?,?,?)';
+// 	pool.query(sql, [logname, newpath, 1], function (err, result) {
+// 		if (err) {
+// 			console.log('[SELECT ERROR] - ', err.message);
+// 			return;
+// 		}
+// 		if (result.affectedRows == 1) {
+// 			logger.info("mysql save ok!");
+// 		} else {
+// 			logger.info("mysql save false!");
+// 		}
+// 	});
+// });
+// app.get('/checklog', function (req, res) {
+// 	logger.debug('==================== check if has logfile ==================');
+// 	var logname = req.query.logname;
+// 	var sql = 'select * from logsinfo where logname=?';
+// 	pool.query(sql, [logname], function (err, result) {
+// 		if (err) {
+// 			console.log('[SELECT ERROR] - ', err.message);
+// 			res.send("sql ERROR");
+// 			return;
+// 		}
+// 		if (result == '' || result == null) {
+// 			res.send("no log");
+// 		} else {
+// 			res.send(result[0].logpath);
+// 		}
+// 	});
+// });
 
-//分页返回请求信息
-app.get('/getallinfo/channels/:channelName/chaincodes/:chaincodeName', function (req, res) {
-	logger.debug('==============get allinfo===============');
-	var page = req.query.page; //页码
-	var topic = req.query.topic; //获取信息主题
-	var fcn; //chaincode函数
-	var results = new Array(); //返回结果集，一个json串
-	var chaincodeName = req.params.chaincodeName;
-	var channelName = req.params.channelName;
-	var peer = req.query.peer;
-	var users = new Array();
+// app.post('/users/downloadlogfile', function (req, res) {
+// 	var logpath = req.body.logpath;
+// 	res.download(logpath);
+// });
 
-	//根据主题判断调用函数
-	switch (topic) {
-		//log all
-		case '1':
-			fcn = "queryLogsByUser";
-			break;
-		case '2':
-			fcn = "queryLogsByUser";
-			break;
-			//item not own
-		case '3':
-			fcn = "queryItemsByItemOwner";
-			break;
-		case '4':
-			fcn = "queryItemsByItemOwner";
-			break;
-		default:
-			res.json(getErrorMessage('\'topic\''));
-			return;
-	}
-	var records = new Array();
-	//获取用户列表
-	if (topic == 2 || topic == 4) {
-		users.push(req.username);
-		if (!users) {
-			res.json(getErrorMessage('\'No users info\''));
-			return;
-		}
-		var args = [];
-		if (topic == 4) {
-			args = ['', users[0]];
-		} else {
-			args = [users[0]];
-		}
-		query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname).then(function (message) {
-			records = records.concat(JSON.parse(message));
-			if (records.length == 0) {
-				res.json(getErrorMessage('\'no record in the page\''));
-				return;
-			}
-			var results = new Array();
-			for (var index = page * 10 - 10;
-				(index < records.length) && (index < (page * 10)); index++) {
-				var element = records[index];
-				results.push(element);
-			}
-			var totalpage = Math.ceil(records.length / 10.0);
-			results.push({
-				"totalpages": totalpage
-			});
-			res.send(results);
-			return;
-		});
 
-	} else {
+// 
+// 
+// 
+// 
+//  debug
+// app.get('/debug/getallinfo/channels/:channelName/chaincodes/:chaincodeName', function (req, res) {
+// 	logger.debug('==============get allinfo===============');
+// 	var page = req.query.page; //页码
+// 	var topic = req.query.topic; //获取信息主题
+// 	var fcn; //chaincode函数
+// 	var results = new Array(); //返回结果集，一个json串
+// 	var chaincodeName = req.params.chaincodeName;
+// 	var channelName = req.params.channelName;
+// 	var peer = req.query.peer;
+// 	var users = new Array();
 
-		var sql = "select username from debugtool";
-		pool.query(sql, function (err, result) {
-			if (err) {
-				console.log('[SELECT ERROR] - ', err.message);
-				return;
-			}
-			for (var j = 0; j < result.length; j++) {
-				if (topic == 3 && result[j].username == req.username) {
-					continue;
-				}
-				users.push(result[j].username);
-			}
-			//logger.debug(result[0].username);
-			if (!users) {
-				res.json(getErrorMessage('\'No users info\''));
-				return;
-			}
-			var promisearray = [];
-			for (var i = 0; i < users.length; i++) {
-				var args = [];
-				if (topic == 1) {
-					args = [users[i]];
-				} else {
-					args = ['', users[i]];
-				}
-				logger.debug(users[i]);
-				promisearray.push(query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname).then(function (data) { //logger.info(data);
-					return data;
-				}));
-			}
-			Promise.all(promisearray).then(function (data) {
-				//logger.info(data);
-				for (var i = 0; i < data.length; i++) {
-					records = records.concat(JSON.parse(data[i]));
-				}
-				if (records.length == 0) {
-					res.json(getErrorMessage('\'no record in the page\''));
-					return;
-				}
-				var results = new Array();
-				for (var index = page * 10 - 10;
-					(index < records.length) && (index < (page * 10)); index++) {
-					var element = records[index];
-					results.push(element);
-				}
-				var totalpage = Math.ceil(records.length / 10.0);
-				results.push({
-					"totalpages": totalpage
-				});
-				res.send(results);
-				return;
-			});
-		});
-	}
-});
+// 	//根据主题判断调用函数
+// 	switch (topic) {
+// 		//log all
+// 		case '1':
+// 			fcn = "queryLogsByUser";
+// 			break;
+// 		case '2':
+// 			fcn = "queryLogsByUser";
+// 			break;
+// 			//item not own
+// 		case '3':
+// 			fcn = "queryItemsByItemOwner";
+// 			break;
+// 		case '4':
+// 			fcn = "queryItemsByItemOwner";
+// 			break;
+// 		default:
+// 			res.json(getErrorMessage('\'topic\''));
+// 			return;
+// 	}
+// 	var records = new Array();
+// 	//获取用户列表
+// 	if (topic == 2 || topic == 4) {
+// 		users.push(req.username);
+// 		if (!users) {
+// 			res.json(getErrorMessage('\'No users info\''));
+// 			return;
+// 		}
+// 		var args = [];
+// 		if (topic == 4) {
+// 			args = ['', users[0]];
+// 		} else {
+// 			args = [users[0]];
+// 		}
+// 		query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname).then(function (message) {
+// 			records = records.concat(JSON.parse(message));
+// 			if (records.length == 0) {
+// 				res.json(getErrorMessage('\'no record in the page\''));
+// 				return;
+// 			}
+// 			var results = new Array();
+// 			for (var index = page * 10 - 10;
+// 				(index < records.length) && (index < (page * 10)); index++) {
+// 				var element = records[index];
+// 				results.push(element);
+// 			}
+// 			var totalpage = Math.ceil(records.length / 10.0);
+// 			results.push({
+// 				"totalpages": totalpage
+// 			});
+// 			res.send(results);
+// 			return;
+// 		});
+
+// 	} else {
+
+// 		var sql = "select username from debugtool";
+// 		pool.query(sql, function (err, result) {
+// 			if (err) {
+// 				console.log('[SELECT ERROR] - ', err.message);
+// 				return;
+// 			}
+// 			for (var j = 0; j < result.length; j++) {
+// 				if (topic == 3 && result[j].username == req.username) {
+// 					continue;
+// 				}
+// 				users.push(result[j].username);
+// 			}
+// 			//logger.debug(result[0].username);
+// 			if (!users) {
+// 				res.json(getErrorMessage('\'No users info\''));
+// 				return;
+// 			}
+// 			var promisearray = [];
+// 			for (var i = 0; i < users.length; i++) {
+// 				var args = [];
+// 				if (topic == 1) {
+// 					args = [users[i]];
+// 				} else {
+// 					args = ['', users[i]];
+// 				}
+// 				logger.debug(users[i]);
+// 				promisearray.push(query.queryChaincode(peer, channelName, chaincodeName, args, fcn, req.username, req.orgname).then(function (data) { //logger.info(data);
+// 					return data;
+// 				}));
+// 			}
+// 			Promise.all(promisearray).then(function (data) {
+// 				//logger.info(data);
+// 				for (var i = 0; i < data.length; i++) {
+// 					records = records.concat(JSON.parse(data[i]));
+// 				}
+// 				if (records.length == 0) {
+// 					res.json(getErrorMessage('\'no record in the page\''));
+// 					return;
+// 				}
+// 				var results = new Array();
+// 				for (var index = page * 10 - 10;
+// 					(index < records.length) && (index < (page * 10)); index++) {
+// 					var element = records[index];
+// 					results.push(element);
+// 				}
+// 				var totalpage = Math.ceil(records.length / 10.0);
+// 				results.push({
+// 					"totalpages": totalpage
+// 				});
+// 				res.send(results);
+// 				return;
+// 			});
+// 		});
+// 	}
+// });

@@ -18,19 +18,19 @@
 		           	 }
 	       		 },
                 onPageClicked:function(e,originalEvent,type,page){
-					getAll(page,1);
+					// getAll(page,1);
                 }
             }
 $(function(){
     $("#page").bootstrapPaginator(options);
-	getAll(1,4);
+	// getAll(1,4);
 	$("#getitem1").click(function(){
 		var name=$("#itemname").val();
 		if(name!=null&&name!=""){
 			$("#itemlist").empty();
 			getOneItem(name);
 		}else{
-			getAll(1,4);
+			// getAll(1,4);
 		}
 	});
 	$("#upitem").click(function(){
@@ -124,7 +124,7 @@ function upitem(args){
 				}else{
 					alert("上传成功");
 				}
-				getAll(1,4);
+				// getAll(1,4);
 				$("#front").show();
 				$("#upitemdiv").hide();
 		},
@@ -152,7 +152,7 @@ function delOneItem(args){
 					}else{
 						
 					}
-					getAll(1,4);
+					// getAll(1,4);
 		},
 		error:function(data){
 			console.log(data);
@@ -174,7 +174,7 @@ function getOwnerItem(){
 
 	})
 }
-function getAll(page,topic){
+function __getAll(page,topic){
 	$("#itemlist").empty();
 	$.ajax({
 			type:"get",

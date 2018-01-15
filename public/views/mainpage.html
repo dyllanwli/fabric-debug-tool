@@ -23,7 +23,7 @@
 </head>
 
 <body style="padding:0 0; margin:0 0; background-color:#F8F9F9;">
-	<div style="height:50px; background-color:#20283F; line-height:50px;">
+	<div style="height:30px; background-color:#20283F; line-height:30px;">
 		<a style="font-weight: 200;font-size: 18px;color:white;position:relative;left:10px;">debug tool</a>
 		<div class="tab" id="channel_"> channel </div>
 		<div class="tab" id="chaincode_"> chaincode </div>
@@ -35,12 +35,31 @@
 		</div>
 	</div>
 
-	<nav class="navbar-default" style="height:100%;height:-moz-calc(100% - 50px);height:-webkit-calc(100% - 50px);height:calc(100% - 50px);min-height:500px;position:absolute; top:50px">
+	<nav class="navbar-default" style="height:100%;height:-moz-calc(100% - 30px);height:-webkit-calc(100% - 30px);height:calc(100% - 30px);min-height:500px;position:absolute; top:30px">
 		<div style="width:400px; background-color:#404C62; height:100%;" id="leftresult">
 			<script>
 				$(function () {
 					getleft("leftresult");
 				})
+
+				function getleft(topic) {
+					$("#leftresult").empty();
+					$.ajax({
+						type: "get",
+						url: "/left/?menu=" + topic,
+						dataType: "html",
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader("authorization", "Bearer " + sessionStorage.token);
+							xhr.setRequestHeader("content-type", "application/json");
+						},
+						success: function (data) {
+							$("#leftresult").html(data);
+						},
+						error: function (data) {
+							console.log(data);
+						}
+					});
+				}
 			</script>
 
 	</nav>
@@ -49,11 +68,14 @@
 			$(function () {
 				$(".nav").children("li").removeClass("active");
 				$(this).addClass("active");
-				getright("chaincode");
+				getright("invoke");
 			});
 		</script>
-		<script type="text/javascript" src="/js/main.js"></script>
+		<script type="text/javascript" src="/js/chaincode.js"></script>
+		<script type="text/javascript" src="/js/invoke.js"></script>
+		<script type="text/javascript" src="/js/query.js"></script>
 	</div>
+	<textarea placeholder="debug note" class="bottom" id="buttombody"></textarea>
 </body>
 
 </html>

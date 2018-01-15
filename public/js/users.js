@@ -1,5 +1,6 @@
 function getUserInfo(args) {
 	var password;
+	var re;
 	$.ajax({
 		async :false,
 		type: "get",
@@ -15,19 +16,21 @@ function getUserInfo(args) {
 			} else {
 				password = "get-fail";
 			}
-			alert(password)
 		},
 		error: function (data) {
+			alert("got error")
 		}
 	});
-	// password = "get-fail"
-	return password;
+	re["password"] = password
+	return re;
 }
 
 $(function () {
 	$("#username_").html(sessionStorage.username);
 	$("#org_").html(sessionStorage.userorg);
-	var pd = getUserInfo(sessionStorage.username)
+	var pd = getUserInfo(sessionStorage.username).password
 	$("#password_").html(pd);
+	var cl = getUserInfo(sessionStorage.username).password
+	$("#channel_list_").html(cl)
 })
 

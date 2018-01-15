@@ -1,7 +1,7 @@
 use debugtool;
 drop table if exists debugtool;
 
-create table debugtool
+create table users
 (
     userid int primary key auto_increment,
     username varchar(50) not null,
@@ -9,12 +9,11 @@ create table debugtool
     org varchar(100) not null
 );
 
-drop table if exists logsinfo;
-create table logsinfo
+drop table if exists channel;
+create table channel
 (
-	logid int primary key auto_increment,
-	logname varchar(200) not null,
-	logpath varchar(500) not null,
-	saveflag int not null
+	channelid int primary key auto_increment,
+	log varchar(500) not null,
 );
-insert into debugtool (userid,username,userpassword,org) value(0,'diya',1234,'org1');
+insert into users (userid,username,userpassword,org) value(0,'jack','1234','org2');
+insert into channel (channelid,log) value(0,'exammple_channel||../artifacts/channel/mychannel.tx');

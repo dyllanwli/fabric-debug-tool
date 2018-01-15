@@ -1,7 +1,11 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
+  <style>
+    .input1 {
+      width: 300px;
+    }
+  </style>
 </head>
 
 <body>
@@ -10,26 +14,24 @@
     <div style="float:left;color: black;width: 100%">
       channel Name:
       <input type="text" id="channelName" name="channelName" class=" input1 " value="mychannel">channelConfigPath:
-      <input type="text " id="channelConfigPath " name="channelConfigPath " class="input1 " value="../artifacts/channel/mychannel.tx ">
+      <input type="text " id="channelConfigPath " name="channelConfigPath" class="input1 " value="../artifacts/channel/mychannel.tx ">
     </div>
-    <div style="display: inline-block;position:inherit;top:20px;left: 10px ">
-      <button class="btn btnb " id="createChannel ">Create Channel</button>
+    <div style="display: inline-block;position:inherit;top:30px;left: 10px ">
+      <button class="btn btnb " id="createChannel">Create Channel</button>
     </div>
   </div>
-
-  <div style="border: solid 1px #dddddd;left: 5%;height: 10px; top:200px;"></div>
-  <div id="channelList ">
+  <div id="logList_channel ">
 
   </div>
 </body>
 <script type="text/javascript ">
-  $("#createChannel ").click(function () {
+  $("#createChannel").click(function () {
     createChannel();
   });
 
   function createChannel() {
-    channelName = $("#channelName ").val()
-    channelConfigPath = $("#channelConfigPath ").val()
+    channelName = $("#channelName").val()
+    channelConfigPath = $("#channelConfigPath").val()
     $.ajax({
       async: false,
       type: "post ",
@@ -40,6 +42,7 @@
       }),
       dataType: "json ",
       beforeSend: function (xhr) {
+        alert(sessionStorage.token)
         xhr.setRequestHeader("authorization ", "Bearer " + sessionStorage.token);
         xhr.setRequestHeader("content-type ", "application/json ");
       },
@@ -54,6 +57,7 @@
       },
       error: function (data) {
         var response = xhr.responseText
+        alert(response);
         var ele = document.getElementById("resultArea ")
         ele.value += response + "\n\n "
       }

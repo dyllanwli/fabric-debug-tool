@@ -18,13 +18,13 @@ var options={
            	 }
         },
         onPageClicked:function(e,originalEvent,type,page){
-			getAll(page,3);
+			// getAll(page,3);
 
         }
     }
 $(function(){
             $("#page").bootstrapPaginator(options);
-	getAll(1,3);
+	// getAll(1,3);
 	$("#getitem2").click(function(){
 		var name=$("#itemname").val();
 		var business=$("#business").val();
@@ -33,7 +33,7 @@ $(function(){
 		if(name!=null&&name!=""||(business!=''&&business!=null)){			
 			getItem(args);
 		}else{
-			getAll(1,3);
+			// getAll(1,3);
 		}
 	});
 	$("#itemlist").on("click",".buy",function(){
@@ -84,7 +84,7 @@ function getOwnerItem(business){
 
 	})
 }
-function getAll(page,topic){
+function __getAll(page,topic){
 	$("#itemlist").empty();
 	$.ajax({
 			type:"get",
@@ -118,27 +118,4 @@ function getAll(page,topic){
 			console.log(data);
 			}	
 		});
-}
-function buyItem(args){
-	$.ajax({
-		type:"post",
-		url:"/channels/itemchannel/chaincodes/itemcc",
-		data:JSON.stringify({"fcn":"transferItem","args":args}),
-		dataType:"text",
-		beforeSend:function(xhr){
-				xhr.setRequestHeader("authorization","Bearer "+sessionStorage.token);
-				xhr.setRequestHeader("content-type","application/json");
-		},
-		success:function(data){
-			if(data.indexOf("Fail")!=-1||data.indexOf("Error")!=-1){
-				alert("购买失败");
-			}else{
-				alert("购买成功");
-			}
-			getAll(1,3);
-		},
-		error:function(data){
-			console.log(data);
-		}
-	})
 }
