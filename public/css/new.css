@@ -33,9 +33,9 @@
 }
 
 .input1 {
-    margin: 0 14px;
+    margin: 0 10px;
     border: solid 1px #dddddd;
-    height: 32px;
+    height: 30px;
     width: 200px;
 }
 
@@ -62,6 +62,13 @@
 
 
 /* result */
+
+.logList {
+    position: relative;
+    top: 100px;
+    left: 10px;
+    height: 70%;
+}
 
 .input_ {
     width: 500px;
@@ -90,12 +97,12 @@
 }
 
 .bodydiv1 {
-    height: 70px;
+    height: 40px;
     position: relative;
-    left: 5%;
-    top: 30px;
+    left: 1%;
+    top: 100px;
     border: solid 1px #dddddd;
-    padding: 18px;
+    padding: 5px;
     width: 80%
 }
 

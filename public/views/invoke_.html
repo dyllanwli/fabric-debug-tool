@@ -1,21 +1,28 @@
-<h3>Invoke</h3>
-<div id="front">
-	<div class="bodydiv1">
-		<div style="float:left;color: black;width: 800px">
-			Name
-			<input type="text" id="itemname" class="input1">
+<body>
+	<div style="display: inline-block;position:inherit;top:20px;left: 10px">
+		<h3>Invoke </h3>
+		<button class="btn btnb" id="invokeTransaction">Invoke Transaction</button>
+	</div>
+	<div id="front">
+		<div class="bodydiv1" style="height:80px;">
+
+			<div style="float:left; color: black;width: 100%;">
+				Peers:
+				<textarea type="text" id="args" class="input1" style="width:80% ;height:70px;"></textarea>
+			</div>
 		</div>
-		<div style="display: inline-block;position: relative;left: 10px">
-			<button class="btn btnb" id="getitem1">Query</button>
+		<div class="bodydiv1">
+			<div style="float:left; color: black;width: 100%;">
+				chaincodeName:
+				<input type="text" id="chaincodeName" class="input1"> channelName:
+				<input type="text" id="channelName" class="input1"> fcn:
+				<input type="text" id="chaincodeVersion" class="input1">
+			</div>
+		</div>
+		<div class="logList" id="logList_channel">
+			<h4>Log List</h4>
+			<textarea readonly style="top:10px;width:70%;height:90%;min-height: 200px;"></textarea>
 		</div>
 	</div>
-	<div style="position: relative;top:30px;left: 5%;margin: 20px 0">
-		<button class="btn btnb" id="upitem">
-			Stuff push to chain
-		</button>
-		<button class="btn btnb" id="downitem">Stuff pull from chain</button>
-	</div>
-</div>
-
-
+</body>
 <script type="text/javascript" src="/js/invoke.js"></script>

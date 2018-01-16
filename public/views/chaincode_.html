@@ -1,19 +1,34 @@
-<h3>Install and Instantiate Chaincode </h3>
-<div id="front">
-	<div class="bodydiv1">
-		<div style="float:left;color: black;width: 100%">
-			Peers:
-			<input type="text" id="peers" class="input1">ChaincodeName:
-			<input type="text" id="chaincodeName" class="input1">ChaincodePath:
-			<input type="text" id="chaincodePath" class="input1">
+<body>
+	<div style="display: inline-block;position:inherit;top:20px;left: 10px">
+		<h3>Install and Instantiate Chaincode </h3>
+		<button class="btn btnb" id="joinPeers">Join Peers</button>
+		<button class="btn btnb" id="joinAllPeers">Join All Peers</button>
+	</div>
+	<div id="front">
+		<div class="bodydiv1">
+			<div style="float:left; color: black;width: 100%;">
+				args:
+				<input type="text" id="args" class="input1" style="width:80%">
+			</div>
 		</div>
-		<div style="display: inline-block;position:inherit;top:20px;left: 10px">
-			<button class="btn btnb" id="joinPeers">Join Peers</button>
-			<button class="btn btnb" id="joinAllPeers">Join All Peers</button>
+		<div class="bodydiv1">
+			<div style="float:left; color: black;width: 100%;">
+				chaincodeName:
+				<input type="text" id="chaincodeName" class="input1"> chaincodePath:
+				<input type="text" id="chaincodePath" class="input1"> chaincodeVersion:
+				<input type="text" id="chaincodeVersion" class="input1" style="width:50px;"> init arg:
+				<input type="text" id="init_arg" class="input1">
+			</div>
+		</div>
+		<div class="logList" id="logList_channel">
+			<h4>Log List</h4>
+			<textarea readonly style="top:10px;width:70%;height:90%;min-height: 200px;"></textarea>
 		</div>
 	</div>
-</div>
-	<!-- <div style="position: relative;top:70px;width:70%;left:5%;">
+</body>
+<script type="text/javascript" src="/js/chaincode.js"></script>
+
+<!-- <div style="position: relative;top:70px;width:70%;left:5%;">
 		<div class="bootstrap-table">
 			<div class="fixed-table-toolbar"></div>
 			<div class="fixed-table-container" style="padding-bottom: 0px;">
@@ -34,29 +49,29 @@
 						<thead style="background-color:#F8F9F9;border-bottom: solid 2px #dddddd">
 							<tr>
 								<th  data-field="0" tabindex="0">
-									<div class="th-inner ">
+									<div class="th-inner">
 										<input type="checkbox" id="seltotal">
 									</div>
 									<div class="fht-cell"></div>
 								</th>
 								<th  data-field="1" tabindex="0">
-									<div class="th-inner ">Log Name</div>
+									<div class="th-inner">Log Name</div>
 									<div class="fht-cell"></div>
 								</th>
 								<th  data-field="2" tabindex="0">
-									<div class="th-inner ">Log</div>
+									<div class="th-inner">Log</div>
 									<div class="fht-cell"></div>
 								</th>
 								<th  data-field="3" tabindex="0">
-									<div class="th-inner ">Upload Time</div>
+									<div class="th-inner">Upload Time</div>
 									<div class="fht-cell"></div>
 								</th>
 								<th  data-field="4" tabindex="0">
-									<div class="th-inner ">User Name</div>
+									<div class="th-inner">User Name</div>
 									<div class="fht-cell"></div>
 								</th>
 								<th  data-field="5" tabindex="0">
-									<div class="th-inner ">Operation</div>
+									<div class="th-inner">Operation</div>
 									<div class="fht-cell"></div>
 								</th>
 							</tr>
@@ -78,4 +93,3 @@
 		</div>
 		<div class="clearfix"></div>
 	</div> -->
-<!-- <script type="text/javascript" src="/js/chaincode.js"></script> -->

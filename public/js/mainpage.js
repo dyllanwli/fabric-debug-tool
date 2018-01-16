@@ -1,15 +1,4 @@
 $(function(){
-	// utility
-	function tempalert(msg, duration) {
-        var el = document.createElement("div");
-        el.setAttribute("style", "position:absolute;top:10%;left:10%;background-color:white;text-align:center;");
-        el.innerHTML = msg;
-        setTimeout(function () {
-            el.parentNode.removeChild(el);
-        }, duration);
-        document.body.appendChild(el);
-	}
-	// utility
 	$("#user").html(sessionStorage.username);
 	$("#chaincode_").click(function(){
 		getright("chaincode");
@@ -18,7 +7,7 @@ $(function(){
 		getright("invoke");
 	}).hover(over,out);
 	$("#channel_").click(function(){
-		getright("channel_");
+		getright("channel_","channel.js");
 	}).hover(over,out);
 	$("#query_").click(function(){
 		getright("query");
@@ -40,7 +29,7 @@ $(function(){
 		getright("accountinfo");
 	});
 });
-function getright(topic){
+function getright(topic,script){
 	$("#rightbody").empty();
 	$.ajax({
 			type:"get",
@@ -55,6 +44,12 @@ function getright(topic){
 			},
 			error:function(data){
 				console.log(data);
+			},
+			complete: function(){
+				if(script){
+					$.getScript("/js/"+script)
+					alert("script loaded")
+				}
 			}
 	});
 

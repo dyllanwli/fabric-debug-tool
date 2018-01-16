@@ -1,68 +1,33 @@
-<html>
-
-<head>
-  <style>
-    .input1 {
-      width: 300px;
-    }
-  </style>
-</head>
-
+<style>
+  .input1 {
+    width: 300px;
+  }
+</style>
+<!-- <script type="text/javascript" src="/js/channel.js"></script> -->
 <body>
-  <h3>Create Channel</h3>
-  <div class="bodydiv1" id="div_createchannel">
-    <div style="float:left;color: black;width: 100%">
+  <div style="display: inline-block;position:inherit;top:30px;left: 1%;">
+    <h3>Create Channel</h3>
+    <button class="btn btnb" id="createChannel">Create Channel</button>
+    <button class="btn btnb" id="joinPeers">Join Peers</button>
+    <button class="btn btnb" id="joinAllPeers">Join All Peers</button>
+  </div>
+
+  <div class="bodydiv1" id="div_createchannel_1">
+    <div style="float:left; color: black;width: 100%">
       channel Name:
-      <input type="text" id="channelName" name="channelName" class=" input1 " value="mychannel">channelConfigPath:
-      <input type="text " id="channelConfigPath " name="channelConfigPath" class="input1 " value="../artifacts/channel/mychannel.tx ">
+      <input type="text" id="channelName" name="channelName" class=" input1" value="mychannel">channelConfigPath:
+      <input type="text" id="channelConfigPath" name="channelConfigPath" style="width:50%;" class="input1" value="../artifacts/channel/mychannel.tx">
     </div>
-    <div style="display: inline-block;position:inherit;top:30px;left: 10px ">
-      <button class="btn btnb " id="createChannel">Create Channel</button>
+
+  </div>
+  <div class="bodydiv1" id="div_createchannel_2">
+    <div style="float:left;color: black;width: 100%">
+      Peers:
+      <input type="text" id="peers_" name="peers_" class=" input1" style="width:90%;" value="peer1,peer2">
     </div>
   </div>
-  <div id="logList_channel ">
-
+  <div class="logList" id="logList_channel">
+    <h4>Log List</h4>
+    <textarea readonly style="top:10px;width:70%;height:60%;min-height: 200px;"></textarea>
   </div>
 </body>
-<script type="text/javascript ">
-  $("#createChannel").click(function () {
-    createChannel();
-  });
-
-  function createChannel() {
-    channelName = $("#channelName").val()
-    channelConfigPath = $("#channelConfigPath").val()
-    $.ajax({
-      async: false,
-      type: "post ",
-      url: "/channels ",
-      data: JSON.stringify({
-        "channelName ": channelName,
-        "channelConfigPath ": channelConfigPath
-      }),
-      dataType: "json ",
-      beforeSend: function (xhr) {
-        alert(sessionStorage.token)
-        xhr.setRequestHeader("authorization ", "Bearer " + sessionStorage.token);
-        xhr.setRequestHeader("content-type ", "application/json ");
-      },
-      success: function (data) {
-        var response = xhr.responseText
-        var ele = document.getElementById("resultArea ")
-        if (response == "{} ") {
-          alert("Check if channel are existing ")
-          return
-        }
-        ele.value += response + "\n\n "
-      },
-      error: function (data) {
-        var response = xhr.responseText
-        alert(response);
-        var ele = document.getElementById("resultArea ")
-        ele.value += response + "\n\n "
-      }
-    });
-  }
-</script>
-
-</html>

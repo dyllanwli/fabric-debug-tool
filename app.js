@@ -26,9 +26,9 @@ var pool = mysql.createPool({
 	database: 'debugtool'
 });
 
-require('./config.js');
+var config = require('./config.js');
 var hfc = require('fabric-client');
-
+var configfile = require('./config.json');
 var helper = require('./app/helper.js');
 var channels = require('./app/create-channel.js');
 var join = require('./app/join-channel.js');
@@ -152,9 +152,9 @@ var orgMap = {
 	'org3': 'org3'
 };
 var default_user = {
-	username:"diya",
-	password:"1234",
-	org:"org1"
+	username: "diya",
+	password: "1234",
+	org: "org1"
 }
 app.route('/users/login')
 	.get(function (req, res) {
@@ -229,9 +229,13 @@ app.route('/users/login')
 // verified
 app.get('/users/password', function (req, res) {
 	var username = req.query.username;
+	var configdata = {};
+	configdata.channelsList = configfile.channelsList;
 	var sql = 'select * from users where username=?';
-	if (username == default_user.username){
-		res.send(default_user.password)
+	if (username == default_user.username) {
+		configdata.password = default_user.password;
+		res.send(JSON.stringify(configdata))
+		return
 	}
 	pool.query(sql, [username], function (err, result) {
 		if (err) {
@@ -239,7 +243,8 @@ app.get('/users/password', function (req, res) {
 			res.send("sql Error")
 			return
 		} else {
-			res.send(result)
+			configdata.password = result
+			res.send(JSON.stringify(configdata))
 		}
 	})
 })
@@ -366,15 +371,15 @@ app.get('/right', function (req, res) {
 	var topic = req.query.menu;
 	if (topic == "chaincode") {
 		res.render('chaincode_');
-	} else if (topic == "explorer") {
-		var opt = {
-			name: "diya",
-			password: "1234"
-		};
-		var sreq = http.request(opt, function (sres) {
-			sres.pipe(res);
-		});
-		req.pipe(sreq);
+		// } else if (topic == "explorer") {
+		// 	var opt = {
+		// 		name: "diya",
+		// 		password: "1234"
+		// 	};
+		// 	var sreq = http.request(opt, function (sres) {
+		// 		sres.pipe(res);
+		// 	});
+		// 	req.pipe(sreq);
 		//res.render('rightexplorer');
 	} else if (topic == "invoke") {
 		res.render('invoke_');
@@ -382,12 +387,8 @@ app.get('/right', function (req, res) {
 		res.render('query_');
 	} else if (topic == "accountinfo") {
 		res.render('rightaccountinfo');
-	} else if (topic == "help") {
-		res.render('help')
 	} else if (topic == "channel_") {
 		res.render('channel_')
-	} else if (topic == "query") {
-		res.render('rightquery');
 	}
 });
 
@@ -443,7 +444,7 @@ app.post('/channels', function (req, res) {
 		res.json(getErrorMessage('\'channelConfigPath\''));
 		return;
 	}
-	insertLog('channels',req)
+	insertLog('channels', req)
 	channels.createChannel(channelName, channelConfigPath, req.username, req.orgname)
 		.then(function (message) {
 			res.send(message);

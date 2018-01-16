@@ -1,6 +1,5 @@
 function getUserInfo(args) {
-	var password;
-	var re;
+	var re = {};
 	$.ajax({
 		async :false,
 		type: "get",
@@ -12,25 +11,25 @@ function getUserInfo(args) {
 		},
 		success: function (data) {
 			if (data.indexOf("Error") == -1) {
-				password = data;
+				re= JSON.parse(data)
 			} else {
-				password = "get-fail";
+				re.password = "get-failure";
+				re.channelsList ="get-failure"
 			}
 		},
 		error: function (data) {
 			alert("got error")
 		}
 	});
-	re["password"] = password
 	return re;
 }
 
 $(function () {
 	$("#username_").html(sessionStorage.username);
 	$("#org_").html(sessionStorage.userorg);
-	var pd = getUserInfo(sessionStorage.username).password
-	$("#password_").html(pd);
-	var cl = getUserInfo(sessionStorage.username).password
+	var us = getUserInfo(sessionStorage.username)
+	$("#password_").html(us.password);
+	var cl = getUserInfo(sessionStorage.username).channelsList
 	$("#channel_list_").html(cl)
 })
 

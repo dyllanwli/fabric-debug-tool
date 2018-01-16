@@ -14,6 +14,7 @@
 	<script src="/js/bootstrap-paginator.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/bootstrap-table.min.js"></script>
+	<!-- <script type="text/javascript" src="/js/channel.js"></script> -->
 	<script type="text/javascript" src="/js/mainpage.js"></script>
 	<script type="text/javascript">
 		sessionStorage.token = "<%=token%>";
@@ -41,7 +42,6 @@
 				$(function () {
 					getleft("leftresult");
 				})
-
 				function getleft(topic) {
 					$("#leftresult").empty();
 					$.ajax({
@@ -71,11 +71,7 @@
 				getright("invoke");
 			});
 		</script>
-		<script type="text/javascript" src="/js/chaincode.js"></script>
-		<script type="text/javascript" src="/js/invoke.js"></script>
-		<script type="text/javascript" src="/js/query.js"></script>
 	</div>
-	<textarea placeholder="debug note" class="bottom" id="buttombody"></textarea>
+	<textarea style="width:70%;" placeholder="debug note" class="bottom" id="bottombody"></textarea>
 </body>
-
 </html>

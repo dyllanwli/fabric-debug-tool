@@ -36,7 +36,7 @@
 
     function tempalert(msg, duration) {
         var el = document.createElement("div");
-        el.setAttribute("style", "position:absolute;top:10%;left:10%;background-color:white;text-align:center;");
+        el.setAttribute("style","position:absolute;top:10%;left:10%;background-color:white;text-align:center;");
         el.innerHTML = msg;
         setTimeout(function () {
             el.parentNode.removeChild(el);

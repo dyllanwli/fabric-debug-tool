@@ -1,14 +1,28 @@
-<h3>Query</h3>
-<div id="front">
-	<div class="bodydiv1">
-		<div style="float:left;color: black;width: 800px">
-			Name
-			<input type="text" id="itemname" class="input1"> Stuff&nbsp&nbsp
-			<input type="text" id="business" class="input1">
+<body>
+	<div style="display: inline-block;position:inherit;top:20px;left: 10px">
+		<h3>Query </h3>
+		<button class="btn btnb" id="invokeTransaction">Query</button>
+	</div>
+	<div id="front">
+		<div class="bodydiv1" style="height:95px;">
+			<div style="float:left; color: black;width: 100%;">
+				peer:
+				<input type="text" id="peer" class="input1"> chaincodeName:
+				<input type="text" id="chaincodeName" class="input1"> channelName:
+				<input type="text" id="channelName" class="input1">args:
+				<input type="text" id="args" class="input1">
+				</br>
+				</br>
+				blockID:
+				<input type="text" id="blockID" class="input1">Transaction ID:
+				<input type="text" id="transactionID" class="input1">install Type:
+				<input type="text" id="installType" class="input1">
+			</div>
 		</div>
-		<div style="display: inline-block;position: relative;left: 10px">
-			<button class="btn btnb" id="getitem2">Query</button>
+		<div class="logList" id="logList_channel">
+			<h4>Log List</h4>
+			<textarea readonly style="top:10px;width:70%;height:90%;min-height: 200px;"></textarea>
 		</div>
 	</div>
-</div>
+</body>
 <script type="text/javascript" src="/js/query.js"></script>
