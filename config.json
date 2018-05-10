@@ -4,10 +4,10 @@
     "jwt_expiretime": "36000",
     "CC_GOPATH": "../artifacts",
     "keyValueStore": "/tmp/fabric-client-kvs",
-    "eventWaitTime": "3000000",
-    "channelsList": ["golden-ticket"],
+    "eventWaitTime": "30000",
+    "channelsList": ["mychannel"],
     "channelsConfigPath": {
-        "golden-ticket": "../artifacts/channel-artifacts/golden-ticket.tx"
+        "mychannel": "../artifacts/channel/mychannel.tx"
     },
     "admins": [{
         "username": "admin",
