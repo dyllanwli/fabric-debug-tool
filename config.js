@@ -7,11 +7,6 @@ var file = 'network-config%s.json';
 
 var env = process.env.TARGET_NETWORK;
 
-var network = JSON.parse(fs.readFileSync('network.json', 'utf8'));
-
-
-
-
 
 if (env)
 	file = util.format(file, '-' + env);

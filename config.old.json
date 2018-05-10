@@ -1,0 +1,16 @@
+{
+    "host": "localhost",
+    "port": "4000",
+    "jwt_expiretime": "36000",
+    "CC_GOPATH": "../artifacts",
+    "keyValueStore": "/tmp/fabric-client-kvs",
+    "eventWaitTime": "30000",
+    "channelsList": ["mychannel"],
+    "channelsConfigPath": {
+        "mychannel": "../artifacts/channel/mychannel.tx"
+    },
+    "admins": [{
+        "username": "admin",
+        "secret": "adminpw"
+    }]
+}

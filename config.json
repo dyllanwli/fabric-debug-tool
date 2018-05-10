@@ -1,15 +1,16 @@
 {
-   "host":"localhost",
-   "port":"4000",
-   "jwt_expiretime": "36000",
-   "channelName":"mychannel",
-   "CC_SRC_PATH":"../artifacts",
-   "keyValueStore":"/tmp/fabric-client-kvs",
-   "eventWaitTime":"30000",
-   "admins":[
-      {
-         "username":"admin",
-         "secret":"adminpw"
-      }
-   ]
+    "host": "localhost",
+    "port": "4000",
+    "jwt_expiretime": "36000",
+    "CC_GOPATH": "../artifacts",
+    "keyValueStore": "/tmp/fabric-client-kvs",
+    "eventWaitTime": "3000000",
+    "channelsList": ["golden-ticket"],
+    "channelsConfigPath": {
+        "golden-ticket": "../artifacts/channel-artifacts/golden-ticket.tx"
+    },
+    "admins": [{
+        "username": "admin",
+        "secret": "adminpw"
+    }]
 }
